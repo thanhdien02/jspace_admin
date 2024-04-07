@@ -4,7 +4,7 @@ const refreshTokenKey = "jspace_refresh_token";
 
 const objCookies = {
   expires: 30,
-  domain: process.env.COOKIE_DOMAIN,
+  domain: window.location.hostname,
 };
 
 export const saveToken = (access_token: string, refresh_token: string) => {
@@ -19,12 +19,12 @@ export const saveToken = (access_token: string, refresh_token: string) => {
     Cookies.remove(accessTokenKey, {
       ...objCookies,
       path: "/",
-      domain: process.env.COOKIE_DOMAIN,
+      domain: window.location.hostname,
     });
     Cookies.remove(refreshTokenKey, {
       ...objCookies,
       path: "/",
-      domain: process.env.COOKIE_DOMAIN,
+      domain: window.location.hostname,
     });
   }
 };
@@ -43,12 +43,12 @@ export const logOut = () => {
     Cookies.remove(accessTokenKey, {
       ...objCookies,
       path: "/",
-      domain: process.env.COOKIE_DOMAIN,
+      domain: window.location.hostname,
     });
     Cookies.remove(refreshTokenKey, {
       ...objCookies,
       path: "/",
-      domain: process.env.COOKIE_DOMAIN,
+      domain: window.location.hostname,
     });
   }
 };

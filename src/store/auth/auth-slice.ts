@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface IAuth {
   user: any;
+  accessToken: string;
 }
 
 const init: IAuth = {
   user: {},
+  accessToken: "",
 };
 const authSlice: any = createSlice({
   name: "auth",
@@ -17,9 +19,13 @@ const authSlice: any = createSlice({
     }),
     authLogin: (state: any, action: any) => ({
       ...state,
-      user: action.payload,
+    }),
+    authUpdateUser: (state: any, action: any) => ({
+      ...state,
+      user: action.payload.user,
+      accessToken: action.payload.accessToken,
     }),
   },
 });
-export const { authChange, authLogin } = authSlice.actions;
+export const { authChange, authLogin, authUpdateUser } = authSlice.actions;
 export default authSlice.reducer;

@@ -15,7 +15,6 @@ const LayoutAuthentication: React.FC = (props: any) => {
   const handleScroll = useCallback(() => {
     const boxElement: any = boxRef.current;
     const currentScrollPos = window.pageYOffset; // get current scroll position
-    const elementBody = document.body;
 
     if (currentScrollPos > prevScrollPos) {
       console.log("Scroll xuống");

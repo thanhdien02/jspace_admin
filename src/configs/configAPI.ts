@@ -1,4 +1,4 @@
-const { default: axios } = require("axios");
+import axios from "axios";
 
 export default axios.create({
   baseURL: "http://localhost:8000",
@@ -8,7 +8,8 @@ export default axios.create({
   },
 });
 
-export const API = "https://v1-rm-be-nestjs-785603e48f0d.herokuapp.com";
+export const API =
+  "https://jspace-service-2a930e79346f.herokuapp.com/jspace-service";
 export const downLoadFile =
   "https://v1-rm-be-nestjs-785603e48f0d.herokuapp.com/api/v1/files/download-file";
 export const loadFile = "https://drive.google.com";

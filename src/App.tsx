@@ -1,7 +1,11 @@
 import { Suspense, useState } from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import LoginPage from "./page/AdminPage/LoginPage";
+import AdminLoginPage from "./page/AdminLoginPage";
+import AdminDashBoard from "./page/AdminDashBoard";
+import PageNotFound from "./page/PageNotFound";
+import LayoutAdminManagement from "./layout/LayoutAdminManagement";
+import AdminManageUser from "./page/AdminManageUser";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -10,8 +14,21 @@ function App() {
     <>
       <Suspense>
         <Routes>
-          <Route path="/" element={<p></p>}></Route>
-          <Route path="/login" element={<LoginPage></LoginPage>}></Route>
+          <Route element={<LayoutAdminManagement></LayoutAdminManagement>}>
+            <Route
+              path="/admin/dash"
+              element={<AdminDashBoard></AdminDashBoard>}
+            ></Route>
+            <Route
+              path="/admin/user"
+              element={<AdminManageUser></AdminManageUser>}
+            ></Route>
+          </Route>
+          <Route
+            path="/login"
+            element={<AdminLoginPage></AdminLoginPage>}
+          ></Route>
+          <Route path="*" element={<PageNotFound></PageNotFound>}></Route>
         </Routes>
       </Suspense>
     </>
