@@ -1,19 +1,13 @@
-import { call } from "redux-saga/effects";
+import { call, put } from "redux-saga/effects";
 import { requestGetAllUser } from "./user-requests";
+import { userUpdateData } from "./user-slice";
 
 function* handleGetAllUsers(accessToken: any) {
   console.log("🚀 ~ function*handleGetAllUsers ~ accessToken:", accessToken);
   try {
     const response: any = yield call(requestGetAllUser, accessToken?.payload);
-    console.log("🚀 ~ function*handleGetAllUsers ~ response:", response);
 
-    // if (response.data.result.accessToken && response.data.result.refreshToken) {
-    //   saveToken(
-    //     response.data.result.accessToken,
-    //     response.data.result.refreshToken
-    //   );
-    //   yield call(handleAuthFetchMe, response.data.result.accessToken);
-    // }
+    yield put(userUpdateData(response.data.result.content));
   } catch (error) {}
 }
 

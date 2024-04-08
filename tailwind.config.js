@@ -43,6 +43,9 @@ export default {
       },
       darkMode: "selector",
     },
+    backgroundImage: {
+      logo: "url('./assets/bg-login.jpg')",
+    },
   },
   plugins: [],
 };

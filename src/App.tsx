@@ -15,10 +15,7 @@ function App() {
       <Suspense>
         <Routes>
           <Route element={<LayoutAdminManagement></LayoutAdminManagement>}>
-            <Route
-              path="/admin/dash"
-              element={<AdminDashBoard></AdminDashBoard>}
-            ></Route>
+            <Route path="/" element={<AdminDashBoard></AdminDashBoard>}></Route>
             <Route
               path="/admin/user"
               element={<AdminManageUser></AdminManageUser>}

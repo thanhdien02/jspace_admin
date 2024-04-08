@@ -2,10 +2,9 @@ import React, { ReactNode } from "react";
 import { Layout, Menu, theme } from "antd";
 import { dataSideBar } from "../utils/dataFetch";
 import { Outlet, useNavigate } from "react-router-dom";
-interface ParentProps {
-  children: ReactNode; // ReactNode cho phép truyền bất kỳ thành phần React nào vào children
-}
-const { Header, Content, Footer, Sider } = Layout;
+import logo from "../assets/logo3.png";
+
+const { Sider } = Layout;
 const LayoutAdminManagement: React.FC = () => {
   const navigate = useNavigate();
   const handleForwardSideBar = (e: any) => {
@@ -27,14 +26,15 @@ const LayoutAdminManagement: React.FC = () => {
           backgroundColor: "white",
         }}
       >
-        <h4 className="p-4 font-bold text-xl tracking-wider text-center">
+        <h4 className="p-4 font-bold text-xl tracking-wider text-center flex items-center gap-4 text-primary cursor-pointer">
+          <img src={logo} alt="" className="max-w-[45px]" />
           SPACE
         </h4>
         <div className="demo-logo-vertical" />
         <Menu
           theme="light"
           mode="inline"
-          defaultSelectedKeys={["4"]}
+          // defaultSelectedKeys={["1"]}
           items={dataSideBar}
           onClick={handleForwardSideBar}
         />

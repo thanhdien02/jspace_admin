@@ -2,56 +2,21 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { SearchOutlined } from "@ant-design/icons";
 import type { InputRef, TableColumnsType, TableColumnType } from "antd";
-import { Button, Input, Space, Table } from "antd";
+import { Button, Input, Space, Spin, Table } from "antd";
 import type { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userGetAll } from "../store/user/user-slice";
 import { getToken } from "../utils/auth";
-
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-}
+import { data, DataType } from "../utils/dataFetch";
 
 type DataIndex = keyof DataType;
 
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-  },
-  {
-    key: "2",
-    name: "Joe Black",
-    age: 42,
-    address: "London No. 1 Lake Park",
-  },
-  {
-    key: "3",
-    name: "Jim Green",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-  },
-  {
-    key: "4",
-    name: "Jim Red",
-    age: 32,
-    address: "London No. 2 Lake Park",
-  },
-];
-
 const AdminManageUser = () => {
+  const { users } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const { access_token } = getToken();
-    dispatch(userGetAll(access_token));
-  }, []);
+  // ant design
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
@@ -164,31 +129,85 @@ const AdminManageUser = () => {
 
   const columns: TableColumnsType<DataType> = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      width: "10%",
+      ...getColumnSearchProps("id"),
+    },
+    {
+      title: "Username",
+      dataIndex: "username",
+      key: "username",
       width: "30%",
-      ...getColumnSearchProps("name"),
+      ...getColumnSearchProps("username"),
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+      width: "30%",
+      ...getColumnSearchProps("email"),
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
       width: "20%",
-      ...getColumnSearchProps("age"),
-    },
-    {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
-      ...getColumnSearchProps("address"),
-      sorter: (a, b) => a.address.length - b.address.length,
+      ...getColumnSearchProps("role"),
+      // sorter: (a, b) => a.address.length - b.address.length,
       sortDirections: ["descend", "ascend"],
     },
+    {
+      title: "Action",
+      render: (e) => (
+        <div className="">
+          <Button
+            type="primary"
+            onClick={() => {
+              console.log("hihi", e);
+              // handle action
+            }}
+          >
+            Block
+          </Button>
+        </div>
+      ),
+    },
   ];
+  // const onChange: TableProps<DataType>["onChange"] = (
+  //   pagination,
+  //   filters,
+  //   sorter,
+  //   extra
+  // ) => {
+  //   console.log("params", extra);
+  // };
+  useEffect(() => {
+    const { access_token } = getToken();
+    dispatch(userGetAll(access_token));
+  }, []);
 
   return (
-    <Table className="m-5 h-[100vh]" columns={columns} dataSource={data} />
+    <Table
+      className="m-5 "
+      columns={columns}
+      dataSource={users}
+      // onChange={onChange}
+
+      // scroll={{y: 240}}
+      onRow={(record, rowIndex) => {
+        return {
+          onClick: (event) => {
+            console.log(rowIndex);
+          }, // click row
+          onDoubleClick: (event) => {
+            console.log("double");
+          }, // double click row
+        };
+      }}
+      rowClassName="hover:text-primary cursor-pointer"
+    />
   );
 };
 

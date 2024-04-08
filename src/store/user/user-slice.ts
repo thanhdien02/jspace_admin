@@ -7,11 +7,14 @@ const userSlice: any = createSlice({
   name: "user",
   initialState: users,
   reducers: {
-    userGetAll: (state: any, action: any) => ({
+    userGetAll: () => {},
+    userUpdateData: (state: any, action: any) => ({
       ...state,
       users: action.payload,
     }),
   },
 });
-export const { userGetAll } = userSlice.actions;
+export const { userGetAll, userUpdateData } = userSlice.actions;
 export default userSlice.reducer;
+
+// demo of generic

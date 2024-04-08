@@ -1,9 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Layout, Menu, theme } from "antd";
-import LayoutAdminManagement from "../layout/LayoutAdminManagement";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer } = Layout;
 
 const AdminDashBoard: React.FC = () => {
   const {
@@ -22,13 +21,11 @@ const AdminDashBoard: React.FC = () => {
             borderRadius: borderRadiusLG,
           }}
         >
-          <p>long content</p>
+          <p>Thong ke</p>
           {}
         </div>
       </Content>
-      <Footer style={{ textAlign: "center" }}>
-        Ant Design ©{new Date().getFullYear()} Created by Ant UED
-      </Footer>
+      <Footer style={{ textAlign: "center" }}>Design by ..</Footer>
     </>
   );
 };

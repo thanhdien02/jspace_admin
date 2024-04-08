@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { getToken } from "../utils/auth";
+import { userGetAll } from "../store/user/user-slice";
+import { useDispatch } from "react-redux";
+import err from "../assets/404.png";
 const PageNotFound = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log("12345678");
+
+    const { access_token } = getToken();
+    dispatch(userGetAll(access_token));
+  });
   return (
-    <div className="page-content flex flex-col gap-10">
-      <img src="/404.png" alt="notfound" className="image" />
+    <div className="flex flex-col items-center gap-10 mt-14">
+      <img src={err} alt="notfound" className="w-[300px]" />
       <h1 className="text-3xl text-gray-700 font-bold">
         404 - Looks like you're lost.
       </h1>
