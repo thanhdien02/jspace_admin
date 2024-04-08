@@ -2,13 +2,8 @@ import {
   DashboardOutlined,
   UserAddOutlined,
   BorderOuterOutlined,
-  BarChartOutlined,
   HomeOutlined,
-  ShopOutlined,
-  TeamOutlined,
-  UploadOutlined,
   LogoutOutlined,
-  VideoCameraOutlined,
 } from "@ant-design/icons";
 import React from "react";
 

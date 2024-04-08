@@ -17,7 +17,7 @@ const authSlice: any = createSlice({
       ...state,
       user: action.payload,
     }),
-    authLogin: (state: any, action: any) => ({
+    authLogin: (state: any) => ({
       ...state,
     }),
     authUpdateUser: (state: any, action: any) => ({

@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import AdminLoginPage from "./page/AdminLoginPage";
@@ -8,8 +8,6 @@ import LayoutAdminManagement from "./layout/LayoutAdminManagement";
 import AdminManageUser from "./page/AdminManageUser";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <Suspense>

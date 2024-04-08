@@ -3,11 +3,7 @@ import { saveToken } from "../../utils/auth";
 import { authUpdateUser } from "./auth-slice";
 import { requestAuthFetchMe, requestAuthLogin } from "./auth-requests";
 
-interface IAuthLogin {
-  username: string;
-  password: string;
-}
-function* handleAuthLogin(dataLogin: any) {
+function* handleAuthLogin(dataLogin: any): Generator<any> {
   try {
     const response: any = yield call(requestAuthLogin, {
       username: dataLogin.payload.email,
@@ -23,9 +19,9 @@ function* handleAuthLogin(dataLogin: any) {
     }
   } catch (error) {}
 }
-function* handleAuthFetchMe(accessToken: string) {
+function* handleAuthFetchMe(accessToken: string): Generator<any> {
   try {
-    const response = yield call(requestAuthFetchMe, accessToken);
+    const response: any = yield call(requestAuthFetchMe, accessToken);
 
     if (response.data.code === 1000) {
       yield put(

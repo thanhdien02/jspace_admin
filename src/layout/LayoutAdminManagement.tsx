@@ -1,5 +1,5 @@
-import React, { ReactNode } from "react";
-import { Layout, Menu, theme } from "antd";
+import React from "react";
+import { Layout, Menu } from "antd";
 import { dataSideBar } from "../utils/dataFetch";
 import { Outlet, useNavigate } from "react-router-dom";
 import logo from "../assets/logo3.png";

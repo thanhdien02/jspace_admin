@@ -4,7 +4,7 @@ import { getToken } from "../utils/auth";
 import { userGetAll } from "../store/user/user-slice";
 import { useDispatch } from "react-redux";
 import err from "../assets/404.png";
-const PageNotFound = () => {
+const PageNotFound: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {

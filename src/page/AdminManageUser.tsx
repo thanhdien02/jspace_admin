@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { SearchOutlined } from "@ant-design/icons";
 import type { InputRef, TableColumnsType, TableColumnType } from "antd";
-import { Button, Input, Space, Spin, Table } from "antd";
+import { Button, Input, Space, Table } from "antd";
 import type { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
 import { useDispatch, useSelector } from "react-redux";
 import { userGetAll } from "../store/user/user-slice";
 import { getToken } from "../utils/auth";
-import { data, DataType } from "../utils/dataFetch";
+import { DataType } from "../utils/dataFetch";
 
 type DataIndex = keyof DataType;
 
@@ -198,10 +198,10 @@ const AdminManageUser = () => {
       // scroll={{y: 240}}
       onRow={(record, rowIndex) => {
         return {
-          onClick: (event) => {
-            console.log(rowIndex);
+          onClick: () => {
+            console.log(rowIndex, record);
           }, // click row
-          onDoubleClick: (event) => {
+          onDoubleClick: () => {
             console.log("double");
           }, // double click row
         };

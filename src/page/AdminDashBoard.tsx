@@ -1,6 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { Layout, Menu, theme } from "antd";
+import { Layout, theme } from "antd";
 
 const { Header, Content, Footer } = Layout;
 

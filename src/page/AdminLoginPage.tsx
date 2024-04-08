@@ -4,20 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { authLogin } from "../store/auth/auth-slice";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/logo3.png";
-import bg from "../assets/bg-login.jpg";
 type Inputs = {
   email: string;
   password: string;
 };
 
-const AdminLoginPage = () => {
-  const { user, accessToken } = useSelector((state: any) => state.auth);
+const AdminLoginPage: React.FC = () => {
+  const { accessToken } = useSelector((state: any) => state.auth);
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors },
+
+    formState: {},
   } = useForm<Inputs>();
   const dispatch = useDispatch();
 

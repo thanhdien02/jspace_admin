@@ -1,4 +1,4 @@
-import { DatePicker, Space } from "antd";
+import { DatePicker } from "antd";
 import React, {
   Fragment,
   useCallback,
@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 
-const LayoutAuthentication: React.FC = (props: any) => {
+const LayoutAuthentication: React.FC = () => {
   const boxRef = useRef(null);
   const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
   const { RangePicker } = DatePicker;

@@ -2,7 +2,7 @@ import { call, put } from "redux-saga/effects";
 import { requestGetAllUser } from "./user-requests";
 import { userUpdateData } from "./user-slice";
 
-function* handleGetAllUsers(accessToken: any) {
+function* handleGetAllUsers(accessToken: any): Generator<any> {
   console.log("🚀 ~ function*handleGetAllUsers ~ accessToken:", accessToken);
   try {
     const response: any = yield call(requestGetAllUser, accessToken?.payload);
