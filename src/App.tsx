@@ -6,6 +6,7 @@ import AdminDashBoard from "./page/AdminDashBoard";
 import PageNotFound from "./page/PageNotFound";
 import LayoutAdminManagement from "./layout/LayoutAdminManagement";
 import AdminManageUser from "./page/AdminManageUser";
+import AdminCreateSubAdmin from "./page/AdminCreateSubAdmin";
 
 function App() {
   return (
@@ -17,6 +18,10 @@ function App() {
             <Route
               path="/admin/user"
               element={<AdminManageUser></AdminManageUser>}
+            ></Route>
+            <Route
+              path="/admin/add-subadmin"
+              element={<AdminCreateSubAdmin></AdminCreateSubAdmin>}
             ></Route>
           </Route>
           <Route

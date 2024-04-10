@@ -3,12 +3,19 @@ import { Layout, Menu } from "antd";
 import { dataSideBar } from "../utils/dataFetch";
 import { Outlet, useNavigate } from "react-router-dom";
 import logo from "../assets/logo3.png";
+import AdminHeader from "../module/Admin/AdminHeader";
+import { useDispatch } from "react-redux";
+import { authLogout } from "../store/auth/auth-slice";
 
 const { Sider } = Layout;
 const LayoutAdminManagement: React.FC = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleForwardSideBar = (e: any) => {
     const path: any = dataSideBar.find((item) => item.key === e.key);
+    if (path.label === "Log out") {
+      dispatch(authLogout());
+    }
     navigate(path?.path);
   };
   return (
@@ -40,6 +47,7 @@ const LayoutAdminManagement: React.FC = () => {
         />
       </Sider>
       <Layout style={{ marginLeft: 200 }}>
+        <AdminHeader></AdminHeader>
         <Outlet></Outlet>
       </Layout>
     </Layout>

@@ -22,9 +22,9 @@ export const dataSideBar = [
   },
   {
     key: "3",
-    label: "Add admin",
+    label: "Add SubAdmin",
     icon: React.createElement(UserAddOutlined),
-    path: "/",
+    path: "/admin/add-subadmin",
   },
   {
     key: "4",

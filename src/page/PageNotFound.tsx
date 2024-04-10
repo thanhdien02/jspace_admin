@@ -1,18 +1,20 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getToken } from "../utils/auth";
-import { userGetAll } from "../store/user/user-slice";
-import { useDispatch } from "react-redux";
 import err from "../assets/404.png";
+import { useDispatch, useSelector } from "react-redux";
+import { authFetchMe } from "../store/auth/auth-slice";
 const PageNotFound: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { accessToken } = useSelector((state: any) => state.auth);
+  // Get infomation user
+  const dispath = useDispatch();
+  //Load information user
   useEffect(() => {
-    console.log("12345678");
+    if (accessToken == "") {
+      dispath(authFetchMe());
+    }
+  }, []);
 
-    const { access_token } = getToken();
-    dispatch(userGetAll(access_token));
-  });
   return (
     <div className="flex flex-col items-center gap-10 mt-14">
       <img src={err} alt="notfound" className="w-[300px]" />

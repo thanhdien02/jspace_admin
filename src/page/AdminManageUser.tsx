@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { SearchOutlined } from "@ant-design/icons";
 import type { InputRef, TableColumnsType, TableColumnType } from "antd";
@@ -9,10 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { userGetAll } from "../store/user/user-slice";
 import { getToken } from "../utils/auth";
 import { DataType } from "../utils/dataFetch";
+import { authFetchMe } from "../store/auth/auth-slice";
 
 type DataIndex = keyof DataType;
 
-const AdminManageUser = () => {
+const AdminManageUser: React.FC = () => {
   const { users } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
 
@@ -155,7 +156,6 @@ const AdminManageUser = () => {
       key: "role",
       width: "20%",
       ...getColumnSearchProps("role"),
-      // sorter: (a, b) => a.address.length - b.address.length,
       sortDirections: ["descend", "ascend"],
     },
     {
@@ -183,9 +183,17 @@ const AdminManageUser = () => {
   // ) => {
   //   console.log("params", extra);
   // };
+  const { accessToken } = useSelector((state: any) => state.auth);
+  //Load information user
   useEffect(() => {
-    const { access_token } = getToken();
-    dispatch(userGetAll(access_token));
+    if (accessToken == "") {
+      dispatch(authFetchMe());
+      const { accessToken } = getToken();
+      dispatch(userGetAll(accessToken));
+    } else {
+      const { accessToken } = getToken();
+      dispatch(userGetAll(accessToken));
+    }
   }, []);
 
   return (
@@ -193,9 +201,6 @@ const AdminManageUser = () => {
       className="m-5 "
       columns={columns}
       dataSource={users}
-      // onChange={onChange}
-
-      // scroll={{y: 240}}
       onRow={(record, rowIndex) => {
         return {
           onClick: () => {

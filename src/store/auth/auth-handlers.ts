@@ -1,10 +1,11 @@
 import { call, put } from "redux-saga/effects";
-import { saveToken } from "../../utils/auth";
-import { authUpdateUser } from "./auth-slice";
+import { getToken, logOut, saveToken } from "../../utils/auth";
+import { authUpdateUser, authUploadLoading } from "./auth-slice";
 import { requestAuthFetchMe, requestAuthLogin } from "./auth-requests";
 
 function* handleAuthLogin(dataLogin: any): Generator<any> {
   try {
+    yield put(authUploadLoading({ loading: true }));
     const response: any = yield call(requestAuthLogin, {
       username: dataLogin.payload.email,
       password: dataLogin.payload.password,
@@ -15,14 +16,17 @@ function* handleAuthLogin(dataLogin: any): Generator<any> {
         response.data.result.accessToken,
         response.data.result.refreshToken
       );
-      yield call(handleAuthFetchMe, response.data.result.accessToken);
+      yield call(handleAuthFetchMe);
     }
-  } catch (error) {}
+  } catch (error) {
+  } finally {
+    yield put(authUploadLoading({ loading: false }));
+  }
 }
-function* handleAuthFetchMe(accessToken: string): Generator<any> {
+function* handleAuthFetchMe(): Generator<any> {
   try {
+    const { accessToken } = getToken();
     const response: any = yield call(requestAuthFetchMe, accessToken);
-
     if (response.data.code === 1000) {
       yield put(
         authUpdateUser({
@@ -35,4 +39,18 @@ function* handleAuthFetchMe(accessToken: string): Generator<any> {
   } finally {
   }
 }
-export { handleAuthLogin, handleAuthFetchMe };
+function* handleAuthLogout(): Generator<any> {
+  try {
+    logOut();
+    yield put(
+      authUpdateUser({
+        user: {},
+        accessToken: "",
+      })
+    );
+    console.log("logged out");
+  } catch (error) {
+  } finally {
+  }
+}
+export { handleAuthLogin, handleAuthFetchMe, handleAuthLogout };

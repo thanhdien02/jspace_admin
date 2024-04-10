@@ -1,30 +1,23 @@
-import React from "react";
-import { Layout, theme } from "antd";
-
-const { Header, Content, Footer } = Layout;
+import React, { useEffect } from "react";
+import { Spin } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { authFetchMe } from "../store/auth/auth-slice";
 
 const AdminDashBoard: React.FC = () => {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  const { accessToken } = useSelector((state: any) => state.auth);
+  const dispatch = useDispatch();
+  //Load information user
+  useEffect(() => {
+    if (accessToken == "") {
+      dispatch(authFetchMe());
+    }
+  }, []);
 
   return (
     <>
-      <Header style={{ padding: 0, background: colorBgContainer }} />
-      <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
-        <div
-          style={{
-            padding: 24,
-            textAlign: "center",
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
-          }}
-        >
-          <p>Thong ke</p>
-          {}
-        </div>
-      </Content>
-      <Footer style={{ textAlign: "center" }}>Design by ..</Footer>
+      <div className="example">
+        <Spin />
+      </div>
     </>
   );
 };

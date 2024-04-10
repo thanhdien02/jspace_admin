@@ -4,19 +4,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { authLogin } from "../store/auth/auth-slice";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/logo3.png";
+import Input from "../components/input";
 type Inputs = {
   email: string;
   password: string;
 };
 
 const AdminLoginPage: React.FC = () => {
-  const { accessToken } = useSelector((state: any) => state.auth);
+  const { accessToken, loading } = useSelector((state: any) => state.auth);
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
 
-    formState: {},
+    formState: { errors },
   } = useForm<Inputs>();
   const dispatch = useDispatch();
 
@@ -54,11 +55,26 @@ const AdminLoginPage: React.FC = () => {
               </label>
               <div className="mt-2">
                 <input
-                  {...register("email", { required: true, maxLength: 40 })}
+                  {...register("email", {
+                    required: true,
+                    maxLength: 40,
+                    minLength: 5,
+                  })}
                   // type="email"
+                  placeholder="Tài khoản"
                   autoComplete="off"
                   className="focus:border-solid focus:border-stone-400/70 transition-all outline-none px-4 py-3 border border-stone-200 border-solid w-full rounded-md"
                 />
+                <p className="text-red-500 py-2">
+                  {" "}
+                  {errors?.email?.type === "required"
+                    ? "*Bạn chưa điền tài khoản."
+                    : errors?.email?.type === "maxLength"
+                    ? "*Tài khoản không được quá 40 ký tự"
+                    : errors?.email?.type === "minLength"
+                    ? "*Tài khoản không được ít hơn 5 ký tự"
+                    : ""}
+                </p>
               </div>
             </div>
             <div className=" mt-2">
@@ -70,15 +86,31 @@ const AdminLoginPage: React.FC = () => {
               </label>
               <div className="mt-2 ">
                 <input
-                  {...register("password", { required: true, maxLength: 20 })}
+                  {...register("password", {
+                    required: true,
+                    maxLength: 40,
+                    minLength: 8,
+                  })}
+                  placeholder="Mật khẩu"
                   id="password"
                   name="password"
                   type="password"
                   autoComplete="password"
                   className="focus:border-solid focus:border-stone-400/70 transition-all outline-none px-4 py-3 border border-stone-200 border-solid w-full rounded-md"
                 />
+                <p className="text-red-500 py-2">
+                  {" "}
+                  {errors?.password?.type === "required"
+                    ? "*Bạn chưa điền mật khẩu."
+                    : errors?.password?.type === "maxLength"
+                    ? "*Mật khẩu không được quá 40 ký tự"
+                    : errors?.password?.type === "minLength"
+                    ? "*Mật khẩu không được ít hơn 8 ký tự"
+                    : ""}
+                </p>
               </div>
             </div>
+
             <div className="flex mt-2">
               <NavLink
                 to={`/name`}
@@ -87,12 +119,14 @@ const AdminLoginPage: React.FC = () => {
                 <p className="text-base text-primary">Quên mật khẩu ?</p>
               </NavLink>
             </div>
-            <button
+
+            <Input className="mt-5" loading={loading} title="Đăng nhập" classButton="w-full"></Input>
+            {/* <button
               type="submit"
               className="bg-primary text-white px-8 py-4 rounded-md w-full mt-4 hover:opacity-80 duration-200"
             >
               Đăng nhập
-            </button>
+            </button> */}
           </form>
         </div>
       </div>

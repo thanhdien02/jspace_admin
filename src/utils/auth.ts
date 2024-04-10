@@ -1,7 +1,10 @@
 import Cookies from "js-cookie";
 const accessTokenKey = "jspace_access_token";
 const refreshTokenKey = "jspace_refresh_token";
-
+export interface Token {
+  accessToken: string;
+  refreshToken: string;
+}
 const objCookies = {
   expires: 30,
   domain: window.location.hostname,
@@ -29,13 +32,18 @@ export const saveToken = (access_token: string, refresh_token: string) => {
   }
 };
 
-export const getToken = () => {
-  const access_token = Cookies.get(accessTokenKey);
-  const refresh_token = Cookies.get(refreshTokenKey);
-  return {
-    access_token,
-    refresh_token,
-  };
+export const getToken = (): Token => {
+  const access_token: string | undefined = Cookies.get(accessTokenKey);
+  const refresh_token: string | undefined = Cookies.get(refreshTokenKey);
+  if (typeof access_token === "string" && typeof refresh_token === "string") {
+    const token: Token = {
+      accessToken: access_token,
+      refreshToken: refresh_token,
+    };
+    return token;
+  }
+
+  return { accessToken: "null", refreshToken: "null" };
 };
 export const logOut = () => {
   const access_token = Cookies.get(accessTokenKey);
