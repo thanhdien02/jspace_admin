@@ -2,12 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface IAdmin {
   admin: any;
-  loading: boolean;
+  loading?: boolean;
+  messageAdmin?: string;
 }
 
 const init: IAdmin = {
   admin: {},
   loading: false,
+  messageAdmin: "",
 };
 const adminSlice: any = createSlice({
   name: "admin",
@@ -21,7 +23,15 @@ const adminSlice: any = createSlice({
       ...state,
       loading: action.payload.loading,
     }),
+    adminUploadMessageRedux: (state, action) => ({
+      ...state,
+      messageAdmin: action.payload.messageAdmin,
+    }),
   },
 });
-export const { adminCreateSubAdmin, adminUploadLoading } = adminSlice.actions;
+export const {
+  adminCreateSubAdmin,
+  adminUploadLoading,
+  adminUploadMessageRedux,
+} = adminSlice.actions;
 export default adminSlice.reducer;

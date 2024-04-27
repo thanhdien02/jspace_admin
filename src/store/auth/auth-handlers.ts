@@ -1,6 +1,10 @@
 import { call, put } from "redux-saga/effects";
 import { getToken, logOut, saveToken } from "../../utils/auth";
-import { authUpdateUser, authUploadLoading } from "./auth-slice";
+import {
+  authUpdateUserRedux,
+  authUploadLoading,
+  authUploadMessageRedux,
+} from "./auth-slice";
 import { requestAuthFetchMe, requestAuthLogin } from "./auth-requests";
 
 function* handleAuthLogin(dataLogin: any): Generator<any> {
@@ -27,15 +31,20 @@ function* handleAuthFetchMe(): Generator<any> {
   try {
     const { accessToken } = getToken();
     const response: any = yield call(requestAuthFetchMe, accessToken);
-    if (response.data.code === 1000) {
+    if (response?.data?.code === 1000) {
       yield put(
-        authUpdateUser({
-          user: response.data.result.user,
+        authUpdateUserRedux({
+          users: response?.data?.result?.user,
           accessToken: accessToken,
         })
       );
     }
-  } catch (error) {
+  } catch (error: any) {
+    if (error?.response?.data?.message == "unauthenticated") {
+      yield put(
+        authUploadMessageRedux({ message: error?.response?.data?.message })
+      );
+    }
   } finally {
   }
 }
@@ -43,12 +52,11 @@ function* handleAuthLogout(): Generator<any> {
   try {
     logOut();
     yield put(
-      authUpdateUser({
-        user: {},
+      authUpdateUserRedux({
+        users: {},
         accessToken: "",
       })
     );
-    console.log("logged out");
   } catch (error) {
   } finally {
   }

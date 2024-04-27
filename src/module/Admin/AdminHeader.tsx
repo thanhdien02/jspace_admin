@@ -3,11 +3,11 @@ import React from "react";
 import { UserOutlined, CaretDownOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 const AdminHeader: React.FC = () => {
-  const { user } = useSelector((state: any) => state.auth);
+  const { users } = useSelector((state: any) => state.auth);
   return (
     <header className="flex px-6 py-4 justify-between items-center bg-white">
       <div className="">
-        <p className="text-primary">Hi {user?.username}</p>
+        <p className="text-primary">Hi {users?.username}</p>
         <h1 className="text-primary font-bold text-2xl">
           Welcom to ADMIN DASHBOARD!
         </h1>
@@ -19,8 +19,8 @@ const AdminHeader: React.FC = () => {
           className="self-center"
         />
         <div className="">
-          <p className="font-semibold text-sm">{user?.username}</p>
-          <p className="text-xs">{user?.role}</p>
+          <p className="font-semibold text-sm">{users?.username}</p>
+          <p className="text-xs">{users?.role?.code}</p>
         </div>
         <CaretDownOutlined className="self-auto" />
       </div>

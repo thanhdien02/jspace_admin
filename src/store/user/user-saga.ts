@@ -1,8 +1,11 @@
 import { takeLatest } from "redux-saga/effects";
-import { userGetAll } from "./user-slice";
-import { handleGetAllUsers } from "./user-handlers";
-// import { handleAuthLogin } from "./auth-handlers";
+import { userGetAll, userUpdateUser } from "./user-slice";
+import {
+  handleUserGetAllUsers,
+  handleUserUpdateActiveUser,
+} from "./user-handlers";
 
 export default function* authSaga() {
-  yield takeLatest(userGetAll.type, handleGetAllUsers);
+  yield takeLatest(userGetAll.type, handleUserGetAllUsers);
+  yield takeLatest(userUpdateUser.type, handleUserUpdateActiveUser);
 }

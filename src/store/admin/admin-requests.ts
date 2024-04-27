@@ -5,12 +5,11 @@ export const requestAdminCreateSubAdmin = (
   dataCreateSubAdmin: any,
   accessToken: string
 ) => {
-  console.log("🚀 ~ accessToken:", accessToken)
-  console.log("🚀 ~ dataCreateSubAdmin:", dataCreateSubAdmin)
   return axios.post(
     `${API}/api/v1/admins`,
     {
       ...dataCreateSubAdmin,
+      returnUrl: "http://localhost:5173/admin/user  ",
     },
     {
       headers: {

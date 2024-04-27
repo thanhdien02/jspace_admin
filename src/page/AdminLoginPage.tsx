@@ -3,8 +3,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { authLogin } from "../store/auth/auth-slice";
 import { NavLink, useNavigate } from "react-router-dom";
+import { UserOutlined } from "@ant-design/icons";
 import logo from "../assets/logo3.png";
 import Input from "../components/input";
+import IconKey from "../components/icons/IconKey";
 type Inputs = {
   email: string;
   password: string;
@@ -53,7 +55,17 @@ const AdminLoginPage: React.FC = () => {
               >
                 Tài khoản
               </label>
-              <div className="mt-2">
+              <div className="mt-2 relative">
+                <UserOutlined
+                  style={{
+                    fontSize: "20px",
+                    color: "rgb(156 163 175)",
+                    position: "absolute",
+                    top: "0",
+                    left: "0",
+                    transform: "translate(60%, 60%)",
+                  }}
+                />
                 <input
                   {...register("email", {
                     required: true,
@@ -63,7 +75,7 @@ const AdminLoginPage: React.FC = () => {
                   // type="email"
                   placeholder="Tài khoản"
                   autoComplete="off"
-                  className="focus:border-solid focus:border-stone-400/70 transition-all outline-none px-4 py-3 border border-stone-200 border-solid w-full rounded-md"
+                  className="focus:border-solid h-full focus:border-stone-400/70 transition-all outline-none pr-4 pl-12 py-3 border border-stone-200 border-solid w-full rounded-md"
                 />
                 <p className="text-red-500 py-2">
                   {" "}
@@ -84,7 +96,8 @@ const AdminLoginPage: React.FC = () => {
               >
                 Mật khẩu
               </label>
-              <div className="mt-2 ">
+              <div className="mt-2 relative">
+                <IconKey className="absolute top-0 left-0 translate-x-[50%] text-gray-400 translate-y-[50%]"></IconKey>
                 <input
                   {...register("password", {
                     required: true,
@@ -96,7 +109,7 @@ const AdminLoginPage: React.FC = () => {
                   name="password"
                   type="password"
                   autoComplete="password"
-                  className="focus:border-solid focus:border-stone-400/70 transition-all outline-none px-4 py-3 border border-stone-200 border-solid w-full rounded-md"
+                  className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-12 py-3 border border-stone-200 border-solid w-full rounded-md"
                 />
                 <p className="text-red-500 py-2">
                   {" "}
@@ -120,7 +133,12 @@ const AdminLoginPage: React.FC = () => {
               </NavLink>
             </div>
 
-            <Input className="mt-5" loading={loading} title="Đăng nhập" classButton="w-full"></Input>
+            <Input
+              className="mt-5"
+              loading={loading}
+              title="Đăng nhập"
+              classButton="w-full"
+            ></Input>
             {/* <button
               type="submit"
               className="bg-primary text-white px-8 py-4 rounded-md w-full mt-4 hover:opacity-80 duration-200"

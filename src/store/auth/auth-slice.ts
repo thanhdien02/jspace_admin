@@ -1,15 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IAuth {
-  user: any;
+  users: any;
   accessToken: string;
-  loading: boolean;
+  loading?: boolean;
+  message?: string;
 }
 
 const init: IAuth = {
-  user: {},
+  users: {},
   accessToken: "",
   loading: false,
+  message: "",
 };
 const authSlice: any = createSlice({
   name: "auth",
@@ -18,9 +20,9 @@ const authSlice: any = createSlice({
     authLogin: (state: any) => ({
       ...state,
     }),
-    authUpdateUser: (state: any, action: any) => ({
+    authUpdateUserRedux: (state: any, action: any) => ({
       ...state,
-      user: action.payload.user,
+      users: action.payload.users,
       accessToken: action.payload.accessToken,
     }),
     authFetchMe: (state: any) => ({
@@ -33,14 +35,19 @@ const authSlice: any = createSlice({
       ...state,
       loading: action.payload.loading,
     }),
+    authUploadMessageRedux: (state, action) => ({
+      ...state,
+      message: action.payload.message,
+    }),
   },
 });
 export const {
   authChange,
   authLogin,
-  authUpdateUser,
+  authUpdateUserRedux,
   authFetchMe,
   authUploadLoading,
   authLogout,
+  authUploadMessageRedux,
 } = authSlice.actions;
 export default authSlice.reducer;

@@ -1,11 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MailOutlined, UserOutlined } from "@ant-design/icons";
 import { SubmitHandler, useForm } from "react-hook-form";
 import IconKey from "../components/icons/IconKey";
 import { useDispatch, useSelector } from "react-redux";
 import { authFetchMe } from "../store/auth/auth-slice";
 import Input from "../components/input";
-import { adminCreateSubAdmin } from "../store/admin/admin-slice";
+import {
+  adminCreateSubAdmin,
+  adminUploadMessageRedux,
+} from "../store/admin/admin-slice";
+import IconClose from "../components/icons/IconClose";
+import { getToken } from "../utils/auth";
+import { useNavigate } from "react-router-dom";
 
 interface Inputs {
   username: string;
@@ -13,8 +19,10 @@ interface Inputs {
   email: string;
 }
 const AdminCreateSubAdmin: React.FC = () => {
-  const { accessToken } = useSelector((state: any) => state.auth);
-  const { loading } = useSelector((state: any) => state.admin);
+  const { accessToken, message } = useSelector((state: any) => state.auth);
+  const { loading, messageAdmin } = useSelector((state: any) => state.admin);
+  const [checkNotifications, setCheckNotifications] = useState("");
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
     register,
@@ -28,9 +36,23 @@ const AdminCreateSubAdmin: React.FC = () => {
   //Load information user
   useEffect(() => {
     if (accessToken == "") {
+      const token = getToken();
+      if (token?.accessToken == "null" || message == "unauthenticated") {
+        navigate("/login");
+      }
       dispatch(authFetchMe());
     }
-  }, []);
+  }, [message, accessToken]);
+  useEffect(() => {
+    if (messageAdmin == "success") {
+      setCheckNotifications("success");
+      dispatch(adminUploadMessageRedux({ messageAdmin: "" }));
+    } else if (messageAdmin == "fail") {
+      setCheckNotifications("fail");
+      dispatch(adminUploadMessageRedux({ messageAdmin: "" }));
+    }
+  }, [messageAdmin]);
+
   return (
     <>
       <div className="mx-52 bg-white my-10 rounded-lg">
@@ -77,7 +99,7 @@ const AdminCreateSubAdmin: React.FC = () => {
                 <p className="text-red-500 py-2">
                   {" "}
                   {errors?.username?.type === "required"
-                    ? "*Bạn Chưa điền thông tin tài khoản."
+                    ? "*Bạn chưa điền thông tin tài khoản."
                     : errors?.username?.type === "maxLength"
                     ? "*Tài khoản không được quá 40 ký tự"
                     : errors?.username?.type === "minLength"
@@ -91,7 +113,7 @@ const AdminCreateSubAdmin: React.FC = () => {
                 htmlFor="email"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Email
+                Địa chỉ Email
               </label>
               <div className="mt-2 relative">
                 <MailOutlined
@@ -137,7 +159,7 @@ const AdminCreateSubAdmin: React.FC = () => {
               htmlFor="password"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Password
+              Mật khẩu
             </label>
             <div className="mt-2 relative">
               <IconKey className="absolute top-0 left-0 translate-x-[50%] text-gray-400 translate-y-[50%]"></IconKey>
@@ -165,22 +187,34 @@ const AdminCreateSubAdmin: React.FC = () => {
               </p>
             </div>
           </div>
-          <Input
-            className="mt-5"
-            title="Create SubAdmin"
-            loading={loading}
-          ></Input>
-          {true && false ? (
-            <p className="text-green-500 py-2 font-semibold text-base">
-              *Tạo tài khoản thành công
-            </p>
-          ) : true && false ? (
-            <p className="text-red-500 py-2 font-semibold text-base">
-              *Tài khoản đã tồn tại
-            </p>
-          ) : (
-            ""
-          )}
+          <div className="flex justify-between mb-2">
+            <div className="self-end">
+              {checkNotifications === "success" ? (
+                <p className="flex items-center text-green-400 gap-5 border border-solid border-green-200 w-fit pl-2 rounded-lg hover:border-green-500 transition-all hover:opacity-80 font-semibold text-base">
+                  <span className="py-1"> *Tạo tài khoản thành công</span>
+                  <IconClose
+                    actionClose={setCheckNotifications}
+                    className="cursor-pointer h-full w-fit hover:bg-green-300 hover:text-white px-2 mr- py-2 rounded-lg transition-all"
+                  ></IconClose>
+                </p>
+              ) : checkNotifications === "fail" ? (
+                <p className="flex items-center text-red-400 gap-5 border border-solid border-red-200 w-fit pl-2 rounded-lg hover:border-red-500 transition-all hover:opacity-80 font-semibold text-base">
+                  <span className="py-1"> *Tạo tài khoản thất bại</span>
+                  <IconClose
+                    actionClose={setCheckNotifications}
+                    className="cursor-pointer h-full w-fit hover:bg-red-300 hover:text-white px-2 mr- py-2 rounded-lg transition-all"
+                  ></IconClose>
+                </p>
+              ) : (
+                ""
+              )}
+            </div>
+            <Input
+              className="mt-5"
+              title="Tạo SubAdmin"
+              loading={loading}
+            ></Input>
+          </div>
         </form>
       </div>
     </>

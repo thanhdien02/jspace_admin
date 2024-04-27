@@ -8,11 +8,4 @@ export default axios.create({
   },
 });
 
-export const API =
-  "https://jspace-service-2a930e79346f.herokuapp.com/jspace-service";
-export const downLoadFile =
-  "https://v1-rm-be-nestjs-785603e48f0d.herokuapp.com/api/v1/files/download-file";
-export const loadFile = "https://drive.google.com";
-//export const herokuAPI = "http://localhost:8000";
-// export const herokuAPI =
-//   "https://verbose-trout-wrrqg4pwx7p525499-8000.app.github.dev";
+export const API = "https://jspace-804e64747ec6.herokuapp.com/jspace-service";

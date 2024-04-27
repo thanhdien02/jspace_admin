@@ -1,218 +1,128 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { SearchOutlined } from "@ant-design/icons";
-import type { InputRef, TableColumnsType, TableColumnType } from "antd";
-import { Button, Input, Space, Table } from "antd";
-import type { FilterDropdownProps } from "antd/es/table/interface";
-import Highlighter from "react-highlight-words";
 import { useDispatch, useSelector } from "react-redux";
-import { userGetAll } from "../store/user/user-slice";
-import { getToken } from "../utils/auth";
-import { DataType } from "../utils/dataFetch";
+import { userGetAll, userUpdateUser } from "../store/user/user-slice";
 import { authFetchMe } from "../store/auth/auth-slice";
-
-type DataIndex = keyof DataType;
+import Table from "../components/table/Table";
+import TableHeader from "../components/table/TableHeader";
+import TableHeaderContent from "../components/table/TableHeaderContent";
+import TableRowContent from "../components/table/TableRowContent";
+import TableRow from "../components/table/TableRow";
+import { Input, Pagination, Popconfirm, Skeleton, Switch } from "antd";
+import { debounce } from "ts-debounce";
+const { Search } = Input;
 
 const AdminManageUser: React.FC = () => {
-  const { users } = useSelector((state: any) => state.user);
+  const { accessToken } = useSelector((state: any) => state.user);
+  const { users, pagina, loading } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
-
-  // ant design
-  const [searchText, setSearchText] = useState("");
-  const [searchedColumn, setSearchedColumn] = useState("");
-  const searchInput = useRef<InputRef>(null);
-
-  const handleSearch = (
-    selectedKeys: string[],
-    confirm: FilterDropdownProps["confirm"],
-    dataIndex: DataIndex
-  ) => {
-    confirm();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
-  };
-
-  const handleReset = (clearFilters: () => void) => {
-    clearFilters();
-    setSearchText("");
-  };
-
-  const getColumnSearchProps = (
-    dataIndex: DataIndex
-  ): TableColumnType<DataType> => ({
-    filterDropdown: ({
-      setSelectedKeys,
-      selectedKeys,
-      confirm,
-      clearFilters,
-      close,
-    }) => (
-      <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
-        <Input
-          ref={searchInput}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={(e) =>
-            setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
-          onPressEnter={() =>
-            handleSearch(selectedKeys as string[], confirm, dataIndex)
-          }
-          style={{ marginBottom: 8, display: "block" }}
-        />
-        <Space>
-          <Button
-            type="primary"
-            onClick={() =>
-              handleSearch(selectedKeys as string[], confirm, dataIndex)
-            }
-            icon={<SearchOutlined />}
-            size="small"
-            style={{ width: 90 }}
-          >
-            Search
-          </Button>
-          <Button
-            onClick={() => clearFilters && handleReset(clearFilters)}
-            size="small"
-            style={{ width: 90 }}
-          >
-            Reset
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              confirm({ closeDropdown: false });
-              setSearchText((selectedKeys as string[])[0]);
-              setSearchedColumn(dataIndex);
-            }}
-          >
-            Filter
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              close();
-            }}
-          >
-            close
-          </Button>
-        </Space>
-      </div>
-    ),
-    filterIcon: (filtered: boolean) => (
-      <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
-    ),
-    onFilter: (value, record) =>
-      record[dataIndex]
-        .toString()
-        .toLowerCase()
-        .includes((value as string).toLowerCase()),
-    onFilterDropdownOpenChange: (visible) => {
-      if (visible) {
-        setTimeout(() => searchInput.current?.select(), 100);
-      }
-    },
-    render: (text) =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text ? text.toString() : ""}
-        />
-      ) : (
-        text
-      ),
-  });
-
-  const columns: TableColumnsType<DataType> = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-      width: "10%",
-      ...getColumnSearchProps("id"),
-    },
-    {
-      title: "Username",
-      dataIndex: "username",
-      key: "username",
-      width: "30%",
-      ...getColumnSearchProps("username"),
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-      width: "30%",
-      ...getColumnSearchProps("email"),
-    },
-    {
-      title: "Role",
-      dataIndex: "role",
-      key: "role",
-      width: "20%",
-      ...getColumnSearchProps("role"),
-      sortDirections: ["descend", "ascend"],
-    },
-    {
-      title: "Action",
-      render: (e) => (
-        <div className="">
-          <Button
-            type="primary"
-            onClick={() => {
-              console.log("hihi", e);
-              // handle action
-            }}
-          >
-            Block
-          </Button>
-        </div>
-      ),
-    },
-  ];
-  // const onChange: TableProps<DataType>["onChange"] = (
-  //   pagination,
-  //   filters,
-  //   sorter,
-  //   extra
-  // ) => {
-  //   console.log("params", extra);
-  // };
-  const { accessToken } = useSelector((state: any) => state.auth);
-  //Load information user
+  const [page, setPage] = useState(1);
   useEffect(() => {
     if (accessToken == "") {
       dispatch(authFetchMe());
-      const { accessToken } = getToken();
-      dispatch(userGetAll(accessToken));
-    } else {
-      const { accessToken } = getToken();
-      dispatch(userGetAll(accessToken));
     }
-  }, []);
-
+    dispatch(userGetAll({ page: page }));
+  }, [page]);
+  const handleSearchCompany = debounce((value: any) => {
+    console.log("Input value:", value);
+  }, 500);
+  useEffect(() => {}, [users]);
   return (
-    <Table
-      className="m-5 "
-      columns={columns}
-      dataSource={users}
-      onRow={(record, rowIndex) => {
-        return {
-          onClick: () => {
-            console.log(rowIndex, record);
-          }, // click row
-          onDoubleClick: () => {
-            console.log("double");
-          }, // double click row
-        };
-      }}
-      rowClassName="hover:text-primary cursor-pointer"
-    />
+    <>
+      <div className="m-10 mt-5">
+        <div className="mb-5 w-[30%]">
+          <Search
+            placeholder="Nhập tên tài khoản"
+            enterButton="Search"
+            size="large"
+            onSearch={(e) => console.log(e)}
+            onInput={(e: any) => {
+              handleSearchCompany(e?.target?.value);
+            }}
+            loading={false}
+            allowClear
+          />
+        </div>
+
+        <Table>
+          <TableHeader>
+            <TableHeaderContent
+              title="ID"
+              className="w-[15%]"
+            ></TableHeaderContent>
+            <TableHeaderContent
+              title="Tên"
+              className="w-[25%]"
+            ></TableHeaderContent>
+            <TableHeaderContent
+              title="Email"
+              className="w-[25%]"
+            ></TableHeaderContent>
+            <TableHeaderContent
+              title="Quyền"
+              className="w-[15%]"
+            ></TableHeaderContent>
+            <TableHeaderContent
+              title="Hành động"
+              className="w-[10%]"
+            ></TableHeaderContent>
+          </TableHeader>
+          {loading ? (
+            <tbody className="">
+              <tr>
+                <td className="p-5 text-center" colSpan={5}>
+                  <Skeleton active />
+                </td>
+              </tr>
+            </tbody>
+          ) : (
+            <tbody>
+              {users.length > 0 &&
+                users.map((item: any) => (
+                  <TableRow className="" key={item?.id}>
+                    <TableRowContent className="">{item?.id}</TableRowContent>
+                    <TableRowContent className="">{item?.name}</TableRowContent>
+                    <TableRowContent className="">
+                      {item?.email}
+                    </TableRowContent>
+                    <TableRowContent className="">
+                      {item?.role?.code}
+                    </TableRowContent>
+                    <TableRowContent className="">
+                      <Popconfirm
+                        title="Khóa tài khoản"
+                        description="Bạn có chắc khóa tài khoản ?"
+                        okText="Đồng ý"
+                        cancelText="Không"
+                        onConfirm={() => {
+                          dispatch(
+                            userUpdateUser({
+                              userId: item?.id,
+                              activated: !item?.activated,
+                              page: page,
+                            })
+                          );
+                        }}
+                        onCancel={() => {}}
+                      >
+                        <Switch checked={item?.activated} onChange={() => {}} />
+                      </Popconfirm>
+                    </TableRowContent>
+                  </TableRow>
+                ))}
+            </tbody>
+          )}
+        </Table>
+        <div className="mt-4 flex justify-end">
+          <Pagination
+            total={pagina.totalElements}
+            onChange={(e) => setPage(e)}
+            className="inline-block"
+            current={page}
+          />
+        </div>
+      </div>
+    </>
   );
 };
 
