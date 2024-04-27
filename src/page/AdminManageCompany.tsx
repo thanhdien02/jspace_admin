@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
 import { userGetAll, userUpdateUser } from "../store/user/user-slice";
 import { authFetchMe } from "../store/auth/auth-slice";
@@ -11,12 +10,7 @@ import TableRow from "../components/table/TableRow";
 import { Input, Pagination, Popconfirm, Select, Skeleton, Switch } from "antd";
 import { debounce } from "ts-debounce";
 const { Search } = Input;
-
-const options: any = [
-  { value: "active", label: "Active" },
-  { value: "block", label: "Block" },
-];
-const AdminManageUser: React.FC = () => {
+const AdminManageCompany = () => {
   const { accessToken } = useSelector((state: any) => state.user);
   const { users, pagina, loading } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
@@ -51,13 +45,13 @@ const AdminManageUser: React.FC = () => {
             loading={false}
             allowClear
           />
-          <Select
+          {/* <Select
             size={"large"}
             defaultValue="Active"
             onChange={handleChange}
             style={{ width: 200 }}
             options={options}
-          />
+          /> */}
         </div>
 
         <Table>
@@ -142,4 +136,4 @@ const AdminManageUser: React.FC = () => {
   );
 };
 
-export default AdminManageUser;
+export default AdminManageCompany;

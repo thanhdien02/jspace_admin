@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 *,
 ::after,
 ::before {
@@ -24,4 +23,15 @@
 
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-slate-400;
+}
+
+.ant-input-search-button {
+  background-color: #1967d2;
+  border-color: #1967d2;
+  color: white;
+}
+.ant-input-search-button:hover {
+  background-color: #1967d2 !important;
+  border-color: #1967d2;
+  color: white;
 }

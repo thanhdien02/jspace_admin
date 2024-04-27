@@ -5,6 +5,7 @@ import { authLogin } from "../store/auth/auth-slice";
 import { NavLink, useNavigate } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
 import logo from "../assets/logo3.png";
+import bglogin from "../assets/bg-login.jpg";
 import Input from "../components/input";
 import IconKey from "../components/icons/IconKey";
 type Inputs = {
@@ -34,8 +35,9 @@ const AdminLoginPage: React.FC = () => {
   }, [accessToken]);
   return (
     <>
-      <div className="flex flex-col h-[100vh] w-[100vw] bg-logo bg-cover">
-        <div className="m-auto min-w-[450px] min-h-[400px] bg-white shadow-md rounded-lg p-5">
+      <div className="relative flex flex-col h-[100vh] w-[100vw] bg-cover">
+        <img src={bglogin} alt=""  className="absolute inset-0 w-full h-full object-cover opacity-90"/>
+        <div className="m-auto min-w-[450px] min-h-[400px] bg-white shadow-md rounded-lg p-5 z-10">
           <div className="flex">
             <img src={logo} alt="" className="w-[50px] h-[50px] mx-auto mt-3" />
           </div>

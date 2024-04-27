@@ -10,6 +10,7 @@ import AdminConfirmCreateSubAdmin from "./page/AdminConfirmCreateSubAdmin";
 import { useDispatch, useSelector } from "react-redux";
 import { getToken } from "./utils/auth";
 import { authFetchMe } from "./store/auth/auth-slice";
+import AdminManageCompany from "./page/AdminManageCompany";
 
 function App() {
   const { accessToken, message } = useSelector((state: any) => state.auth);
@@ -37,6 +38,10 @@ function App() {
             <Route
               path="/admin/add-subadmin"
               element={<AdminCreateSubAdmin></AdminCreateSubAdmin>}
+            ></Route>
+            <Route
+              path="/admin/company"
+              element={<AdminManageCompany></AdminManageCompany>}
             ></Route>
           </Route>
           <Route

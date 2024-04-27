@@ -30,7 +30,7 @@ export const dataSideBar = [
     key: "4",
     label: "Manage Company",
     icon: React.createElement(HomeOutlined),
-    path: "/",
+    path: "/admin/company",
   },
   {
     key: "5",
@@ -47,13 +47,3 @@ export interface DataType {
   activated: boolean;
   role: string;
 }
-
-export const dataTable: DataType[] = [
-  {
-    key: 1,
-    name: "dien",
-    email: "dien@gmail.com",
-    activated: true,
-    role: "admin",
-  },
-];
