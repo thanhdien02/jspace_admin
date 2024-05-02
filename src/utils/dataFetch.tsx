@@ -3,6 +3,7 @@ import {
   UserAddOutlined,
   BorderOuterOutlined,
   HomeOutlined,
+  AppleOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
 import React from "react";
@@ -34,6 +35,12 @@ export const dataSideBar = [
   },
   {
     key: "5",
+    label: "Approve Company",
+    icon: React.createElement(AppleOutlined),
+    path: "/admin/approve-company",
+  },
+  {
+    key: "6",
     label: "Log out",
     icon: React.createElement(LogoutOutlined),
     path: "/login",

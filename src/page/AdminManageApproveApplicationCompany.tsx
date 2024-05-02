@@ -1,43 +1,49 @@
 import React, { useEffect, useState } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
-import { userGetUsers, userUpdateUser } from "../store/user/user-slice";
+import { authFetchMe } from "../store/auth/auth-slice";
 import Table from "../components/table/Table";
 import TableHeader from "../components/table/TableHeader";
 import TableHeaderContent from "../components/table/TableHeaderContent";
 import TableRowContent from "../components/table/TableRowContent";
 import TableRow from "../components/table/TableRow";
-import { Input, Pagination, Popconfirm, Select, Skeleton, Switch } from "antd";
+import { Input, Pagination, Popconfirm, Skeleton, Switch } from "antd";
 import { debounce } from "ts-debounce";
+import {
+  companyrequestreviewGetCompanyRequest,
+  companyrequestreviewUpdateCompanyRequest,
+} from "../store/company_request_review/company-request-review-slice";
+import TitleContent from "../components/title/TitleContent";
 const { Search } = Input;
-
-const options: any = [
-  { value: "", label: "All" },
-  { value: "true", label: "Active" },
-  { value: "false", label: "Block" },
-];
-const AdminManageUser: React.FC = () => {
-  const { users, paginationUser, loadingUser } = useSelector(
-    (state: any) => state.user
-  );
+const AdminManageApproveApplicationCompany: React.FC = () => {
+  const { accessToken } = useSelector((state: any) => state.user);
+  const {
+    companyrequestreview,
+    paginationCompanyRequestReview,
+    loadingCompanyRequestReview,
+  } = useSelector((state: any) => state.companyrequestreview);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   useEffect(() => {
-    dispatch(userGetUsers({ page: page }));
+    if (accessToken == "") {
+      dispatch(authFetchMe());
+    }
+    dispatch(companyrequestreviewGetCompanyRequest({ page: page }));
   }, [page]);
   const handleSearchCompany = debounce((value: any) => {
-    dispatch(userGetUsers({ page: page, name: value }));
+    console.log("Input value:", value);
   }, 500);
-  const handleChange = (value: string | string[]) => {
-    console.log(`Selected: ${value}`);
-    dispatch(userGetUsers({ page: page, activated: value }));
-  };
+  useEffect(() => {}, [companyrequestreview]);
+
+  // const handleChange = (value: string | string[]) => {
+  //   console.log(`Selected: ${value}`);
+  // };
   return (
     <>
       <div className="m-10 mt-5">
+        <TitleContent>Danh sách công ty muốn đăng ký</TitleContent>
         <div className="mb-5 flex gap-4">
           <Search
-            placeholder="Nhập tên tài khoản"
+            placeholder="Nhập tên công ty"
             enterButton="Search"
             size="large"
             onSearch={(e) => console.log(e)}
@@ -48,13 +54,13 @@ const AdminManageUser: React.FC = () => {
             loading={false}
             allowClear
           />
-          <Select
+          {/* <Select
             size={"large"}
             defaultValue="Active"
             onChange={handleChange}
             style={{ width: 200 }}
             options={options}
-          />
+          /> */}
         </div>
 
         <Table>
@@ -64,42 +70,61 @@ const AdminManageUser: React.FC = () => {
               className="w-[10%]"
             ></TableHeaderContent>
             <TableHeaderContent
-              title="Tên"
-              className="w-[25%]"
+              title="Tên công ty"
+              className="w-[20%]"
             ></TableHeaderContent>
             <TableHeaderContent
               title="Email"
-              className="w-[25%]"
+              className="w-[20%]"
             ></TableHeaderContent>
             <TableHeaderContent
-              title="Quyền"
+              title="Số điện thoại"
               className="w-[15%]"
             ></TableHeaderContent>
             <TableHeaderContent
-              title="Tình trạng tài khoản"
-              className="w-[15%]"
+              title="Link website"
+              className="w-[13%]"
+            ></TableHeaderContent>
+            <TableHeaderContent
+              title="Xác nhận email"
+              className="w-[12%]"
+            ></TableHeaderContent>
+            <TableHeaderContent
+              title="Duyệt"
+              className="w-[10%]"
             ></TableHeaderContent>
           </TableHeader>
-          {loadingUser ? (
+          {loadingCompanyRequestReview ? (
             <tbody className="">
               <tr>
-                <td className="p-5 text-center" colSpan={5}>
+                <td className="p-5 text-center" colSpan={7}>
                   <Skeleton active />
                 </td>
               </tr>
             </tbody>
           ) : (
             <tbody>
-              {users.length > 0 &&
-                users.map((item: any) => (
-                  <TableRow className="" key={item?.id}>
-                    <TableRowContent className="">{item?.id}</TableRowContent>
-                    <TableRowContent className="">{item?.name}</TableRowContent>
+              {companyrequestreview.length > 0 &&
+                companyrequestreview.map((item: any) => (
+                  <TableRow className="" key={item?.company?.id}>
                     <TableRowContent className="">
-                      {item?.email}
+                      {item?.company?.id}
                     </TableRowContent>
                     <TableRowContent className="">
-                      {item?.role?.code}
+                      {item?.company?.name}
+                    </TableRowContent>
+                    <TableRowContent className="">
+                      {item?.company?.email}
+                    </TableRowContent>
+
+                    <TableRowContent className="">
+                      {item?.company?.phone}
+                    </TableRowContent>
+                    <TableRowContent className="">
+                      {item?.company?.companyLink}
+                    </TableRowContent>
+                    <TableRowContent className="">
+                      <Switch checked={item?.company?.emailVerified} />
                     </TableRowContent>
                     <TableRowContent className="">
                       <Popconfirm
@@ -109,16 +134,16 @@ const AdminManageUser: React.FC = () => {
                         cancelText="Không"
                         onConfirm={() => {
                           dispatch(
-                            userUpdateUser({
-                              userId: item?.id,
-                              activated: !item?.activated,
+                            companyrequestreviewUpdateCompanyRequest({
+                              id: item?.company?.id,
+                              reviewed: !item?.reviewed,
                               page: page,
                             })
                           );
                         }}
                         onCancel={() => {}}
                       >
-                        <Switch checked={item?.activated} onChange={() => {}} />
+                        <Switch checked={item?.reviewed} onChange={() => {}} />
                       </Popconfirm>
                     </TableRowContent>
                   </TableRow>
@@ -128,11 +153,11 @@ const AdminManageUser: React.FC = () => {
         </Table>
         <div className="mt-4 flex justify-end">
           <Pagination
-            total={paginationUser?.totalElements}
+            total={paginationCompanyRequestReview?.totalElements}
             onChange={(e) => setPage(e)}
             className="inline-block"
             current={page}
-            pageSize={paginationUser?.pageSize}
+            pageSize={paginationCompanyRequestReview?.pageSize}
           />
         </div>
       </div>
@@ -140,4 +165,4 @@ const AdminManageUser: React.FC = () => {
   );
 };
 
-export default AdminManageUser;
+export default AdminManageApproveApplicationCompany;

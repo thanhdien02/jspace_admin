@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getToken } from "./utils/auth";
 import { authFetchMe } from "./store/auth/auth-slice";
 import AdminManageCompany from "./page/AdminManageCompany";
+import AdminManageApproveApplicationCompany from "./page/AdminManageApproveApplicationCompany";
 
 function App() {
   const { accessToken, message } = useSelector((state: any) => state.auth);
@@ -42,6 +43,12 @@ function App() {
             <Route
               path="/admin/company"
               element={<AdminManageCompany></AdminManageCompany>}
+            ></Route>
+            <Route
+              path="/admin/approve-company"
+              element={
+                <AdminManageApproveApplicationCompany></AdminManageApproveApplicationCompany>
+              }
             ></Route>
           </Route>
           <Route

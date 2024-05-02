@@ -1,34 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userGetAll, userUpdateUser } from "../store/user/user-slice";
+import { userGetUsers, userUpdateUser } from "../store/user/user-slice";
 import { authFetchMe } from "../store/auth/auth-slice";
 import Table from "../components/table/Table";
 import TableHeader from "../components/table/TableHeader";
 import TableHeaderContent from "../components/table/TableHeaderContent";
 import TableRowContent from "../components/table/TableRowContent";
 import TableRow from "../components/table/TableRow";
-import { Input, Pagination, Popconfirm, Select, Skeleton, Switch } from "antd";
+import { Input, Pagination, Popconfirm, Skeleton, Switch } from "antd";
 import { debounce } from "ts-debounce";
 const { Search } = Input;
-const AdminManageCompany = () => {
+const AdminManageCompany: React.FC = () => {
   const { accessToken } = useSelector((state: any) => state.user);
-  const { users, pagina, loading } = useSelector((state: any) => state.user);
+  const { users, paginationUser, loadingUser } = useSelector(
+    (state: any) => state.user
+  );
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   useEffect(() => {
     if (accessToken == "") {
       dispatch(authFetchMe());
     }
-    dispatch(userGetAll({ page: page }));
+    dispatch(userGetUsers({ page: page }));
   }, [page]);
   const handleSearchCompany = debounce((value: any) => {
     console.log("Input value:", value);
   }, 500);
   useEffect(() => {}, [users]);
 
-  const handleChange = (value: string | string[]) => {
-    console.log(`Selected: ${value}`);
-  };
+  // const handleChange = (value: string | string[]) => {
+  //   console.log(`Selected: ${value}`);
+  // };
   return (
     <>
       <div className="m-10 mt-5">
@@ -77,7 +79,7 @@ const AdminManageCompany = () => {
               className="w-[10%]"
             ></TableHeaderContent>
           </TableHeader>
-          {loading ? (
+          {loadingUser ? (
             <tbody className="">
               <tr>
                 <td className="p-5 text-center" colSpan={5}>
@@ -125,7 +127,7 @@ const AdminManageCompany = () => {
         </Table>
         <div className="mt-4 flex justify-end">
           <Pagination
-            total={pagina.totalElements}
+            total={paginationUser.totalElements}
             onChange={(e) => setPage(e)}
             className="inline-block"
             current={page}

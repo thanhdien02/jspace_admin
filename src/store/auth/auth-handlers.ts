@@ -6,6 +6,7 @@ import {
   authUploadMessageRedux,
 } from "./auth-slice";
 import { requestAuthFetchMe, requestAuthLogin } from "./auth-requests";
+import { message } from "antd";
 
 function* handleAuthLogin(dataLogin: any): Generator<any> {
   try {
@@ -23,6 +24,7 @@ function* handleAuthLogin(dataLogin: any): Generator<any> {
       yield call(handleAuthFetchMe);
     }
   } catch (error) {
+    message.error("Tài khoản hoặc mật khẩu không chính xác.");
   } finally {
     yield put(authUploadLoading({ loading: false }));
   }

@@ -2,6 +2,7 @@ import authReducer from "./auth/auth-slice";
 import userReducer from "./user/user-slice";
 import adminReducer from "./admin/admin-slice";
 import commonReducer from "./common/common-slice";
+import companyrequestreviewReducer from "./company_request_review/company-request-review-slice";
 import { combineReducers } from "@reduxjs/toolkit";
 
 export const reducer: any = combineReducers({
@@ -9,4 +10,5 @@ export const reducer: any = combineReducers({
   user: userReducer,
   admin: adminReducer,
   common: commonReducer,
+  companyrequestreview: companyrequestreviewReducer,
 });

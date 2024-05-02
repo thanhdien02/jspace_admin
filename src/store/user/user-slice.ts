@@ -5,32 +5,32 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface IUser {
   users: any;
-  pagina?: any;
-  loading?: boolean;
+  paginationUser?: any;
+  loadingUser?: boolean;
 }
 
 const init: IUser = {
   users: [],
-  pagina: {},
-  loading: false,
+  paginationUser: {},
+  loadingUser: false,
 };
 
 const userSlice: any = createSlice({
   name: "user",
   initialState: init,
   reducers: {
-    userGetAll: () => {},
+    userGetUsers: () => {},
     userUpdateUserRedux: (state: any, action: any) => ({
       ...state,
       users: action.payload.users,
     }),
     userUpdatePaginaRedux: (state: any, action: any) => ({
       ...state,
-      pagina: action.payload.pagina,
+      paginationUser: action.payload.paginationUser,
     }),
     userUpdateLoadingRedux: (state: any, action: any) => ({
       ...state,
-      loading: action.payload.loading,
+      loadingUser: action.payload.loadingUser,
     }),
     userUpdateUser: (state: any) => ({
       ...state,
@@ -38,7 +38,7 @@ const userSlice: any = createSlice({
   },
 });
 export const {
-  userGetAll,
+  userGetUsers,
   userUpdateUserRedux,
   userUpdateUser,
   userUpdateLoadingRedux,
