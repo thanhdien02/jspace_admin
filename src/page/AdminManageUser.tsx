@@ -7,7 +7,15 @@ import TableHeader from "../components/table/TableHeader";
 import TableHeaderContent from "../components/table/TableHeaderContent";
 import TableRowContent from "../components/table/TableRowContent";
 import TableRow from "../components/table/TableRow";
-import { Input, Pagination, Popconfirm, Select, Skeleton, Switch } from "antd";
+import {
+  Empty,
+  Input,
+  Pagination,
+  Popconfirm,
+  Select,
+  Skeleton,
+  Switch,
+} from "antd";
 import { debounce } from "ts-debounce";
 const { Search } = Input;
 
@@ -21,16 +29,20 @@ const AdminManageUser: React.FC = () => {
     (state: any) => state.user
   );
   const dispatch = useDispatch();
+  const [nameSearch, setNameSearch] = useState("");
+  const [activated, setActivated] = useState("");
   const [page, setPage] = useState(1);
   useEffect(() => {
     dispatch(userGetUsers({ page: page }));
   }, [page]);
   const handleSearchCompany = debounce((value: any) => {
-    dispatch(userGetUsers({ page: page, name: value }));
+    setNameSearch(value);
+    dispatch(userGetUsers({ page: page, name: value, activated: activated }));
   }, 500);
-  const handleChange = (value: string | string[]) => {
+  const handleChange = (value: string) => {
     console.log(`Selected: ${value}`);
-    dispatch(userGetUsers({ page: page, activated: value }));
+    setActivated(value);
+    dispatch(userGetUsers({ page: page, name: nameSearch, activated: value }));
   };
   return (
     <>
@@ -90,7 +102,14 @@ const AdminManageUser: React.FC = () => {
             </tbody>
           ) : (
             <tbody>
-              {users.length > 0 &&
+              {users.length <= 0 ? (
+                <tr>
+                  <td className="p-5 text-center " colSpan={5}>
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  </td>
+                </tr>
+              ) : (
+                users.length > 0 &&
                 users.map((item: any) => (
                   <TableRow className="" key={item?.id}>
                     <TableRowContent className="">{item?.id}</TableRowContent>
@@ -122,18 +141,23 @@ const AdminManageUser: React.FC = () => {
                       </Popconfirm>
                     </TableRowContent>
                   </TableRow>
-                ))}
+                ))
+              )}
             </tbody>
           )}
         </Table>
         <div className="mt-4 flex justify-end">
-          <Pagination
-            total={paginationUser?.totalElements}
-            onChange={(e) => setPage(e)}
-            className="inline-block"
-            current={page}
-            pageSize={paginationUser?.pageSize}
-          />
+          {users.length <= 0 ? (
+            <></>
+          ) : (
+            <Pagination
+              total={paginationUser?.totalElements}
+              onChange={(e) => setPage(e)}
+              className="inline-block"
+              current={page}
+              pageSize={paginationUser?.pageSize}
+            />
+          )}
         </div>
       </div>
     </>

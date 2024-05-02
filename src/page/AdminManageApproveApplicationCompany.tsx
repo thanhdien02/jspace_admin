@@ -6,7 +6,7 @@ import TableHeader from "../components/table/TableHeader";
 import TableHeaderContent from "../components/table/TableHeaderContent";
 import TableRowContent from "../components/table/TableRowContent";
 import TableRow from "../components/table/TableRow";
-import { Input, Pagination, Popconfirm, Skeleton, Switch } from "antd";
+import { Empty, Input, Pagination, Popconfirm, Skeleton, Switch } from "antd";
 import { debounce } from "ts-debounce";
 import {
   companyrequestreviewGetCompanyRequest,
@@ -104,7 +104,14 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
             </tbody>
           ) : (
             <tbody>
-              {companyrequestreview.length > 0 &&
+              {companyrequestreview.length <= 0 ? (
+                <tr>
+                  <td className="p-5 text-center " colSpan={7}>
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  </td>
+                </tr>
+              ) : (
+                companyrequestreview.length > 0 &&
                 companyrequestreview.map((item: any) => (
                   <TableRow className="" key={item?.company?.id}>
                     <TableRowContent className="">
@@ -147,18 +154,23 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
                       </Popconfirm>
                     </TableRowContent>
                   </TableRow>
-                ))}
+                ))
+              )}
             </tbody>
           )}
         </Table>
         <div className="mt-4 flex justify-end">
-          <Pagination
-            total={paginationCompanyRequestReview?.totalElements}
-            onChange={(e) => setPage(e)}
-            className="inline-block"
-            current={page}
-            pageSize={paginationCompanyRequestReview?.pageSize}
-          />
+          {companyrequestreview.length <= 0 ? (
+            <></>
+          ) : (
+            <Pagination
+              total={paginationCompanyRequestReview?.totalElements}
+              onChange={(e) => setPage(e)}
+              className="inline-block"
+              current={page}
+              pageSize={paginationCompanyRequestReview?.pageSize}
+            />
+          )}
         </div>
       </div>
     </>
