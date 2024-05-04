@@ -6,7 +6,15 @@ import TableHeader from "../components/table/TableHeader";
 import TableHeaderContent from "../components/table/TableHeaderContent";
 import TableRowContent from "../components/table/TableRowContent";
 import TableRow from "../components/table/TableRow";
-import { Empty, Input, Pagination, Popconfirm, Skeleton, Switch } from "antd";
+import {
+  Empty,
+  Input,
+  Pagination,
+  Popconfirm,
+  Select,
+  Skeleton,
+  Switch,
+} from "antd";
 import { debounce } from "ts-debounce";
 import {
   companyrequestreviewGetCompanyRequest,
@@ -14,6 +22,12 @@ import {
 } from "../store/company_request_review/company-request-review-slice";
 import TitleContent from "../components/title/TitleContent";
 const { Search } = Input;
+
+const options: any = [
+  { value: "", label: "Tất cả" },
+  { value: "true", label: "Duyệt" },
+  { value: "false", label: "Chưa duyệt" },
+];
 const AdminManageApproveApplicationCompany: React.FC = () => {
   const { accessToken } = useSelector((state: any) => state.user);
   const {
@@ -23,20 +37,26 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
   } = useSelector((state: any) => state.companyrequestreview);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
+  const [reviewed, setReviewed] = useState("");
   useEffect(() => {
     if (accessToken == "") {
       dispatch(authFetchMe());
     }
-    dispatch(companyrequestreviewGetCompanyRequest({ page: page }));
+    dispatch(
+      companyrequestreviewGetCompanyRequest({ page: page, reviewed: reviewed })
+    );
   }, [page]);
   const handleSearchCompany = debounce((value: any) => {
     console.log("Input value:", value);
   }, 500);
   useEffect(() => {}, [companyrequestreview]);
 
-  // const handleChange = (value: string | string[]) => {
-  //   console.log(`Selected: ${value}`);
-  // };
+  const handleChange = (value: string) => {
+    dispatch(
+      companyrequestreviewGetCompanyRequest({ page: page, reviewed: value })
+    );
+    setReviewed(value);
+  };
   return (
     <>
       <div className="m-10 mt-5">
@@ -54,13 +74,13 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
             loading={false}
             allowClear
           />
-          {/* <Select
+          <Select
             size={"large"}
-            defaultValue="Active"
+            defaultValue="Tất cả"
             onChange={handleChange}
             style={{ width: 200 }}
             options={options}
-          /> */}
+          />
         </div>
 
         <Table>

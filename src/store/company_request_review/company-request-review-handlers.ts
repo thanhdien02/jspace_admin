@@ -13,7 +13,6 @@ import {
 function* handleCompanyRequestReviewGetCompanyRequestReview(
   dataGetCompanyRequest: any
 ): Generator<any> {
-  console.log("🚀 ~ dataGetCompanyRequest:", dataGetCompanyRequest);
   try {
     yield put(
       companyrequestreviewUpdateLoadingRedux({
@@ -24,7 +23,8 @@ function* handleCompanyRequestReviewGetCompanyRequestReview(
     const response: any = yield call(
       requestCompanyRequestReviewGetCompanyRequestReview,
       dataGetCompanyRequest?.payload?.page,
-      accessToken
+      accessToken,
+      dataGetCompanyRequest?.payload?.reviewed
     );
     if (response.data.code === 1000) {
       yield put(
@@ -56,7 +56,6 @@ function* handleCompanyRequestReviewGetCompanyRequestReview(
 function* handleCompanyRequestReviewUpdateCompanyRequestReview(
   dataUpdateCompanyRequest: any
 ): Generator<any> {
-  console.log("🚀 ~ dataUpdateCompanyRequest:", dataUpdateCompanyRequest);
   try {
     yield put(
       companyrequestreviewUpdateLoadingRedux({

@@ -3,10 +3,11 @@ import { API } from "../../configs/configAPI";
 
 export const requestCompanyRequestReviewGetCompanyRequestReview = (
   page: string = "1",
-  accessToken: string
+  accessToken: string,
+  reviewed: string = ""
 ) => {
   return axios.get(
-    `${API}/api/v1/admins/company-request-reviews?size=10&page=${page}`,
+    `${API}/api/v1/admins/company-request-reviews?size=10&page=${page}&reviewed=${reviewed}`,
     {
       headers: {
         "Content-Type": "application/json",

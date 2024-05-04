@@ -1,8 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import { IUser } from "../../models/user/user.model";
-
-// const users: IUser[] = [];
-
 interface IUser {
   users: any;
   paginationUser?: any;

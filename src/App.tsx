@@ -12,6 +12,7 @@ import { getToken } from "./utils/auth";
 import { authFetchMe } from "./store/auth/auth-slice";
 import AdminManageCompany from "./page/AdminManageCompany";
 import AdminManageApproveApplicationCompany from "./page/AdminManageApproveApplicationCompany";
+import AdminChangePasswordPage from "./page/AdminChangePasswordPage";
 
 function App() {
   const { accessToken, message } = useSelector((state: any) => state.auth);
@@ -49,6 +50,10 @@ function App() {
               element={
                 <AdminManageApproveApplicationCompany></AdminManageApproveApplicationCompany>
               }
+            ></Route>
+            <Route
+              path="/admin/change-password"
+              element={<AdminChangePasswordPage></AdminChangePasswordPage>}
             ></Route>
           </Route>
           <Route

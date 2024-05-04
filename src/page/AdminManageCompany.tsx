@@ -1,42 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { userGetUsers, userUpdateUser } from "../store/user/user-slice";
-import { authFetchMe } from "../store/auth/auth-slice";
+import { useSelector } from "react-redux";
 import Table from "../components/table/Table";
 import TableHeader from "../components/table/TableHeader";
 import TableHeaderContent from "../components/table/TableHeaderContent";
 import TableRowContent from "../components/table/TableRowContent";
 import TableRow from "../components/table/TableRow";
-import { Input, Pagination, Popconfirm, Skeleton, Switch } from "antd";
+import { Empty, Input, Pagination, Popconfirm, Skeleton, Switch } from "antd";
 import { debounce } from "ts-debounce";
+// import { companyGetCompany } from "../store/company/company-slice";
 const { Search } = Input;
 const AdminManageCompany: React.FC = () => {
-  const { accessToken } = useSelector((state: any) => state.user);
-  const { users, paginationUser, loadingUser } = useSelector(
-    (state: any) => state.user
-  );
-  const dispatch = useDispatch();
-  const [page, setPage] = useState(1);
-  useEffect(() => {
-    if (accessToken == "") {
-      dispatch(authFetchMe());
-    }
-    dispatch(userGetUsers({ page: page }));
-  }, [page]);
-  const handleSearchCompany = debounce((value: any) => {
-    console.log("Input value:", value);
-  }, 500);
-  useEffect(() => {}, [users]);
-
   // const handleChange = (value: string | string[]) => {
   //   console.log(`Selected: ${value}`);
   // };
+  const { company, loadingCompany, paginationCompany } = useSelector(
+    (state: any) => state.company
+  );
+  const [page, setPage] = useState(1);
+  // const dispatch = useDispatch();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  const handleSearchCompany = debounce((value: any) => {
+    setPage(1);
+    console.log(value);
+    // dispatch(companyGetCompany({ companyname: value }));
+  }, 500);
+
+  useEffect(() => {
+    // dispatch(companyGetCompany({ page: page }));
+  }, [page]);
   return (
     <>
       <div className="m-10 mt-5">
         <div className="mb-5 flex gap-4">
           <Search
-            placeholder="Nhập tên tài khoản"
+            placeholder="Nhập tên công ty"
             enterButton="Search"
             size="large"
             onSearch={(e) => console.log(e)}
@@ -60,45 +60,67 @@ const AdminManageCompany: React.FC = () => {
           <TableHeader>
             <TableHeaderContent
               title="ID"
-              className="w-[15%]"
+              className="w-[10%]"
             ></TableHeaderContent>
             <TableHeaderContent
-              title="Tên"
-              className="w-[25%]"
+              title="Tên công ty"
+              className="w-[20%]"
             ></TableHeaderContent>
             <TableHeaderContent
               title="Email"
-              className="w-[25%]"
+              className="w-[20%]"
             ></TableHeaderContent>
             <TableHeaderContent
-              title="Quyền"
+              title="Số điện thoại"
               className="w-[15%]"
             ></TableHeaderContent>
             <TableHeaderContent
-              title="Hành động"
-              className="w-[10%]"
+              title="Link website"
+              className="w-[13%]"
+            ></TableHeaderContent>
+            <TableHeaderContent
+              title="Khóa"
+              className="w-[12%]"
             ></TableHeaderContent>
           </TableHeader>
-          {loadingUser ? (
+          {loadingCompany ? (
             <tbody className="">
               <tr>
-                <td className="p-5 text-center" colSpan={5}>
+                <td className="p-5 text-center" colSpan={7}>
                   <Skeleton active />
                 </td>
               </tr>
             </tbody>
           ) : (
             <tbody>
-              {users.length > 0 &&
-                users.map((item: any) => (
-                  <TableRow className="" key={item?.id}>
-                    <TableRowContent className="">{item?.id}</TableRowContent>
-                    <TableRowContent className="">{item?.name}</TableRowContent>
+              {company.length <= 0 ? (
+                <tr>
+                  <td className="p-5 text-center " colSpan={6}>
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  </td>
+                </tr>
+              ) : (
+                company.length > 0 &&
+                company.map((item: any) => (
+                  <TableRow className="" key={item?.company?.id}>
                     <TableRowContent className="">
-                      {item?.email}
+                      {item?.company?.id}
                     </TableRowContent>
                     <TableRowContent className="">
-                      {item?.role?.code}
+                      {item?.company?.name}
+                    </TableRowContent>
+                    <TableRowContent className="">
+                      {item?.company?.email}
+                    </TableRowContent>
+
+                    <TableRowContent className="">
+                      {item?.company?.phone}
+                    </TableRowContent>
+                    <TableRowContent className="">
+                      {item?.company?.companyLink}
+                    </TableRowContent>
+                    <TableRowContent className="">
+                      <Switch checked={item?.company?.emailVerified} />
                     </TableRowContent>
                     <TableRowContent className="">
                       <Popconfirm
@@ -106,32 +128,38 @@ const AdminManageCompany: React.FC = () => {
                         description="Bạn có chắc khóa tài khoản ?"
                         okText="Đồng ý"
                         cancelText="Không"
-                        onConfirm={() => {
-                          dispatch(
-                            userUpdateUser({
-                              userId: item?.id,
-                              activated: !item?.activated,
-                              page: page,
-                            })
-                          );
-                        }}
+                        // onConfirm={() => {
+                        //   dispatch(
+                        //     companyrequestreviewUpdateCompanyRequest({
+                        //       id: item?.company?.id,
+                        //       reviewed: !item?.reviewed,
+                        //       page: page,
+                        //     })
+                        //   );
+                        // }}
                         onCancel={() => {}}
                       >
-                        <Switch checked={item?.activated} onChange={() => {}} />
+                        <Switch checked={item?.reviewed} onChange={() => {}} />
                       </Popconfirm>
                     </TableRowContent>
                   </TableRow>
-                ))}
+                ))
+              )}
             </tbody>
           )}
         </Table>
         <div className="mt-4 flex justify-end">
-          <Pagination
-            total={paginationUser.totalElements}
-            onChange={(e) => setPage(e)}
-            className="inline-block"
-            current={page}
-          />
+          {company.length <= 0 ? (
+            <></>
+          ) : (
+            <Pagination
+              total={paginationCompany?.totalElements}
+              onChange={(e) => setPage(e)}
+              className="inline-block"
+              current={page}
+              pageSize={paginationCompany?.pageSize}
+            />
+          )}
         </div>
       </div>
     </>
