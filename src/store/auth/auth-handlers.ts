@@ -23,8 +23,10 @@ function* handleAuthLogin(dataLogin: any): Generator<any> {
       );
       yield call(handleAuthFetchMe);
     }
-  } catch (error) {
+  } catch (error: any) {
     message.error("Tài khoản hoặc mật khẩu không chính xác.");
+
+    message.error(error?.response?.data?.message);
   } finally {
     yield put(authUploadLoading({ loading: false }));
   }

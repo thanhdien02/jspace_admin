@@ -9,6 +9,7 @@ import {
   requestCompanyRequestReviewGetCompanyRequestReview,
   requestCompanyRequestReviewUpdateCompanyRequestReview,
 } from "./company-request-review-requests";
+import { message } from "antd";
 
 function* handleCompanyRequestReviewGetCompanyRequestReview(
   dataGetCompanyRequest: any
@@ -44,7 +45,8 @@ function* handleCompanyRequestReviewGetCompanyRequestReview(
         })
       );
     }
-  } catch (error) {
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
   } finally {
     yield put(
       companyrequestreviewUpdateLoadingRedux({
@@ -75,7 +77,8 @@ function* handleCompanyRequestReviewUpdateCompanyRequestReview(
         },
       });
     }
-  } catch (error) {
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
   } finally {
     yield put(
       companyrequestreviewUpdateLoadingRedux({

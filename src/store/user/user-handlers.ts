@@ -26,7 +26,8 @@ function* handleUserGetUsers(dataGetUser: any): Generator<any> {
 
     yield put(userUpdateUserRedux({ users: response.data.result.content }));
     yield put(userUpdatePaginaRedux({ paginationUser: response.data.result }));
-  } catch (error) {
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
   } finally {
     yield put(userUpdateLoadingRedux({ loadingUser: false }));
   }
@@ -54,7 +55,8 @@ function* handleUserUpdateActiveUser(dataUpdate: any): Generator<any> {
     );
 
     yield put(userUpdateUserRedux({ users: response1.data.result.content }));
-  } catch (error) {
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
   } finally {
     yield put(userUpdateLoadingRedux({ loadingUser: false }));
   }

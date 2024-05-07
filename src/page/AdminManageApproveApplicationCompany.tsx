@@ -11,6 +11,7 @@ import {
   Input,
   Pagination,
   Popconfirm,
+  Popover,
   Select,
   Skeleton,
   Switch,
@@ -151,7 +152,20 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
                       {item?.company?.companyLink}
                     </TableRowContent>
                     <TableRowContent className="">
-                      <Switch checked={item?.company?.emailVerified} />
+                      <div className="flex gap-2 items-center">
+                        <Switch checked={item?.company?.emailVerified} />
+                        <Popover
+                          content={
+                            <p className="max-w-[150px] font-medium">
+                              Gửi lại email xác nhận đến công ty
+                            </p>
+                          }
+                        >
+                          <span className="cursor-pointer py-1 px-2 rounded-md bg-primary text-white">
+                            Gửi lại
+                          </span>
+                        </Popover>
+                      </div>
                     </TableRowContent>
                     <TableRowContent className="">
                       <Popconfirm
