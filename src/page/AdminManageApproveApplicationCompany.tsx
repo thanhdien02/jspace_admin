@@ -161,7 +161,7 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
                             </p>
                           }
                         >
-                          <span className="cursor-pointer py-1 px-2 rounded-md bg-primary text-white">
+                          <span className="cursor-pointer text-nowrap py-1 px-2 rounded-md bg-primary text-white">
                             Gửi lại
                           </span>
                         </Popover>

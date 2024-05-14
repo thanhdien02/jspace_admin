@@ -5,19 +5,14 @@ import TableHeader from "../components/table/TableHeader";
 import TableHeaderContent from "../components/table/TableHeaderContent";
 import TableRowContent from "../components/table/TableRowContent";
 import TableRow from "../components/table/TableRow";
-import { Empty, Input, Pagination, Popconfirm, Skeleton, Switch } from "antd";
+import { Input, Pagination, Popconfirm, Skeleton, Switch } from "antd";
 import { debounce } from "ts-debounce";
-// import { companyGetCompany } from "../store/company/company-slice";
 const { Search } = Input;
 const AdminManageCompany: React.FC = () => {
-  // const handleChange = (value: string | string[]) => {
-  //   console.log(`Selected: ${value}`);
-  // };
   const { company, loadingCompany, paginationCompany } = useSelector(
     (state: any) => state.company
   );
   const [page, setPage] = useState(1);
-  // const dispatch = useDispatch();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -25,12 +20,9 @@ const AdminManageCompany: React.FC = () => {
   const handleSearchCompany = debounce((value: any) => {
     setPage(1);
     console.log(value);
-    // dispatch(companyGetCompany({ companyname: value }));
   }, 500);
 
-  useEffect(() => {
-    // dispatch(companyGetCompany({ page: page }));
-  }, [page]);
+  useEffect(() => {}, [page]);
   return (
     <>
       <div className="m-10 mt-5">
@@ -47,13 +39,6 @@ const AdminManageCompany: React.FC = () => {
             loading={false}
             allowClear
           />
-          {/* <Select
-            size={"large"}
-            defaultValue="Active"
-            onChange={handleChange}
-            style={{ width: 200 }}
-            options={options}
-          /> */}
         </div>
 
         <Table>
@@ -93,58 +78,24 @@ const AdminManageCompany: React.FC = () => {
             </tbody>
           ) : (
             <tbody>
-              {company.length <= 0 ? (
-                <tr>
-                  <td className="p-5 text-center " colSpan={6}>
-                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                  </td>
-                </tr>
-              ) : (
-                company.length > 0 &&
-                company.map((item: any) => (
-                  <TableRow className="" key={item?.company?.id}>
-                    <TableRowContent className="">
-                      {item?.company?.id}
-                    </TableRowContent>
-                    <TableRowContent className="">
-                      {item?.company?.name}
-                    </TableRowContent>
-                    <TableRowContent className="">
-                      {item?.company?.email}
-                    </TableRowContent>
-
-                    <TableRowContent className="">
-                      {item?.company?.phone}
-                    </TableRowContent>
-                    <TableRowContent className="">
-                      {item?.company?.companyLink}
-                    </TableRowContent>
-                    <TableRowContent className="">
-                      <Switch checked={item?.company?.emailVerified} />
-                    </TableRowContent>
-                    <TableRowContent className="">
-                      <Popconfirm
-                        title="Khóa tài khoản"
-                        description="Bạn có chắc khóa tài khoản ?"
-                        okText="Đồng ý"
-                        cancelText="Không"
-                        // onConfirm={() => {
-                        //   dispatch(
-                        //     companyrequestreviewUpdateCompanyRequest({
-                        //       id: item?.company?.id,
-                        //       reviewed: !item?.reviewed,
-                        //       page: page,
-                        //     })
-                        //   );
-                        // }}
-                        onCancel={() => {}}
-                      >
-                        <Switch checked={item?.reviewed} onChange={() => {}} />
-                      </Popconfirm>
-                    </TableRowContent>
-                  </TableRow>
-                ))
-              )}
+              <TableRow className="">
+                <TableRowContent className="">1</TableRowContent>
+                <TableRowContent className="">Cong ty FPT</TableRowContent>
+                <TableRowContent className="">join@gmail.com</TableRowContent>
+                <TableRowContent className="">0787871212</TableRowContent>
+                <TableRowContent className="">hadmasdasdasd</TableRowContent>
+                <TableRowContent className="">
+                  <Popconfirm
+                    title="Khóa tài khoản"
+                    description="Bạn có chắc khóa tài khoản ?"
+                    okText="Đồng ý"
+                    cancelText="Không"
+                    onCancel={() => {}}
+                  >
+                    <Switch checked={true} onChange={() => {}} />
+                  </Popconfirm>
+                </TableRowContent>
+              </TableRow>
             </tbody>
           )}
         </Table>

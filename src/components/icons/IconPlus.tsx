@@ -1,31 +1,27 @@
 import React from "react";
-
-interface PropComponent {
+interface ComponentProp {
   className?: string;
-  actionClose?: any;
+  classIcon?: string;
 }
-const IconClose: React.FC<PropComponent> = ({ className, actionClose }) => {
+const IconPlus: React.FC<ComponentProp> = ({ className, classIcon }) => {
   return (
-    <span
-      className={`${className}`}
-      onClick={actionClose ? () => actionClose(false) : () => {}}
-    >
+    <span className={`${className}`}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className={`w-5 h-5 `}
+        className={`w-6 h-6 ${classIcon}`}
       >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
-          d="M6 18 18 6M6 6l12 12"
+          d="M12 4.5v15m7.5-7.5h-15"
         />
       </svg>
     </span>
   );
 };
 
-export default IconClose;
+export default IconPlus;

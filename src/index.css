@@ -9,7 +9,7 @@
 }
 
 ::-webkit-scrollbar {
-  width: 10px; /* Định kích thước chiều rộng của thanh cuộn */
+  width: 6px; /* Định kích thước chiều rộng của thanh cuộn */
   height: 10px;
 }
 
@@ -34,4 +34,19 @@
   background-color: #1967d2 !important;
   border-color: #1967d2;
   color: white;
+}
+
+/* select antd */
+.select-custom > .ant-select-selector {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.select-custom .ant-select-selection-item {
+  padding: 0 !important;
+}
+
+.ql-container.ql-snow {
+  max-height: 250px;
+  overflow: auto;
 }
