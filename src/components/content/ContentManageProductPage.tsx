@@ -4,37 +4,39 @@ import TableRowContent from "../table/TableRowContent";
 interface PropComponent {
   className?: string;
   onclick?: any;
+  item?: any;
+  onProductId?: any;
 }
 const ContentManageProductPage: React.FC<PropComponent> = ({
   className = "",
   onclick,
+  item,
+  onProductId,
 }) => {
   return (
-    <>
-      <TableRow className={`${className}`}>
-        <TableRowContent className="">1</TableRowContent>
-        <TableRowContent className="">
-          <div className="line-clamp-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis
-            itaque unde magni obcaecati numquam alias magnam, ut omnis assumenda
-            nisi quasi tempora, earum hic possimus! Eveniet ut libero minima
-            modi.
-          </div>
-        </TableRowContent>
-        <TableRowContent className="">1.500.000 VND</TableRowContent>
-        <TableRowContent className="">10</TableRowContent>
-        <TableRowContent className="">20 ngày</TableRowContent>
-        <TableRowContent className="">30 ngày</TableRowContent>
-        <TableRowContent className="">
-          <span
-            className="px-2 py-1 bg-primary text-white cursor-pointer"
-            onClick={() => onclick(true)}
-          >
-            Chỉnh sửa
-          </span>
-        </TableRowContent>
-      </TableRow>
-    </>
+    <TableRow className={`${className}`}>
+      <TableRowContent className="">{item?.id}</TableRowContent>
+      <TableRowContent className="">
+        <div className="line-clamp-2">{item?.name}</div>
+      </TableRowContent>
+      <TableRowContent className="">{item?.price}</TableRowContent>
+      <TableRowContent className="">{item?.numberOfPost}</TableRowContent>
+      <TableRowContent className="">
+        {item?.durationDayNumber} ngày
+      </TableRowContent>
+      <TableRowContent className="">{item?.postDuration} ngày</TableRowContent>
+      <TableRowContent className="">
+        <span
+          className="px-2 py-1 bg-primary text-white cursor-pointer"
+          onClick={() => {
+            onclick(true);
+            onProductId(item?.id);
+          }}
+        >
+          Chỉnh sửa
+        </span>
+      </TableRowContent>
+    </TableRow>
   );
 };
 

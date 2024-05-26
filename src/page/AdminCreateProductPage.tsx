@@ -1,47 +1,56 @@
 import React, { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import IconClose from "../components/icons/IconClose";
-import { Select, Switch } from "antd";
+import { Switch } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
-import IconMoney from "../components/icons/IconMoney";
-import { dataDate } from "../utils/dataFetch";
 import ButtonLoading from "../components/button/ButtonLoading";
 import ReactQuill from "react-quill";
 import { formats, modules } from "../utils/quill";
 import "react-quill/dist/quill.snow.css";
 import IconClock from "../components/icons/IconClock";
 import IconCircleStack from "../components/icons/IconCircleStack";
+import VNCurrencyInput from "../components/input/InputMoney";
+import InputNumber from "../components/input/InputNumber";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  productCreateProduct,
+  productUpdateMessageRedux,
+} from "../store/product/product-slice";
 interface PropComponent {
   className?: string;
   onClick?: any;
   updateCheck?: boolean;
 }
 interface Inputs {
-  title?: string;
-  price?: number;
+  name?: string;
+  price: string;
   description?: string;
-  quantity?: string;
-  timeproduct?: string;
-  timepost?: string;
+  numberOfPost: string;
+  durationDayNumber: string;
+  postDuration: string;
 }
 const AdminCreateProductPage: React.FC<PropComponent> = ({
   className,
   onClick,
 }) => {
-  const [jobDescription] = useState("");
+  const { loadingProduct, messageProduct } = useSelector(
+    (state: any) => state.product
+  );
+  const dispatch = useDispatch();
   const {
-    getValues,
     register,
     handleSubmit,
-    clearErrors,
     setValue,
     reset,
+    control,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (dataUpdateCompany: Inputs) => {
-    console.log("🚀 ~ dataUpdateCompany:", dataUpdateCompany);
-    reset();
+  const onSubmit: SubmitHandler<Inputs> = (dataProduct: Inputs) => {
+    console.log("🚀 ~ dataProduct:", dataProduct);
+    dispatch(productCreateProduct(dataProduct));
+    // reset();
   };
+  const [productDescription, setProductDescription] = useState("");
   useEffect(() => {
     const body = document.body;
     if (body) {
@@ -51,6 +60,13 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
       };
     }
   }, []);
+  useEffect(() => {
+    if (messageProduct === "createsuccess") {
+      reset();
+      setProductDescription("");
+      dispatch(productUpdateMessageRedux({ messageProduct: "" }));
+    }
+  }, [messageProduct]);
   return (
     <>
       <div className="fixed z-20 inset-0">
@@ -77,8 +93,8 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
             </div>
           </div>
           <form action="" onSubmit={handleSubmit(onSubmit)} className="py-5">
-            <div className="flex gap-10">
-              <div className="grow-[1]">
+            <div className="grid grid-cols-2 gap-10">
+              <div className="">
                 <label
                   htmlFor="title"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -97,7 +113,7 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
                     }}
                   />
                   <input
-                    {...register("title", {
+                    {...register("name", {
                       required: true,
                     })}
                     placeholder="Tên sản phẩm"
@@ -107,7 +123,7 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
                     className="h-full pl-12 pr-4 focus:border-solid focus:border-stone-400/70 transition-all outline-none py-3 border border-stone-200 border-solid w-full rounded-md"
                   />
                 </div>
-                {errors.title?.type == "required" ? (
+                {errors.name?.type == "required" ? (
                   <p className="text-red-600 mt-1">
                     *Bạn chưa điền tên sản phẩm
                   </p>
@@ -115,7 +131,7 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
                   <></>
                 )}
               </div>
-              <div className="grow-[1]">
+              <div className="">
                 <label
                   htmlFor="price"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -123,17 +139,19 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
                   Giá tiền <span className="text-red-500">*</span>
                 </label>
                 <div className="mt-2 relative">
-                  <IconMoney className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconMoney>
-                  <input
-                    {...register("price", {
-                      required: true,
-                    })}
-                    placeholder="Mức lương"
-                    type="number"
-                    autoComplete="off"
-                    id="price"
-                    className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-12 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
+                  <Controller
+                    name="price"
+                    control={control}
+                    render={({ field }) => (
+                      <VNCurrencyInput
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      />
+                    )}
                   />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 font-medium">
+                    VND
+                  </span>
                 </div>
                 {errors?.price?.type == "required" ? (
                   <p className="text-red-600 mt-1">*Bạn chưa điền giá tiền</p>
@@ -147,35 +165,31 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
             <div className="grid grid-cols-2 gap-10 mt-5">
               <div className="">
                 <label
-                  htmlFor="timeproduct"
+                  htmlFor="durationDayNumber"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Thời gian sử dụng của dịch vụ{" "}
+                  Thời gian sử dụng của dịch vụ
                   <span className="text-red-500">*</span>
                 </label>
                 <div className="mt-2 relative">
                   <IconClock className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconClock>
-                  <Select
-                    showSearch
-                    value={getValues("timeproduct")}
-                    placeholder="Thời gian sử dụng dịch vụ"
-                    allowClear={true}
-                    className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
-                    optionFilterProp="children"
-                    filterOption={(input, option: any) =>
-                      (option?.label ?? "").includes(input)
-                    }
-                    {...register("timeproduct", {
-                      required: true,
-                    })}
-                    options={dataDate}
-                    onChange={(e) => {
-                      setValue("timeproduct", e);
-                      clearErrors("timeproduct");
-                    }}
+                  <Controller
+                    name="durationDayNumber"
+                    control={control}
+                    defaultValue=""
+                    render={({ field }) => (
+                      <InputNumber
+                        value={field.value}
+                        onChange={field.onChange}
+                        placeholder="Thời gian sử dụng của dịch vụ"
+                      />
+                    )}
                   />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 font-medium">
+                    ngày
+                  </span>
                 </div>
-                {errors?.timeproduct?.type == "required" ? (
+                {errors?.durationDayNumber?.type == "required" ? (
                   <p className="text-red-600 mt-1">
                     *Bạn chưa điền thời gian sử dụng dịch vụ
                   </p>
@@ -185,35 +199,31 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
               </div>
               <div className="">
                 <label
-                  htmlFor="timepost"
+                  htmlFor="postDuration"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Thời gian của mỗi bài đăng{" "}
+                  Thời gian của mỗi bài đăng
                   <span className="text-red-500">*</span>
                 </label>
                 <div className="mt-2 relative">
                   <IconClock className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconClock>
-                  <Select
-                    {...register("timepost", {
-                      required: true,
-                    })}
-                    showSearch
-                    value={getValues("timepost")}
-                    allowClear={true}
-                    placeholder="Thời gian của mỗi bài đăng"
-                    className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
-                    optionFilterProp="children"
-                    filterOption={(input, option: any) =>
-                      (option?.label ?? "").includes(input)
-                    }
-                    options={dataDate}
-                    onChange={(e) => {
-                      setValue("timepost", e);
-                      clearErrors("timepost");
-                    }}
+                  <Controller
+                    name="postDuration"
+                    control={control}
+                    defaultValue=""
+                    render={({ field }) => (
+                      <InputNumber
+                        value={field.value}
+                        onChange={field.onChange}
+                        placeholder="Thời gian của mỗi bài đăng"
+                      />
+                    )}
                   />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 font-medium">
+                    ngày
+                  </span>
                 </div>
-                {errors?.timepost?.type == "required" ? (
+                {errors?.postDuration?.type == "required" ? (
                   <p className="text-red-600 mt-1">
                     *Bạn chưa điền thời gian của mỗi bài đăng
                   </p>
@@ -225,24 +235,29 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
             <div className="grid grid-cols-2 mt-5 gap-10">
               <div className="w-full">
                 <label
-                  htmlFor="quantity"
+                  htmlFor="numberOfPost"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   Số lượng bài đăng <span className="text-red-500">*</span>
                 </label>
                 <div className="mt-2 relative">
                   <IconCircleStack className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconCircleStack>
-                  <input
-                    {...register("quantity", {
-                      required: true,
-                    })}
-                    placeholder="Số lượng bài đăng"
-                    type="number"
-                    autoComplete="off"
-                    id="quantity"
-                    className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-12 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
+                  <Controller
+                    name="numberOfPost"
+                    control={control}
+                    defaultValue=""
+                    render={({ field }) => (
+                      <InputNumber
+                        value={field.value}
+                        onChange={field.onChange}
+                        placeholder="Số lượng bài đăng"
+                      />
+                    )}
                   />
-                  {errors?.quantity?.type == "required" ? (
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 font-medium">
+                    bài đăng
+                  </span>
+                  {errors?.numberOfPost?.type == "required" ? (
                     <p className="text-red-600 mt-1">
                       *Bạn chưa điền số lượng bài đăng
                     </p>
@@ -266,9 +281,10 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
                 theme="snow"
                 modules={modules}
                 formats={formats}
-                value={jobDescription}
+                value={productDescription}
                 onChange={(content) => {
                   setValue("description", content);
+                  setProductDescription(content);
                 }}
                 className="mt-2"
               />
@@ -276,7 +292,7 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
             <div className="flex justify-end mt-10">
               <ButtonLoading
                 title="Lưu thông tin"
-                loading={false}
+                loading={loadingProduct}
               ></ButtonLoading>
             </div>
           </form>

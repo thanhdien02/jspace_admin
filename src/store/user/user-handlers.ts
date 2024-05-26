@@ -12,7 +12,6 @@ import { getToken } from "../../utils/auth";
 import { message } from "antd";
 
 function* handleUserGetUsers(dataGetUser: any): Generator<any> {
-  console.log("🚀 ~ function*handleUserGetUsers ~ dataGetUser:", dataGetUser);
   try {
     yield put(userUpdateLoadingRedux({ loadingUser: true }));
     const { accessToken } = getToken();
