@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface IUser {
   products: any;
+  productById: any;
   paginationProduct?: any;
   loadingProduct?: boolean;
   messageProduct?: string;
@@ -9,6 +10,7 @@ interface IUser {
 
 const init: IUser = {
   products: [],
+  productById: [],
   paginationProduct: {},
   loadingProduct: false,
   messageProduct: "",
@@ -19,8 +21,9 @@ const companyrequestreviewSlice: any = createSlice({
   initialState: init,
   reducers: {
     productCreateProduct: () => {},
+    productUpdateProduct: () => {},
     productGetProduct: () => {},
-    companyrequestreviewUpdateCompanyRequest: () => {},
+    productGetProductById: () => {},
     productUpdateProductRedux: (state: any, action: any) => ({
       ...state,
       products: action.payload.products,
@@ -37,15 +40,21 @@ const companyrequestreviewSlice: any = createSlice({
       ...state,
       messageProduct: action.payload.messageProduct,
     }),
+    productUpdateProductByIdRedux: (state: any, action: any) => ({
+      ...state,
+      productById: action.payload.productById,
+    }),
   },
 });
 export const {
   productGetProduct,
+  productGetProductById,
   productUpdateProductRedux,
   productUpdatePaginationRedux,
   productUpdateLoadingRedux,
-  companyrequestreviewUpdateCompanyRequest,
   productUpdateMessageRedux,
   productCreateProduct,
+  productUpdateProductByIdRedux,
+  productUpdateProduct,
 } = companyrequestreviewSlice.actions;
 export default companyrequestreviewSlice.reducer;

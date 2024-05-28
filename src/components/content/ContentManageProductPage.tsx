@@ -19,8 +19,13 @@ const ContentManageProductPage: React.FC<PropComponent> = ({
       <TableRowContent className="">
         <div className="line-clamp-2">{item?.name}</div>
       </TableRowContent>
-      <TableRowContent className="">{item?.price}</TableRowContent>
-      <TableRowContent className="">{item?.numberOfPost}</TableRowContent>
+      <TableRowContent className="">
+        {item?.price?.toLocaleString("vi", {
+          style: "currency",
+          currency: "VND",
+        })}
+      </TableRowContent>
+      <TableRowContent className="">{item?.numberOfPost} bài đăng</TableRowContent>
       <TableRowContent className="">
         {item?.durationDayNumber} ngày
       </TableRowContent>

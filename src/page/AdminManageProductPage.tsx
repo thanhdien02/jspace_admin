@@ -24,11 +24,11 @@ const AdminManageProductPage: React.FC = () => {
   );
   const dispatch = useDispatch();
   const [createProduct, setCreateProduct] = useState(false);
-  const [updateProduct, setUpdateProduct] = useState(false);
+  const [popoverUpdateProduct, setPopoverUpdateProduct] = useState(false);
   const [page, setPage] = useState(1);
   const [value, setValue] = useState(1);
   const [productId, setProductId] = useState("");
-
+  const [nameProduct, setNameProduct] = useState("");
   const onChange = (e: RadioChangeEvent) => {
     console.log("radio checked", e.target.value);
     setValue(e.target.value);
@@ -38,7 +38,14 @@ const AdminManageProductPage: React.FC = () => {
   }, []);
   const handleSearchProduct = debounce((value: any) => {
     setPage(1);
-    console.log(value);
+    setNameProduct(value);
+    dispatch(
+      productGetProduct({
+        page: page,
+        size: 10,
+        name: value,
+      })
+    );
   }, 500);
 
   useEffect(() => {
@@ -46,6 +53,7 @@ const AdminManageProductPage: React.FC = () => {
       productGetProduct({
         page: page,
         size: 10,
+        name: nameProduct,
       })
     );
   }, [page]);
@@ -111,7 +119,7 @@ const AdminManageProductPage: React.FC = () => {
                 <ContentManageProductPage
                   key={item?.id}
                   item={item}
-                  onclick={setUpdateProduct}
+                  onclick={setPopoverUpdateProduct}
                   onProductId={setProductId}
                 ></ContentManageProductPage>
               ))
@@ -140,10 +148,10 @@ const AdminManageProductPage: React.FC = () => {
         </div>
 
         {/* update product */}
-        {updateProduct ? (
+        {popoverUpdateProduct ? (
           <AdminUpdateProductPage
             productId={productId}
-            onClick={setUpdateProduct}
+            onClick={setPopoverUpdateProduct}
           ></AdminUpdateProductPage>
         ) : (
           <></>

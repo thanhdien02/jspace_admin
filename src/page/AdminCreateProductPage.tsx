@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import IconClose from "../components/icons/IconClose";
 import { Switch } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
 import ButtonLoading from "../components/button/ButtonLoading";
-import ReactQuill from "react-quill";
-import { formats, modules } from "../utils/quill";
-import "react-quill/dist/quill.snow.css";
 import IconClock from "../components/icons/IconClock";
 import IconCircleStack from "../components/icons/IconCircleStack";
 import VNCurrencyInput from "../components/input/InputMoney";
@@ -40,7 +37,6 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
   const {
     register,
     handleSubmit,
-    setValue,
     reset,
     control,
     formState: { errors },
@@ -48,9 +44,8 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
   const onSubmit: SubmitHandler<Inputs> = (dataProduct: Inputs) => {
     console.log("🚀 ~ dataProduct:", dataProduct);
     dispatch(productCreateProduct(dataProduct));
-    // reset();
+    reset();
   };
-  const [productDescription, setProductDescription] = useState("");
   useEffect(() => {
     const body = document.body;
     if (body) {
@@ -63,7 +58,6 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
   useEffect(() => {
     if (messageProduct === "createsuccess") {
       reset();
-      setProductDescription("");
       dispatch(productUpdateMessageRedux({ messageProduct: "" }));
     }
   }, [messageProduct]);
@@ -142,6 +136,9 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
                   <Controller
                     name="price"
                     control={control}
+                    rules={{
+                      required: "Bạn chưa điền giá tiền",
+                    }}
                     render={({ field }) => (
                       <VNCurrencyInput
                         value={field.value}
@@ -177,6 +174,9 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
                     name="durationDayNumber"
                     control={control}
                     defaultValue=""
+                    rules={{
+                      required: "Bạn chưa điền thời gian sử dụng dịch vụ",
+                    }}
                     render={({ field }) => (
                       <InputNumber
                         value={field.value}
@@ -210,6 +210,9 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
                   <Controller
                     name="postDuration"
                     control={control}
+                    rules={{
+                      required: "Bạn chưa điền thời gian của mỗi bài đăng",
+                    }}
                     defaultValue=""
                     render={({ field }) => (
                       <InputNumber
@@ -240,23 +243,26 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
                 >
                   Số lượng bài đăng <span className="text-red-500">*</span>
                 </label>
-                <div className="mt-2 relative">
-                  <IconCircleStack className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconCircleStack>
-                  <Controller
-                    name="numberOfPost"
-                    control={control}
-                    defaultValue=""
-                    render={({ field }) => (
-                      <InputNumber
-                        value={field.value}
-                        onChange={field.onChange}
-                        placeholder="Số lượng bài đăng"
-                      />
-                    )}
-                  />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 font-medium">
-                    bài đăng
-                  </span>
+                <div className="mt-2">
+                  <div className=" relative">
+                    <IconCircleStack className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconCircleStack>
+                    <Controller
+                      name="numberOfPost"
+                      control={control}
+                      defaultValue=""
+                      rules={{ required: "Bạn chưa điền số lượng bài đăng" }}
+                      render={({ field }) => (
+                        <InputNumber
+                          value={field.value}
+                          onChange={field.onChange}
+                          placeholder="Số lượng bài đăng"
+                        />
+                      )}
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 font-medium">
+                      bài đăng
+                    </span>
+                  </div>
                   {errors?.numberOfPost?.type == "required" ? (
                     <p className="text-red-600 mt-1">
                       *Bạn chưa điền số lượng bài đăng
@@ -276,19 +282,21 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
               >
                 Mô tả công việc
               </label>
-              <ReactQuill
+              <textarea
                 id="description"
-                theme="snow"
-                modules={modules}
-                formats={formats}
-                value={productDescription}
-                onChange={(content) => {
-                  setValue("description", content);
-                  setProductDescription(content);
-                }}
-                className="mt-2"
-              />
+                {...register("description", {
+                  required: true,
+                })}
+                className="shadow appearance-none border min-h-[120px] mt-2 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              ></textarea>
             </div>
+            {errors?.description?.type == "required" ? (
+              <p className="text-red-600 mt-1">
+                *Bạn chưa điền mô tả của dịch vụ
+              </p>
+            ) : (
+              <></>
+            )}
             <div className="flex justify-end mt-10">
               <ButtonLoading
                 title="Lưu thông tin"
