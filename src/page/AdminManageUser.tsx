@@ -111,7 +111,7 @@ const AdminManageUser: React.FC = () => {
               ) : (
                 users.length > 0 &&
                 users.map((item: any) => (
-                  <TableRow className="" key={item?.id}>
+                  <TableRow  className="even:bg-gray-300/50" key={item?.id}>
                     <TableRowContent className="">{item?.id}</TableRowContent>
                     <TableRowContent className="">{item?.name}</TableRowContent>
                     <TableRowContent className="">

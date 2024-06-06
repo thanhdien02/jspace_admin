@@ -14,6 +14,7 @@ import AdminManageCompany from "./page/AdminManageCompany";
 import AdminManageApproveApplicationCompany from "./page/AdminManageApproveApplicationCompany";
 import AdminChangePasswordPage from "./page/AdminChangePasswordPage";
 import AdminManageProductPage from "./page/AdminManageProductPage";
+import AdminManageHistoryProductPurchasePage from "./page/AdminManageHistoryProductPurchasePage";
 
 function App() {
   const { accessToken, message } = useSelector((state: any) => state.auth);
@@ -59,6 +60,10 @@ function App() {
             <Route
               path="/admin/manage-products"
               element={<AdminManageProductPage></AdminManageProductPage>}
+            ></Route>
+            <Route
+              path="/admin/manage-history-product-purchase"
+              element={<AdminManageHistoryProductPurchasePage></AdminManageHistoryProductPurchasePage>}
             ></Route>
           </Route>
           <Route

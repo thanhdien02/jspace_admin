@@ -121,6 +121,7 @@ const AdminManageProductPage: React.FC = () => {
                   item={item}
                   onclick={setPopoverUpdateProduct}
                   onProductId={setProductId}
+                  className="even:bg-gray-300/50"
                 ></ContentManageProductPage>
               ))
             ) : (

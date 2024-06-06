@@ -7,6 +7,7 @@ import {
   BuildOutlined,
   SafetyCertificateOutlined,
   ShopOutlined,
+  ProductOutlined,
 } from "@ant-design/icons";
 import React from "react";
 
@@ -55,6 +56,12 @@ export const dataSideBar = [
   },
   {
     key: "8",
+    label: "Manage history product purchase",
+    icon: React.createElement(ProductOutlined),
+    path: "/admin/manage-history-product-purchase",
+  },
+  {
+    key: "9",
     label: "Log out",
     icon: React.createElement(LogoutOutlined),
     path: "/login",
@@ -95,6 +102,40 @@ export const dataHeaderManageProduct = [
   },
   {
     title: "Chỉnh sửa",
+    className: "w-[150px]",
+  },
+];
+export const dataHeaderManagePurchaseProduct = [
+  {
+    title: "ID",
+    className: "w-[100px]",
+  },
+  {
+    title: "Tên dịch vụ",
+    className: "w-[200px]",
+  },
+  {
+    title: "Tên công ty",
+    className: "w-[200px]",
+  },
+  {
+    title: "Giá tiền",
+    className: "w-[150px]",
+  },
+  {
+    title: "Thời gian mua",
+    className: "w-[150px]",
+  },
+  {
+    title: "Số lượng mua",
+    className: "w-[150px]",
+  },
+  {
+    title: "Tổng tiền",
+    className: "w-[150px]",
+  },
+  {
+    title: "PT thanh toán",
     className: "w-[150px]",
   },
 ];

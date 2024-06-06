@@ -134,7 +134,7 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
               ) : (
                 companyrequestreview.length > 0 &&
                 companyrequestreview.map((item: any) => (
-                  <TableRow className="" key={item?.company?.id}>
+                  <TableRow  className="even:bg-gray-300/50" key={item?.company?.id}>
                     <TableRowContent className="">
                       {item?.company?.id}
                     </TableRowContent>

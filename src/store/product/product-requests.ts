@@ -6,7 +6,6 @@ export const requestProductGetProduct = (
   size: string = "10",
   name: string = ""
 ) => {
-  console.log("🚀 ~ name:", name)
   return axios.get(
     `${API}/api/v1/products?name=${name}&page=${page}&size=${size}`,
     {

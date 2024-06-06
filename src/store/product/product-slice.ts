@@ -16,7 +16,7 @@ const init: IUser = {
   messageProduct: "",
 };
 
-const companyrequestreviewSlice: any = createSlice({
+const productSlice: any = createSlice({
   name: "product",
   initialState: init,
   reducers: {
@@ -56,5 +56,5 @@ export const {
   productCreateProduct,
   productUpdateProductByIdRedux,
   productUpdateProduct,
-} = companyrequestreviewSlice.actions;
-export default companyrequestreviewSlice.reducer;
+} = productSlice.actions;
+export default productSlice.reducer;
