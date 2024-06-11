@@ -2,6 +2,8 @@ import { call, put } from "redux-saga/effects";
 import { getToken, Token } from "../../utils/auth";
 import { message } from "antd";
 import {
+  dashboardUpdateDashboardCompanyMonthRedux,
+  dashboardUpdateDashboardCompanyYearRedux,
   dashboardUpdateDashboardPostMonthRedux,
   dashboardUpdateDashboardPostYearRedux,
   dashboardUpdateDashboardUserMonthRedux,
@@ -9,6 +11,8 @@ import {
   dashboardUpdateLoadingRedux,
 } from "./dashboard-slice";
 import {
+  requestDashboardGetDashboardCompanyMonth,
+  requestDashboardGetDashboardCompanyYear,
   requestDashboardGetDashboardPostMonth,
   requestDashboardGetDashboardPostYear,
   requestDashboardGetDashboardUserMonth,
@@ -57,6 +61,55 @@ function* handleDashboardGetDashboardUserYear(
       yield put(
         dashboardUpdateDashboardUserYearRedux({
           dashboardUserYear: response?.data?.result,
+        })
+      );
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(dashboardUpdateLoadingRedux({ loadingDashboard: false }));
+  }
+}
+function* handleDashboardGetDashboardCompanyMonth(
+  dataGetDashboard: any
+): Generator<any> {
+  try {
+    yield put(dashboardUpdateLoadingRedux({ loadingDashboard: true }));
+    const token: Token = getToken();
+    const response: any = yield call(
+      requestDashboardGetDashboardCompanyMonth,
+      dataGetDashboard?.payload?.year,
+      dataGetDashboard?.payload?.month,
+      token?.accessToken
+    );
+    if (response?.data?.code === 1000) {
+      yield put(
+        dashboardUpdateDashboardCompanyMonthRedux({
+          dashboardCompanyMonth: response?.data?.result,
+        })
+      );
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(dashboardUpdateLoadingRedux({ loadingDashboard: false }));
+  }
+}
+function* handleDashboardGetDashboardCompanyYear(
+  dataGetDashboard: any
+): Generator<any> {
+  try {
+    yield put(dashboardUpdateLoadingRedux({ loadingDashboard: true }));
+    const token: Token = getToken();
+    const response: any = yield call(
+      requestDashboardGetDashboardCompanyYear,
+      dataGetDashboard?.payload?.year,
+      token?.accessToken
+    );
+    if (response?.data?.code === 1000) {
+      yield put(
+        dashboardUpdateDashboardCompanyYearRedux({
+          dashboardCompanyYear: response?.data?.result,
         })
       );
     }
@@ -120,4 +173,6 @@ export {
   handleDashboardGetDashboardUserYear,
   handleDashboardGetDashboardPostMonth,
   handleDashboardGetDashboardPostYear,
+  handleDashboardGetDashboardCompanyMonth,
+  handleDashboardGetDashboardCompanyYear,
 };

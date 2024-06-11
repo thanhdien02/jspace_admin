@@ -3,9 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 interface IDashboard {
   dashboardUser: any;
   dashboardUserYear: any;
-  dashboardCompany: any;
   dashboardPostMonth: any;
   dashboardPostYear: any;
+  dashboardCompanyMonth: any;
+  dashboardCompanyYear: any;
   loadingDashboard?: boolean;
   messageDashboerd?: string;
   paginationDashboard?: any;
@@ -16,7 +17,8 @@ const init: IDashboard = {
   dashboardUserYear: {},
   dashboardPostMonth: {},
   dashboardPostYear: {},
-  dashboardCompany: {},
+  dashboardCompanyMonth: {},
+  dashboardCompanyYear: {},
   loadingDashboard: false,
   messageDashboerd: "",
   paginationDashboard: {},
@@ -29,6 +31,8 @@ const dashboardSlice: any = createSlice({
     dashboardGetDashboardUserYear: () => {},
     dashboardGetDashboardPostMonth: () => {},
     dashboardGetDashboardPostYear: () => {},
+    dashboardGetDashboardCompanyMonth: () => {},
+    dashboardGetDashboardCompanyYear: () => {},
     dashboardUpdateDashboardUserMonthRedux: (state, action) => ({
       ...state,
       dashboardUserMonth: action.payload.dashboardUserMonth,
@@ -44,6 +48,14 @@ const dashboardSlice: any = createSlice({
     dashboardUpdateDashboardPostYearRedux: (state, action) => ({
       ...state,
       dashboardPostYear: action.payload.dashboardPostYear,
+    }),
+    dashboardUpdateDashboardCompanyMonthRedux: (state, action) => ({
+      ...state,
+      dashboardCompanyMonth: action.payload.dashboardCompanyMonth,
+    }),
+    dashboardUpdateDashboardCompanyYearRedux: (state, action) => ({
+      ...state,
+      dashboardCompanyYear: action.payload.dashboardCompanyYear,
     }),
     dashboardUpdateLoadingRedux: (state, action) => ({
       ...state,
@@ -70,6 +82,10 @@ export const {
   dashboardGetDashboardPostMonth,
   dashboardUpdateDashboardUserMonthRedux,
   dashboardUpdateDashboardPostMonthRedux,
-  dashboardUpdateDashboardPostYearRedux
+  dashboardUpdateDashboardPostYearRedux,
+  dashboardGetDashboardCompanyMonth,
+  dashboardGetDashboardCompanyYear,
+  dashboardUpdateDashboardCompanyMonthRedux,
+  dashboardUpdateDashboardCompanyYearRedux,
 } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

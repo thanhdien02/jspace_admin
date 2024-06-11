@@ -2,6 +2,8 @@ import { Select } from "antd";
 import { dataMonth, dataYear } from "../../utils/dataFetch";
 import { Bar } from "react-chartjs-2";
 import {
+  dashboardGetDashboardCompanyMonth,
+  dashboardGetDashboardCompanyYear,
   dashboardGetDashboardUserMonth,
   dashboardGetDashboardUserYear,
 } from "../../store/dashboard/dashboard-slice";
@@ -10,30 +12,43 @@ import { useEffect, useState } from "react";
 
 const generateDataUser = (
   timeframe: "month" | "year",
-  monthlyData: any,
-  yearlyData: any
+  monthlyDataUser: any,
+  yearlyDataUser: any,
+  monthlyDataCompany: any,
+  yearlyDataCompany: any
 ) => {
   let labels: any = [];
-  let counts = [];
-  let label = "";
-  if (timeframe === "month" && monthlyData) {
+  let countsUser = [];
+  let countsCompany = [];
+  if (timeframe === "month" && monthlyDataUser) {
     labels = Array.from(
-      { length: Object.keys(monthlyData).length },
+      { length: Object.keys(monthlyDataUser).length },
       (_, i) => i + 1
     );
-    counts = labels.map((day: any) => monthlyData[day] || 0);
-    label = "User Registrations per Day in a Month";
-  } else if (timeframe === "year" && yearlyData) {
+    countsUser = labels.map((day: any) => monthlyDataUser[day] || 0);
+    countsCompany = labels.map((day: any) => monthlyDataCompany[day] || 0);
+  } else if (timeframe === "year" && yearlyDataUser) {
     labels = Array.from({ length: 12 }, (_, i) => `${i + 1}`);
-    counts = labels.map((_: any, month: any) => yearlyData[month + 1] || 0);
-    label = "User Registrations per Month in a Year";
+    countsUser = labels.map(
+      (_: any, month: any) => yearlyDataUser[month + 1] || 0
+    );
+    countsCompany = labels.map(
+      (_: any, month: any) => yearlyDataCompany[month + 1] || 0
+    );
   }
   return {
     labels: labels,
     datasets: [
       {
-        label: label,
-        data: counts,
+        label: "Người dùng",
+        data: countsUser,
+        backgroundColor: "rgba(46, 199, 16, 0.2)",
+        borderColor: "#84d43e",
+        borderWidth: 0.8,
+      },
+      {
+        label: "Công ty",
+        data: countsCompany,
         backgroundColor: "rgba(103, 133, 233, 0.2)",
         borderColor: "#4b6bec",
         borderWidth: 0.8,
@@ -42,14 +57,19 @@ const generateDataUser = (
   };
 };
 const BarChartUser = () => {
-  const { dashboardUserMonth, dashboardUserYear } = useSelector(
-    (state: any) => state.dashboard
-  );
+  const {
+    dashboardUserMonth,
+    dashboardUserYear,
+    dashboardCompanyMonth,
+    dashboardCompanyYear,
+  } = useSelector((state: any) => state.dashboard);
   const { users } = useSelector((state: any) => state.auth);
-  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [month, setMonth] = useState<any>(`Tháng ${new Date().getMonth() + 1}`);
   const [year, setYear] = useState(new Date().getFullYear());
-  const [monthlyData, setMonthlyData] = useState(null);
-  const [yearlyData, setYearlyData] = useState(null);
+  const [monthlyDataUser, setMonthlyDataUser] = useState(null);
+  const [yearlyDataUser, setYearlyDataUser] = useState(null);
+  const [monthlyDataCompany, setMonthlyDataCompany] = useState(null);
+  const [yearlyDataCompany, setYearlyDataCompany] = useState(null);
   const [timeframe, setTimeframe] = useState<"month" | "year">("month");
   const handleTimeRangeChange = (range: "year" | "month") => {
     setTimeframe(range);
@@ -60,16 +80,31 @@ const BarChartUser = () => {
           month: new Date().getMonth() + 1,
         })
       );
-      setMonth(new Date().getMonth() + 1);
+      dispatch(
+        dashboardGetDashboardCompanyMonth({
+          year: new Date().getFullYear(),
+          month: new Date().getMonth() + 1,
+        })
+      );
+      setMonth(`Tháng ${new Date().getMonth() + 1}`);
       setYear(new Date().getFullYear());
     } else if (range === "year") {
       dispatch(
         dashboardGetDashboardUserYear({ year: new Date().getFullYear() })
       );
+      dispatch(
+        dashboardGetDashboardCompanyYear({ year: new Date().getFullYear() })
+      );
       setYear(new Date().getFullYear());
     }
   };
-  const data: any = generateDataUser(timeframe, monthlyData, yearlyData);
+  const data: any = generateDataUser(
+    timeframe,
+    monthlyDataUser,
+    yearlyDataUser,
+    monthlyDataCompany,
+    yearlyDataCompany
+  );
   const dispatch = useDispatch();
   useEffect(() => {
     if (users?.id)
@@ -79,26 +114,48 @@ const BarChartUser = () => {
           month: new Date().getMonth() + 1,
         })
       );
+    dispatch(
+      dashboardGetDashboardCompanyMonth({
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() + 1,
+      })
+    );
   }, [users]);
   useEffect(() => {
-    if (dashboardUserMonth) setMonthlyData(dashboardUserMonth);
-  }, [dashboardUserMonth]);
+    if (dashboardUserMonth) setMonthlyDataUser(dashboardUserMonth);
+    if (dashboardCompanyMonth) setMonthlyDataCompany(dashboardCompanyMonth);
+  }, [dashboardUserMonth, dashboardCompanyMonth]);
   useEffect(() => {
-    if (dashboardUserYear) setYearlyData(dashboardUserYear);
-  }, [dashboardUserYear]);
+    if (dashboardUserYear) setYearlyDataUser(dashboardUserYear);
+    if (dashboardCompanyYear) setYearlyDataCompany(dashboardCompanyYear);
+  }, [dashboardUserYear, dashboardCompanyYear]);
 
   const onChangeMonth = (e: any) => {
     setMonth(e);
     dispatch(dashboardGetDashboardUserMonth({ year: year, month: e }));
+    dispatch(dashboardGetDashboardCompanyMonth({ year: year, month: e }));
   };
   const onChangeYearofMonth = (e: any) => {
     setYear(e);
     dispatch(dashboardGetDashboardUserMonth({ year: e, month: month }));
+    dispatch(dashboardGetDashboardCompanyMonth({ year: e, month: month }));
   };
   const onChangeYear = (e: any) => {
     dispatch(dashboardGetDashboardUserYear({ year: e }));
+    dispatch(dashboardGetDashboardCompanyYear({ year: e }));
   };
-
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+      },
+      title: {
+        // display: true,
+        text: "Người dùng và công ty",
+      },
+    },
+  };
   return (
     <>
       <div className="w-full">
@@ -149,7 +206,7 @@ const BarChartUser = () => {
           )}
         </div>
         <div className="w-full mt-3">
-          <Bar data={data} />
+          <Bar data={data} options={options} />
         </div>
       </div>
     </>

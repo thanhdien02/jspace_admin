@@ -25,3 +25,11 @@ export const requestAuthFetchMe = (accessToken: string) => {
     },
   });
 };
+export const requestAuthRefresh = (refreshToken: string) => {
+  if (!refreshToken) return;
+  return axios.post(`${API}/api/v1/auth/user-refresh-token`, null, {
+    headers: {
+      refreshToken: refreshToken,
+    },
+  });
+};

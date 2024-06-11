@@ -24,7 +24,7 @@ const ContentManageHistoryProductPurchasePage: React.FC<PropComponent> = ({
           currency: "VND",
         })}
       </TableRowContent>
-      <TableRowContent className="">{item?.expiryDate}</TableRowContent>
+      <TableRowContent className="">{item?.purchasedDate}</TableRowContent>
       <TableRowContent className="">{item?.quantity} sản phẩm</TableRowContent>
       <TableRowContent className="">
         {item?.totalPrice?.toLocaleString("vi", {

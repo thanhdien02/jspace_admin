@@ -5,7 +5,11 @@ import {
   authUploadLoading,
   authUploadMessageRedux,
 } from "./auth-slice";
-import { requestAuthFetchMe, requestAuthLogin } from "./auth-requests";
+import {
+  requestAuthFetchMe,
+  requestAuthLogin,
+  requestAuthRefresh,
+} from "./auth-requests";
 import { message } from "antd";
 
 function* handleAuthLogin(dataLogin: any): Generator<any> {
@@ -24,8 +28,7 @@ function* handleAuthLogin(dataLogin: any): Generator<any> {
       yield call(handleAuthFetchMe);
     }
   } catch (error: any) {
-    message.error("Tài khoản hoặc mật khẩu không chính xác.");
-
+    // message.error("Tài khoản hoặc mật khẩu không chính xác.");
     message.error(error?.response?.data?.message);
   } finally {
     yield put(authUploadLoading({ loading: false }));
@@ -48,8 +51,9 @@ function* handleAuthFetchMe(): Generator<any> {
       yield put(
         authUploadMessageRedux({ message: error?.response?.data?.message })
       );
+    } else {
+      yield call(handleAuthRefrestToken);
     }
-  } finally {
   }
 }
 function* handleAuthLogout(): Generator<any> {
@@ -65,4 +69,24 @@ function* handleAuthLogout(): Generator<any> {
   } finally {
   }
 }
-export { handleAuthLogin, handleAuthFetchMe, handleAuthLogout };
+function* handleAuthRefrestToken(): Generator<any> {
+  try {
+    const { refreshToken } = getToken();
+    const response: any = yield call(requestAuthRefresh, refreshToken);
+    if (response?.data?.result) {
+      saveToken(response?.data?.result?.accessToken, refreshToken);
+      yield call(handleAuthFetchMe);
+    } else {
+      logOut();
+    }
+  } catch (error: any) {
+    logOut();
+    message.error(error?.response?.data?.message);
+  }
+}
+export {
+  handleAuthLogin,
+  handleAuthFetchMe,
+  handleAuthLogout,
+  handleAuthRefrestToken,
+};

@@ -43,7 +43,7 @@ export const requestCompanyGetCompany = (
   size: string = "10"
 ) => {
   return axios.get(
-    `${API}/api/v1/employees/companies?page=${page}&size=${size}&name=${companyname}`,
+    `${API}/api/v1/admins/companies?page=${page}&size=${size}&name=${companyname}`,
     {
       headers: {
         "Content-Type": "application/json",

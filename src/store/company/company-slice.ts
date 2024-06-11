@@ -17,6 +17,9 @@ const companySlice: any = createSlice({
   name: "company",
   initialState: init,
   reducers: {
+    companyCreateCompany: () => {},
+    companyGetCompany: () => {},
+    companyGetCompanyById: () => {},
     companyUpdateLoadingRedux: (state, action) => ({
       ...state,
       loadingCompany: action.payload.loadingCompany,
@@ -25,9 +28,6 @@ const companySlice: any = createSlice({
       ...state,
       paginationCompany: action.payload.paginationCompany,
     }),
-    companyCreateCompany: () => {},
-    companyGetCompany: () => {},
-    companyGetCompanyById: () => {},
     companyUpdateCompanyRedux: (state, action) => ({
       ...state,
       company: action.payload.company,

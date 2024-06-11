@@ -73,10 +73,10 @@ function* handleCompanyGetCompany(dataGetCompany: any): Generator<any> {
       requestCompanyGetCompany,
       dataGetCompany?.payload?.companyname,
       token?.accessToken,
-      dataGetCompany?.payload?.page
+      dataGetCompany?.payload?.page,
+      dataGetCompany?.payload?.size
     );
     if (response?.data?.code === 1000) {
-      // message.success("Load dữ liệu công ty thành công.");
       yield put(
         companyUpdateCompanyRedux({ company: response?.data?.result?.content })
       );

@@ -1,27 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Table from "../components/table/Table";
 import TableHeader from "../components/table/TableHeader";
 import TableHeaderContent from "../components/table/TableHeaderContent";
-import TableRowContent from "../components/table/TableRowContent";
-import TableRow from "../components/table/TableRow";
-import { Input, Pagination, Popconfirm, Skeleton, Switch } from "antd";
+import { Input, Pagination, Skeleton } from "antd";
 import { debounce } from "ts-debounce";
+import ContentManageCompanyPage from "../components/content/ContentManageCompanyPage";
+import { companyGetCompany } from "../store/company/company-slice";
 const { Search } = Input;
 const AdminManageCompany: React.FC = () => {
   const { company, loadingCompany, paginationCompany } = useSelector(
     (state: any) => state.company
   );
+  const dispatch = useDispatch();
   const [page, setPage] = useState(1);
+  const [name, setName] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const handleSearchCompany = debounce((value: any) => {
+  useEffect(() => {
     setPage(1);
-    console.log(value);
+    dispatch(companyGetCompany({ companyname: name, page: page, size: "2" }));
+  }, [name]);
+  const handleChangePage = (e: any) => {
+    dispatch(companyGetCompany({ companyname: name, page: e, size: "2" }));
+    setPage(e);
+  };
+  const handleSearchCompany = debounce((value: any) => {
+    setName(value);
   }, 500);
-
   useEffect(() => {}, [page]);
   return (
     <>
@@ -29,7 +37,7 @@ const AdminManageCompany: React.FC = () => {
         <div className="mb-5 flex gap-4">
           <Search
             placeholder="Nhập tên công ty"
-            enterButton="Search"
+            enterButton="Tìm kiếm"
             size="large"
             onSearch={(e) => console.log(e)}
             onInput={(e: any) => {
@@ -40,7 +48,6 @@ const AdminManageCompany: React.FC = () => {
             allowClear
           />
         </div>
-
         <Table>
           <TableHeader>
             <TableHeaderContent
@@ -78,24 +85,13 @@ const AdminManageCompany: React.FC = () => {
             </tbody>
           ) : (
             <tbody>
-              <TableRow className="">
-                <TableRowContent className="">1</TableRowContent>
-                <TableRowContent className="">Cong ty FPT</TableRowContent>
-                <TableRowContent className="">join@gmail.com</TableRowContent>
-                <TableRowContent className="">0787871212</TableRowContent>
-                <TableRowContent className="">hadmasdasdasd</TableRowContent>
-                <TableRowContent className="">
-                  <Popconfirm
-                    title="Khóa tài khoản"
-                    description="Bạn có chắc khóa tài khoản ?"
-                    okText="Đồng ý"
-                    cancelText="Không"
-                    onCancel={() => {}}
-                  >
-                    <Switch checked={true} onChange={() => {}} />
-                  </Popconfirm>
-                </TableRowContent>
-              </TableRow>
+              {company?.length > 0 &&
+                company?.map((item: any) => (
+                  <ContentManageCompanyPage
+                    key={item?.id}
+                    item={item}
+                  ></ContentManageCompanyPage>
+                ))}
             </tbody>
           )}
         </Table>
@@ -105,7 +101,7 @@ const AdminManageCompany: React.FC = () => {
           ) : (
             <Pagination
               total={paginationCompany?.totalElements}
-              onChange={(e) => setPage(e)}
+              onChange={(e) => handleChangePage(e)}
               className="inline-block"
               current={page}
               pageSize={paginationCompany?.pageSize}

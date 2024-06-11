@@ -16,39 +16,35 @@ const generateDataPost = (
 ) => {
   let labels: any = [];
   let counts = [];
-  let label = "";
   if (timeframe === "month" && monthlyData) {
     labels = Array.from(
       { length: Object.keys(monthlyData).length },
       (_, i) => i + 1
     );
     counts = labels.map((day: any) => monthlyData[day] || 0);
-    label = "User Registrations per Day in a Month";
   } else if (timeframe === "year" && yearlyData) {
     labels = Array.from({ length: 12 }, (_, i) => `${i + 1}`);
     counts = labels.map((_: any, month: any) => yearlyData[month + 1] || 0);
-    label = "User Registrations per Month in a Year";
   }
   return {
     labels: labels,
     datasets: [
       {
-        label: label,
+        label: "Bài đăng",
         data: counts,
         backgroundColor: "rgba(103, 133, 233, 0.2)",
-        borderColor: "#4b6bec",
+        borderColor: "#14a6db",
         borderWidth: 0.8,
       },
     ],
   };
 };
-
 const LineChartPost = () => {
   const { dashboardPostMonth, dashboardPostYear } = useSelector(
     (state: any) => state.dashboard
   );
-  const [month, setMonth] = useState(new Date().getMonth() + 1);
-  const [year, setYear] = useState(new Date().getFullYear());
+  const [month, setMonth] = useState<any>(`Tháng ${new Date().getMonth() + 1}`);
+  const [year, setYear] = useState<any>(new Date().getFullYear());
   const { users } = useSelector((state: any) => state.auth);
   const [monthlyData, setMonthlyData] = useState(null);
   const [yearlyData, setYearlyData] = useState(null);
@@ -62,7 +58,7 @@ const LineChartPost = () => {
           month: new Date().getMonth() + 1,
         })
       );
-      setMonth(new Date().getMonth() + 1);
+      setMonth(`Tháng ${new Date().getMonth() + 1}`);
       setYear(new Date().getFullYear());
     } else if (range === "year") {
       dispatch(
@@ -72,6 +68,7 @@ const LineChartPost = () => {
     }
   };
   const data: any = generateDataPost(timeframe, monthlyData, yearlyData);
+  console.log("🚀 ~ LineChartPost ~ data:", data);
   const dispatch = useDispatch();
   useEffect(() => {
     if (users?.id)

@@ -11,10 +11,15 @@ const AdminDashBoard: React.FC = () => {
       <div className="flex gap-5">
         <div className="w-[580px] h-[400px] bg-white p-5 shadow-md rounded-md">
           <BarChartUser></BarChartUser>
-          <p>Số lượng người dùng</p>
+          <p className="text-base font-medium text-gray-600">
+            Số lượng người dùng
+          </p>
         </div>
         <div className="w-[580px] h-[400px] bg-white p-5 shadow-md rounded-md">
           <LineChartPost></LineChartPost>
+          <p className="text-base font-medium text-gray-600">
+            Số lượng bài đăng
+          </p>
         </div>
       </div>
     </div>
