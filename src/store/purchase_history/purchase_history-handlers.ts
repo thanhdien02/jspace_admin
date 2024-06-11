@@ -27,7 +27,6 @@ function* handlePurchaseHistoryGetPurchaseHistory(
       dataGetPurchaseHistory?.payload?.productName,
       accessToken
     );
-    console.log("🚀 ~ response:", response);
     if (response.data.code === 1000) {
       yield put(
         purchasehistoryUpdatePurchaseHistoryRedux({
@@ -45,7 +44,7 @@ function* handlePurchaseHistoryGetPurchaseHistory(
           },
         })
       );
-      message.success("Thành công");
+      // message.success("Thành công");
     }
   } catch (error: any) {
     message.error(error?.response?.data?.message);

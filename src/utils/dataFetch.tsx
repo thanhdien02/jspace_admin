@@ -140,93 +140,67 @@ export const dataHeaderManagePurchaseProduct = [
   },
 ];
 
-export const dataDate: any = [
+export const dataMonth: any = [
   {
     value: "1",
-    label: "1 ngày",
+    label: "Tháng 1",
   },
   {
     value: "2",
-    label: "2 ngày",
+    label: "Tháng 2",
   },
   {
     value: "3",
-    label: "3 ngày",
+    label: "Tháng 3",
   },
   {
     value: "4",
-    label: "4 ngày",
+    label: "Tháng 4",
   },
   {
     value: "5",
-    label: "5 ngày",
+    label: "Tháng 5",
   },
   {
     value: "6",
-    label: "6 ngày",
+    label: "Tháng 6",
   },
   {
     value: "7",
-    label: "7 ngày",
+    label: "Tháng 7",
   },
   {
     value: "9",
-    label: "9 ngày",
+    label: "Tháng 9",
   },
   {
     value: "10",
-    label: "10 ngày",
+    label: "Tháng 10",
   },
   {
     value: "11",
-    label: "11 ngày",
+    label: "Tháng 11",
   },
   {
     value: "12",
-    label: "12 ngày",
+    label: "Tháng 12",
+  },
+];
+export const dataYear: any = [
+  {
+    value: "2022",
+    label: "Năm 2022",
   },
   {
-    value: "13",
-    label: "13 ngày",
+    value: "2023",
+    label: "Năm 2023",
   },
   {
-    value: "14",
-    label: "14 ngày",
+    value: "2024",
+    label: "Năm 2024",
   },
   {
-    value: "15",
-    label: "15 ngày",
-  },
-  {
-    value: "16",
-    label: "16 ngày",
-  },
-  {
-    value: "17",
-    label: "17 ngày",
-  },
-  {
-    value: "18",
-    label: "18 ngày",
-  },
-  {
-    value: "19",
-    label: "19 ngày",
-  },
-  {
-    value: "20",
-    label: "20 ngày",
-  },
-  {
-    value: "21",
-    label: "21 ngày",
-  },
-  {
-    value: "22",
-    label: "22 ngày",
-  },
-  {
-    value: "23",
-    label: "23 ngày",
+    value: "2025",
+    label: "Năm 2025",
   },
 ];

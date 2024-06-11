@@ -83,6 +83,7 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
   return (
     <>
       <div className="m-10 mt-5">
+        
         <div className="mb-5 flex items-center gap-5">
           <Input
             placeholder="Nhập tên dịch vụ"
