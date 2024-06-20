@@ -68,7 +68,6 @@ const LineChartPost = () => {
     }
   };
   const data: any = generateDataPost(timeframe, monthlyData, yearlyData);
-  console.log("🚀 ~ LineChartPost ~ data:", data);
   const dispatch = useDispatch();
   useEffect(() => {
     if (users?.id)
