@@ -3,17 +3,23 @@ import { useDispatch, useSelector } from "react-redux";
 import Table from "../components/table/Table";
 import TableHeader from "../components/table/TableHeader";
 import TableHeaderContent from "../components/table/TableHeaderContent";
-import { Input, Pagination, Skeleton } from "antd";
+import { Input, Pagination, Select, Skeleton } from "antd";
 import { debounce } from "ts-debounce";
 import ContentManageCompanyPage from "../components/content/ContentManageCompanyPage";
 import { companyGetCompany } from "../store/company/company-slice";
 const { Search } = Input;
+const options: any = [
+  { value: "", label: "Tất cả" },
+  { value: "true", label: "Duyệt" },
+  { value: "false", label: "Chưa duyệt" },
+];
 const AdminManageCompany: React.FC = () => {
   const { company, loadingCompany, paginationCompany } = useSelector(
     (state: any) => state.company
   );
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
+  const [size] = useState(10);
   const [name, setName] = useState("");
 
   useEffect(() => {
@@ -21,16 +27,23 @@ const AdminManageCompany: React.FC = () => {
   }, []);
   useEffect(() => {
     setPage(1);
-    dispatch(companyGetCompany({ companyname: name, page: page, size: "2" }));
+    dispatch(companyGetCompany({ companyname: name, page: page, size: size }));
   }, [name]);
   const handleChangePage = (e: any) => {
-    dispatch(companyGetCompany({ companyname: name, page: e, size: "2" }));
+    dispatch(companyGetCompany({ companyname: name, page: e, size: size }));
     setPage(e);
   };
   const handleSearchCompany = debounce((value: any) => {
     setName(value);
   }, 500);
   useEffect(() => {}, [page]);
+  const handleChange = (value: string) => {
+    console.log("🚀 ~ handleChange ~ value:", value);
+    // dispatch(
+    //   companyrequestreviewGetCompanyRequest({ page: page, reviewed: value })
+    // );
+    // setReviewed(value);
+  };
   return (
     <>
       <div className="m-10 mt-5">
@@ -43,16 +56,24 @@ const AdminManageCompany: React.FC = () => {
             onInput={(e: any) => {
               handleSearchCompany(e?.target?.value);
             }}
-            className="w-[30%]"
+            className="w-[30%] placeholder:text-sm"
             loading={false}
             allowClear
+          />
+          <Select
+            size={"large"}
+            placeholder="Trạng thái công ty"
+            onChange={handleChange}
+            allowClear
+            style={{ width: 200 }}
+            options={options}
           />
         </div>
         <Table>
           <TableHeader>
             <TableHeaderContent
               title="ID"
-              className="w-[10%]"
+              className="w-[5%]"
             ></TableHeaderContent>
             <TableHeaderContent
               title="Tên công ty"
@@ -71,7 +92,7 @@ const AdminManageCompany: React.FC = () => {
               className="w-[13%]"
             ></TableHeaderContent>
             <TableHeaderContent
-              title="Khóa"
+              title="Xác thực"
               className="w-[12%]"
             ></TableHeaderContent>
           </TableHeader>
@@ -90,15 +111,14 @@ const AdminManageCompany: React.FC = () => {
                   <ContentManageCompanyPage
                     key={item?.id}
                     item={item}
+                    className="even:bg-gray-300/50"
                   ></ContentManageCompanyPage>
                 ))}
             </tbody>
           )}
         </Table>
         <div className="mt-4 flex justify-end">
-          {company.length <= 0 ? (
-            <></>
-          ) : (
+          {company.length > 0 && (
             <Pagination
               total={paginationCompany?.totalElements}
               onChange={(e) => handleChangePage(e)}

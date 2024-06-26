@@ -20,7 +20,8 @@ function* handleUserGetUsers(dataGetUser: any): Generator<any> {
       dataGetUser?.payload?.page,
       accessToken,
       dataGetUser?.payload?.name,
-      dataGetUser?.payload?.activated
+      dataGetUser?.payload?.activated,
+      dataGetUser?.payload?.roleId
     );
 
     yield put(userUpdateUserRedux({ users: response.data.result.content }));
@@ -52,7 +53,6 @@ function* handleUserUpdateActiveUser(dataUpdate: any): Generator<any> {
       dataUpdate?.payload?.page,
       accessToken
     );
-
     yield put(userUpdateUserRedux({ users: response1.data.result.content }));
   } catch (error: any) {
     message.error(error?.response?.data?.message);

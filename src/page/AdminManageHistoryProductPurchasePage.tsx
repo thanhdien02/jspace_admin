@@ -38,35 +38,34 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
       purchasehistoryGetPurchaseHistory({
         page: page,
         size: 10,
-        companyName: "",
-        productName: "",
+        companyName: companyName,
+        productName: productName,
       })
     );
   }, []);
   const handleSearchCompanyName = debounce((value: any) => {
-    setPage(1);
-
     dispatch(
       purchasehistoryGetPurchaseHistory({
-        page: page,
+        page: 1,
         size: 10,
         companyName: value?.target?.value,
         productName: productName,
       })
     );
+    setPage(1);
     setCompanyName(value?.target?.value);
   }, 500);
 
   const handleSearchProductName = debounce((value: any) => {
-    setPage(1);
     dispatch(
       purchasehistoryGetPurchaseHistory({
-        page: page,
+        page: 1,
         size: 10,
         companyName: companyName,
         productName: value?.target?.value,
       })
     );
+    setPage(1);
     setProductName(value?.target?.value);
   }, 500);
   const handleChangePage = (e: any) => {
@@ -82,25 +81,33 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
   };
   return (
     <>
-      <div className="m-10 mt-5">
-        
+      <div className="m-10 mt-8">
         <div className="mb-5 flex items-center gap-5">
-          <Input
-            placeholder="Nhập tên dịch vụ"
-            size="large"
-            onInput={handleSearchProductName}
-            // value={productName}
-            className="w-[20%]"
-            allowClear
-          />
-          <Input
-            placeholder="Nhập tên công ty"
-            size="large"
-            onInput={handleSearchCompanyName}
-            // value={productName}
-            className="w-[20%]"
-            allowClear
-          />
+          <div className="relative w-[20%]">
+            <Input
+              placeholder="Nhập tên dịch vụ"
+              size="large"
+              onChange={handleSearchProductName}
+              // value={productName}
+              className=""
+              allowClear
+            />
+            <span className="absolute -top-6 bg-gray-100 left-0 text-sm block">
+              Tên dịch vụ
+            </span>
+          </div>
+          <div className="w-[20%] relative">
+            <Input
+              placeholder="Nhập tên công ty"
+              size="large"
+              onChange={handleSearchCompanyName}
+              // value={productName}
+              allowClear
+            />
+            <span className="absolute -top-6 bg-gray-100 left-0 text-sm block">
+              Tên công ty
+            </span>
+          </div>
           <Radio.Group
             className="font-medium"
             onChange={onChange}

@@ -12,6 +12,7 @@ import {
 import IconClose from "../components/icons/IconClose";
 import { getToken } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
+import { Checkbox } from "antd";
 
 interface Inputs {
   username: string;
@@ -22,6 +23,7 @@ const AdminCreateSubAdmin: React.FC = () => {
   const { accessToken, message } = useSelector((state: any) => state.auth);
   const { loading, messageAdmin } = useSelector((state: any) => state.admin);
   const [checkNotifications, setCheckNotifications] = useState("");
+  const [showpassword, setShowpassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -170,7 +172,7 @@ const AdminCreateSubAdmin: React.FC = () => {
                   minLength: 8,
                 })}
                 placeholder="Mật khẩu"
-                type="password"
+                type={showpassword ? "text" : "password"}
                 id="password"
                 autoComplete="off"
                 className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-12 py-3 border border-stone-200 border-solid w-full rounded-md"
@@ -187,6 +189,13 @@ const AdminCreateSubAdmin: React.FC = () => {
               </p>
             </div>
           </div>
+          <Checkbox
+            onChange={() => {
+              setShowpassword(!showpassword);
+            }}
+          >
+            Hiện mật khẩu
+          </Checkbox>
           <div className="flex justify-between mb-2">
             <div className="self-end">
               {checkNotifications === "success" ? (
@@ -211,7 +220,7 @@ const AdminCreateSubAdmin: React.FC = () => {
             </div>
             <Input
               className="mt-5"
-              title="Tạo SubAdmin"
+              title="Tạo Admin phụ"
               loading={loading}
             ></Input>
           </div>

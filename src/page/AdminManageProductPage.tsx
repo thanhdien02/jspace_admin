@@ -61,18 +61,19 @@ const AdminManageProductPage: React.FC = () => {
     <>
       <div className="m-10 mt-5">
         <div className="mb-5 flex items-center gap-5">
-          <Search
-            placeholder="Nhập tên dịch vụ"
-            enterButton="Search"
-            size="large"
-            onSearch={(e) => console.log(e)}
-            onInput={(e: any) => {
-              handleSearchProduct(e?.target?.value);
-            }}
-            className="w-[30%]"
-            loading={false}
-            allowClear
-          />
+          <div className="w-[30%]">
+            <Search
+              placeholder="Nhập tên dịch vụ"
+              enterButton="Tìm kiếm"
+              size="large"
+              onSearch={(e) => console.log(e)}
+              onInput={(e: any) => {
+                handleSearchProduct(e?.target?.value);
+              }}
+              loading={false}
+              allowClear
+            />
+          </div>
           <Radio.Group
             className="font-medium"
             onChange={onChange}

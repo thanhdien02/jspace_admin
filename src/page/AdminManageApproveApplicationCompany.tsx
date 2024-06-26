@@ -26,7 +26,7 @@ const { Search } = Input;
 
 const options: any = [
   { value: "", label: "Tất cả" },
-  { value: "true", label: "Duyệt" },
+  { value: "true", label: "Đã duyệt" },
   { value: "false", label: "Chưa duyệt" },
 ];
 const AdminManageApproveApplicationCompany: React.FC = () => {
@@ -65,7 +65,7 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
         <div className="mb-5 flex gap-4">
           <Search
             placeholder="Nhập tên công ty"
-            enterButton="Search"
+            enterButton="Tìm kiếm"
             size="large"
             onSearch={(e) => console.log(e)}
             onInput={(e: any) => {
@@ -77,13 +77,13 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
           />
           <Select
             size={"large"}
-            defaultValue="Tất cả"
+            placeholder="Trạng thái công ty"
             onChange={handleChange}
+            allowClear
             style={{ width: 200 }}
             options={options}
           />
         </div>
-
         <Table>
           <TableHeader>
             <TableHeaderContent
@@ -104,7 +104,7 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
             ></TableHeaderContent>
             <TableHeaderContent
               title="Link website"
-              className="w-[13%]"
+              className="w-[150px] break-words"
             ></TableHeaderContent>
             <TableHeaderContent
               title="Xác nhận email"
@@ -134,7 +134,10 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
               ) : (
                 companyrequestreview.length > 0 &&
                 companyrequestreview.map((item: any) => (
-                  <TableRow  className="even:bg-gray-300/50" key={item?.company?.id}>
+                  <TableRow
+                    className="even:bg-gray-300/50"
+                    key={item?.company?.id}
+                  >
                     <TableRowContent className="">
                       {item?.company?.id}
                     </TableRowContent>
@@ -144,12 +147,17 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
                     <TableRowContent className="">
                       {item?.company?.email}
                     </TableRowContent>
-
                     <TableRowContent className="">
                       {item?.company?.phone}
                     </TableRowContent>
                     <TableRowContent className="">
-                      {item?.company?.companyLink}
+                      <a
+                        className="line-clamp-1 break-words w-[250px] hover:text-primary"
+                        href={item?.company?.companyLink}
+                        target="_blank"
+                      >
+                        {item?.company?.companyLink}
+                      </a>
                     </TableRowContent>
                     <TableRowContent className="">
                       <div className="flex gap-2 items-center">

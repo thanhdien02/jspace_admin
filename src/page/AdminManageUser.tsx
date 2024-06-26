@@ -20,9 +20,15 @@ import { debounce } from "ts-debounce";
 const { Search } = Input;
 
 const options: any = [
-  { value: "", label: "All" },
-  { value: "true", label: "Active" },
-  { value: "false", label: "Block" },
+  { value: "", label: "Tất cả" },
+  { value: "true", label: "Mở" },
+  { value: "false", label: "Khóa" },
+];
+const optionsRole: any = [
+  { value: "", label: "Tất cả" },
+  { value: "4", label: "Ứng viên" },
+  { value: "3", label: "Nhà tuyển dụng" },
+  { value: "2", label: "Quản lí phụ" },
 ];
 const AdminManageUser: React.FC = () => {
   const { users, paginationUser, loadingUser } = useSelector(
@@ -31,41 +37,89 @@ const AdminManageUser: React.FC = () => {
   const dispatch = useDispatch();
   const [nameSearch, setNameSearch] = useState("");
   const [activated, setActivated] = useState("");
+  const [roleId, setRoleId] = useState("");
   const [page, setPage] = useState(1);
-  useEffect(() => {
-    dispatch(userGetUsers({ page: page }));
-  }, [page]);
+
   const handleSearchCompany = debounce((value: any) => {
     setNameSearch(value);
-    dispatch(userGetUsers({ page: page, name: value, activated: activated }));
+    dispatch(
+      userGetUsers({
+        page: 1,
+        name: value,
+        activated: activated,
+        roleId: roleId,
+      })
+    );
+    setPage(1);
   }, 500);
-  const handleChange = (value: string) => {
-    console.log(`Selected: ${value}`);
+  const handleChangeAccountStatus = (value: string) => {
     setActivated(value);
-    dispatch(userGetUsers({ page: page, name: nameSearch, activated: value }));
+    dispatch(
+      userGetUsers({
+        page: 1,
+        name: nameSearch,
+        activated: value,
+        roleId: roleId,
+      })
+    );
+    setPage(1);
   };
+  const handleChangePage = (e: any) => {
+    dispatch(
+      userGetUsers({
+        page: e,
+        name: nameSearch,
+        activated: activated,
+        roleId: roleId,
+      })
+    );
+    setPage(e);
+  };
+  const handleChangeRoleId = (value: string) => {
+    dispatch(
+      userGetUsers({
+        page: 1,
+        name: nameSearch,
+        activated: activated,
+        roleId: value,
+      })
+    );
+    setRoleId(value);
+    setPage(1);
+  };
+  useEffect(() => {
+    dispatch(userGetUsers({ page: page }));
+  }, []);
   return (
     <>
       <div className="m-10 mt-5">
         <div className="mb-5 flex gap-4">
           <Search
             placeholder="Nhập tên tài khoản"
-            enterButton="Search"
+            enterButton="Tìm kiếm"
             size="large"
             onSearch={(e) => console.log(e)}
-            onInput={(e: any) => {
+            onChange={(e: any) => {
               handleSearchCompany(e?.target?.value);
             }}
             className="w-[30%]"
-            loading={false}
             allowClear
           />
           <Select
             size={"large"}
-            defaultValue="Active"
-            onChange={handleChange}
+            allowClear
+            placeholder="Trạng thái tài khoản"
+            onChange={handleChangeAccountStatus}
             style={{ width: 200 }}
             options={options}
+          />
+          <Select
+            size={"large"}
+            allowClear
+            placeholder="Quyền"
+            onChange={handleChangeRoleId}
+            style={{ width: 200 }}
+            options={optionsRole}
           />
         </div>
 
@@ -111,9 +165,11 @@ const AdminManageUser: React.FC = () => {
               ) : (
                 users.length > 0 &&
                 users.map((item: any) => (
-                  <TableRow  className="even:bg-gray-300/50" key={item?.id}>
+                  <TableRow className="even:bg-gray-300/50" key={item?.id}>
                     <TableRowContent className="">{item?.id}</TableRowContent>
-                    <TableRowContent className="">{item?.name}</TableRowContent>
+                    <TableRowContent className="cursor-pointer hover:text-primary transition-all">
+                      {item?.name}
+                    </TableRowContent>
                     <TableRowContent className="">
                       {item?.email}
                     </TableRowContent>
@@ -152,7 +208,7 @@ const AdminManageUser: React.FC = () => {
           ) : (
             <Pagination
               total={paginationUser?.totalElements}
-              onChange={(e) => setPage(e)}
+              onChange={handleChangePage}
               className="inline-block"
               current={page}
               pageSize={paginationUser?.pageSize}

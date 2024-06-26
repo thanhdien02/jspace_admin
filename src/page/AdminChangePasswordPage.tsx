@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { KeyOutlined } from "@ant-design/icons";
 import HeaderContentManage from "../components/header/HeaderContentManage";
 import IconKey from "../components/icons/IconKey";
 import ButtonLoading from "../components/button/ButtonLoading";
+import { Checkbox } from "antd";
 interface Inputs {
   name: string;
   passwordold: string;
@@ -12,6 +13,7 @@ interface Inputs {
 }
 const AdminChangePasswordPage: React.FC = () => {
   // const dispatch = useDispatch();
+  const [showpassword, setShowpassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -43,7 +45,7 @@ const AdminChangePasswordPage: React.FC = () => {
                   <input
                     {...register("passwordold", {})}
                     placeholder="Mật khẩu cũ"
-                    type="password"
+                    type={showpassword ? "text" : "password"}
                     id="passwordold"
                     autoComplete="off"
                     className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-12 py-3 border border-stone-200 border-solid w-full rounded-md"
@@ -75,7 +77,7 @@ const AdminChangePasswordPage: React.FC = () => {
                       required: true,
                     })}
                     placeholder="Mật khẩu mới"
-                    type="text"
+                    type={showpassword ? "text" : "password"}
                     autoComplete="off"
                     id="passwordnew"
                     className="h-full pl-12 pr-4 focus:border-solid focus:border-stone-400/70 transition-all outline-none py-3 border border-stone-200 border-solid w-full rounded-md"
@@ -111,7 +113,7 @@ const AdminChangePasswordPage: React.FC = () => {
                       required: true,
                     })}
                     placeholder="Xác nhận mật khẩu mới"
-                    type="password"
+                    type={showpassword ? "text" : "password"}
                     autoComplete="off"
                     id="passwordnewconfirm"
                     className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-12 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
@@ -119,7 +121,13 @@ const AdminChangePasswordPage: React.FC = () => {
                 </div>
               </div>
             </div>
-
+            <Checkbox
+              onChange={() => {
+                setShowpassword(!showpassword);
+              }}
+            >
+              Hiện mật khẩu
+            </Checkbox>
             <div className="flex justify-end mt-5">
               <ButtonLoading
                 title="Lưu thông tin"

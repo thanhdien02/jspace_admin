@@ -5,10 +5,11 @@ export const requestUserGetUser = (
   page: string,
   accessToken: string,
   name: string = "",
-  activated: string = ""
+  activated: string = "",
+  roleId: string = ""
 ) => {
   return axios.get(
-    `${API}/api/v1/admins/users?size=10&page=${page}&name=${name}&activated=${activated}`,
+    `${API}/api/v1/admins/users?size=10&page=${page}&name=${name}&activated=${activated}&roleId=${roleId}`,
     {
       headers: {
         "Content-Type": "application/json",
