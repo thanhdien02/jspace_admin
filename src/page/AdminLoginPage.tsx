@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { authLogin } from "../store/auth/auth-slice";
@@ -8,6 +8,7 @@ import logo from "../assets/logo3.png";
 import bglogin from "../assets/bg-login.jpg";
 import Input from "../components/input";
 import IconKey from "../components/icons/IconKey";
+import { Checkbox } from "antd";
 type Inputs = {
   email: string;
   password: string;
@@ -23,7 +24,7 @@ const AdminLoginPage: React.FC = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const dispatch = useDispatch();
-
+  const [showpassword, setShowpassword] = useState(false);
   const onSubmit: SubmitHandler<Inputs> = (dataLogin: Inputs) => {
     console.log("🚀 ~ AdminLoginPage ~ data:", dataLogin);
     dispatch(authLogin(dataLogin));
@@ -36,7 +37,11 @@ const AdminLoginPage: React.FC = () => {
   return (
     <>
       <div className="relative flex flex-col h-[100vh] w-[100vw] bg-cover">
-        <img src={bglogin} alt=""  className="absolute inset-0 w-full h-full object-cover opacity-90"/>
+        <img
+          src={bglogin}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover opacity-90"
+        />
         <div className="m-auto min-w-[450px] min-h-[400px] bg-white shadow-md rounded-lg p-5 z-10">
           <div className="flex">
             <img src={logo} alt="" className="w-[50px] h-[50px] mx-auto mt-3" />
@@ -48,7 +53,7 @@ const AdminLoginPage: React.FC = () => {
             autoComplete="off"
             action=""
             onSubmit={handleSubmit(onSubmit)}
-            className="mt-10 p-2"
+            className="mt-6 p-2"
           >
             <div className="">
               <label
@@ -109,7 +114,7 @@ const AdminLoginPage: React.FC = () => {
                   placeholder="Mật khẩu"
                   id="password"
                   name="password"
-                  type="password"
+                  type={showpassword ? "text" : "password"}
                   autoComplete="password"
                   className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-12 py-3 border border-stone-200 border-solid w-full rounded-md"
                 />
@@ -126,7 +131,14 @@ const AdminLoginPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex mt-2">
+            <div className="flex justify-between items-center">
+              <Checkbox
+                onChange={() => {
+                  setShowpassword(!showpassword);
+                }}
+              >
+                Hiện mật khẩu
+              </Checkbox>
               <NavLink
                 to={`/name`}
                 className="hover:text-primary transition-all ml-auto hover:opacity-70 "
@@ -136,17 +148,11 @@ const AdminLoginPage: React.FC = () => {
             </div>
 
             <Input
-              className="mt-5"
+              className="mt-6"
               loading={loading}
               title="Đăng nhập"
               classButton="w-full"
             ></Input>
-            {/* <button
-              type="submit"
-              className="bg-primary text-white px-8 py-4 rounded-md w-full mt-4 hover:opacity-80 duration-200"
-            >
-              Đăng nhập
-            </button> */}
           </form>
         </div>
       </div>

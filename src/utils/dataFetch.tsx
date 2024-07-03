@@ -1,5 +1,5 @@
 import {
-  DashboardOutlined,
+  AppstoreOutlined,
   UserAddOutlined,
   BorderOuterOutlined,
   LogoutOutlined,
@@ -14,55 +14,55 @@ import React from "react";
 export const dataSideBar = [
   {
     key: "1",
-    label: "Dashboard",
-    icon: React.createElement(DashboardOutlined),
+    label: "Thống kê",
+    icon: React.createElement(AppstoreOutlined),
     path: "/",
   },
   {
     key: "2",
-    label: "Manage Users",
+    label: "Quản lí người dùng",
     icon: React.createElement(BorderOuterOutlined),
     path: "/admin/user",
   },
   {
     key: "3",
-    label: "Add SubAdmin",
+    label: "Thêm quản lí phụ",
     icon: React.createElement(UserAddOutlined),
     path: "/admin/add-subadmin",
   },
   {
     key: "4",
-    label: "Manage Company",
+    label: "Quản lí công ty",
     icon: React.createElement(BuildOutlined),
     path: "/admin/company",
   },
   {
     key: "5",
-    label: "Approve Company",
+    label: "Duyệt công ty",
     icon: React.createElement(SafetyCertificateOutlined),
     path: "/admin/approve-company",
   },
   {
     key: "6",
-    label: "Manage Products",
+    label: "Quản lí sản phẩm",
     icon: React.createElement(ShopOutlined),
     path: "/admin/manage-products",
   },
   {
     key: "7",
-    label: "Change Password",
+    label: "Đổi mật khẩu",
     icon: React.createElement(SwapOutlined),
     path: "/admin/change-password",
   },
   {
     key: "8",
-    label: "Manage history product purchase",
+    label: "Sản phẩm đã bán",
     icon: React.createElement(ProductOutlined),
     path: "/admin/manage-history-product-purchase",
   },
   {
     key: "9",
-    label: "Log out",
+    label: "Đăng xuất",
     icon: React.createElement(LogoutOutlined),
     path: "/login",
   },
@@ -79,64 +79,79 @@ export const dataHeaderManageProduct = [
   {
     title: "ID",
     className: "w-[100px]",
+    filter: false,
   },
   {
     title: "Tên dịch vụ",
     className: "w-[200px]",
+    filter: false,
   },
   {
     title: "Giá tiền",
     className: "w-[150px]",
+    filter: true,
   },
   {
     title: "Số lượng bài đăng",
     className: "w-[150px]",
+    filter: false,
   },
   {
     title: "Thời gian sử dụng",
     className: "w-[150px]",
+    filter: true,
   },
   {
     title: "Thời gian bài đăng",
     className: "w-[150px]",
+    filter: true,
   },
   {
     title: "Chỉnh sửa",
     className: "w-[150px]",
+    filter: false,
   },
 ];
 export const dataHeaderManagePurchaseProduct = [
   {
     title: "ID",
-    className: "w-[100px]",
+    className: "w-[70px]",
+    filter: true,
   },
   {
     title: "Tên dịch vụ",
     className: "w-[200px]",
+    filter: false,
   },
   {
     title: "Tên công ty",
     className: "w-[200px]",
+    filter: false,
   },
   {
     title: "Giá tiền",
-    className: "w-[150px]",
+    className: "w-[100px]",
+    filter: true,
   },
   {
     title: "Thời gian mua",
-    className: "w-[150px]",
+    className: "w-[200px]",
+    filter: true,
   },
   {
     title: "Số lượng mua",
-    className: "w-[150px]",
+    className: "w-[100px]",
+    filter: false,
   },
   {
     title: "Tổng tiền",
-    className: "w-[150px]",
+    className: "w-[100px]",
+    filter: true,
   },
   {
     title: "PT thanh toán",
-    className: "w-[150px]",
+    className: "w-[100px]",
+    filter: false,
   },
 ];
 

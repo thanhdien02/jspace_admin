@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { SearchOutlined } from "@ant-design/icons";
 import Table from "../components/table/Table";
 import TableHeader from "../components/table/TableHeader";
 import TableHeaderContent from "../components/table/TableHeaderContent";
-import { Input, Pagination, Select, Skeleton } from "antd";
+import { Pagination, Select, Skeleton } from "antd";
 import { debounce } from "ts-debounce";
 import ContentManageCompanyPage from "../components/content/ContentManageCompanyPage";
 import { companyGetCompany } from "../store/company/company-slice";
-const { Search } = Input;
+import InputSearch from "../components/input/InputSearch";
 const options: any = [
-  { value: "", label: "Tất cả" },
-  { value: "true", label: "Duyệt" },
-  { value: "false", label: "Chưa duyệt" },
+  { value: "", label: "Tất cả công ty" },
+  { value: "true", label: "Công ty đã được duyệt" },
+  { value: "false", label: "Công ty chưa duyệt" },
 ];
 const AdminManageCompany: React.FC = () => {
   const { company, loadingCompany, paginationCompany } = useSelector(
@@ -48,24 +49,23 @@ const AdminManageCompany: React.FC = () => {
     <>
       <div className="m-10 mt-5">
         <div className="mb-5 flex gap-4">
-          <Search
-            placeholder="Nhập tên công ty"
-            enterButton="Tìm kiếm"
-            size="large"
-            onSearch={(e) => console.log(e)}
-            onInput={(e: any) => {
-              handleSearchCompany(e?.target?.value);
-            }}
-            className="w-[30%] placeholder:text-sm"
-            loading={false}
-            allowClear
-          />
+          <div className="relative">
+            <InputSearch
+              placeholder="Nhập tên công ty"
+              onChange={(e: any) => {
+                handleSearchCompany(e?.target?.value);
+              }}
+              className="pr-10 w-[280px]"
+            ></InputSearch>
+            <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
+          </div>
+
           <Select
             size={"large"}
             placeholder="Trạng thái công ty"
             onChange={handleChange}
             allowClear
-            style={{ width: 200 }}
+            className="select-filter"
             options={options}
           />
         </div>

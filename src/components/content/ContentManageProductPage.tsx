@@ -25,20 +25,22 @@ const ContentManageProductPage: React.FC<PropComponent> = ({
           currency: "VND",
         })}
       </TableRowContent>
-      <TableRowContent className="">{item?.numberOfPost} bài đăng</TableRowContent>
+      <TableRowContent className="">
+        {item?.numberOfPost} bài đăng
+      </TableRowContent>
       <TableRowContent className="">
         {item?.durationDayNumber} ngày
       </TableRowContent>
       <TableRowContent className="">{item?.postDuration} ngày</TableRowContent>
       <TableRowContent className="">
         <span
-          className="px-2 py-1 bg-primary text-white cursor-pointer"
+          className="px-2 py-1 text-xs bg-white text-primary border border-solid border-primary shadow font-medium cursor-pointer hover:opacity-80 transition-all"
           onClick={() => {
             onclick(true);
             onProductId(item?.id);
           }}
         >
-          Chỉnh sửa
+          CHỈNH SỬA
         </span>
       </TableRowContent>
     </TableRow>

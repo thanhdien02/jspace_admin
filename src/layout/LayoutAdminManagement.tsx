@@ -13,7 +13,7 @@ const LayoutAdminManagement: React.FC = () => {
   const navigate = useNavigate();
   const handleForwardSideBar = (e: any) => {
     const path: any = dataSideBar.find((item) => item.key === e.key);
-    if (path.label === "Log out") {
+    if (path.label === "Đăng xuất") {
       dispatch(authLogout());
     }
     navigate(path?.path);

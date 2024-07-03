@@ -5,6 +5,7 @@ import commonReducer from "./common/common-slice";
 import companyReducer from "./company/company-slice";
 import productReducer from "./product/product-slice";
 import dashboardReducer from "./dashboard/dashboard-slice";
+import notificationReducer from "./notification/notification-slice";
 import purchasehistoryReducer from "./purchase_history/purchase-history-slice";
 import companyrequestreviewReducer from "./company_request_review/company-request-review-slice";
 import { combineReducers } from "@reduxjs/toolkit";
@@ -17,6 +18,7 @@ export const reducer: any = combineReducers({
   company: companyReducer,
   product: productReducer,
   dashboard: dashboardReducer,
+  notification: notificationReducer,
   purchasehistory: purchasehistoryReducer,
   companyrequestreview: companyrequestreviewReducer,
 });

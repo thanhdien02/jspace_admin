@@ -6,10 +6,10 @@ import TableHeader from "../components/table/TableHeader";
 import TableHeaderContent from "../components/table/TableHeaderContent";
 import TableRowContent from "../components/table/TableRowContent";
 import TableRow from "../components/table/TableRow";
+import { SearchOutlined } from "@ant-design/icons";
 import {
   Empty,
-  Input,
-  Pagination,
+    Pagination,
   Popconfirm,
   Popover,
   Select,
@@ -22,7 +22,7 @@ import {
   companyrequestreviewUpdateCompanyRequest,
 } from "../store/company_request_review/company-request-review-slice";
 import TitleContent from "../components/title/TitleContent";
-const { Search } = Input;
+import InputSearch from "../components/input/InputSearch";
 
 const options: any = [
   { value: "", label: "Tất cả" },
@@ -61,25 +61,25 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
   return (
     <>
       <div className="m-10 mt-5">
-        <TitleContent>Danh sách công ty muốn đăng ký</TitleContent>
+        <TitleContent>Danh sách công ty đăng ký</TitleContent>
         <div className="mb-5 flex gap-4">
-          <Search
-            placeholder="Nhập tên công ty"
-            enterButton="Tìm kiếm"
-            size="large"
-            onSearch={(e) => console.log(e)}
-            onInput={(e: any) => {
-              handleSearchCompany(e?.target?.value);
-            }}
-            className="w-[30%]"
-            loading={false}
-            allowClear
-          />
+          <div className="relative">
+            <InputSearch
+              placeholder="Nhập tên công ty"
+              onChange={(e: any) => {
+                handleSearchCompany(e?.target?.value);
+              }}
+              className="pr-10 w-[280px]"
+            ></InputSearch>
+            <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
+          </div>
+
           <Select
             size={"large"}
             placeholder="Trạng thái công ty"
             onChange={handleChange}
             allowClear
+            className="select-filter"
             style={{ width: 200 }}
             options={options}
           />
@@ -177,8 +177,8 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
                     </TableRowContent>
                     <TableRowContent className="">
                       <Popconfirm
-                        title="Khóa tài khoản"
-                        description="Bạn có chắc khóa tài khoản ?"
+                        title="Duyệt công ty"
+                        description="Bạn có chắc duyệt công ty ?"
                         okText="Đồng ý"
                         cancelText="Không"
                         onConfirm={() => {

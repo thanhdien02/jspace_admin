@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { userGetUsers, userUpdateUser } from "../store/user/user-slice";
 import Table from "../components/table/Table";
@@ -7,22 +7,14 @@ import TableHeader from "../components/table/TableHeader";
 import TableHeaderContent from "../components/table/TableHeaderContent";
 import TableRowContent from "../components/table/TableRowContent";
 import TableRow from "../components/table/TableRow";
-import {
-  Empty,
-  Input,
-  Pagination,
-  Popconfirm,
-  Select,
-  Skeleton,
-  Switch,
-} from "antd";
+import { Empty, Pagination, Popconfirm, Select, Skeleton, Switch } from "antd";
 import { debounce } from "ts-debounce";
-const { Search } = Input;
+import InputSearch from "../components/input/InputSearch";
 
 const options: any = [
-  { value: "", label: "Tất cả" },
-  { value: "true", label: "Mở" },
-  { value: "false", label: "Khóa" },
+  { value: "", label: "Tất cả tài khoản" },
+  { value: "true", label: "Tài khoản đang mở" },
+  { value: "false", label: "Tài khoản đang khóa" },
 ];
 const optionsRole: any = [
   { value: "", label: "Tất cả" },
@@ -40,7 +32,7 @@ const AdminManageUser: React.FC = () => {
   const [roleId, setRoleId] = useState("");
   const [page, setPage] = useState(1);
 
-  const handleSearchCompany = debounce((value: any) => {
+  const handleSearchName = debounce((value: any) => {
     setNameSearch(value);
     dispatch(
       userGetUsers({
@@ -94,31 +86,31 @@ const AdminManageUser: React.FC = () => {
     <>
       <div className="m-10 mt-5">
         <div className="mb-5 flex gap-4">
-          <Search
-            placeholder="Nhập tên tài khoản"
-            enterButton="Tìm kiếm"
-            size="large"
-            onSearch={(e) => console.log(e)}
-            onChange={(e: any) => {
-              handleSearchCompany(e?.target?.value);
-            }}
-            className="w-[30%]"
-            allowClear
-          />
+          <div className="relative">
+            <InputSearch
+              placeholder="Nhập tên tài khoản"
+              onChange={(e: any) => {
+                handleSearchName(e?.target?.value);
+              }}
+              className="pr-10 w-[280px]"
+            ></InputSearch>
+            <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
+          </div>
+
           <Select
             size={"large"}
+            className="select-filter"
             allowClear
             placeholder="Trạng thái tài khoản"
             onChange={handleChangeAccountStatus}
-            style={{ width: 200 }}
             options={options}
           />
           <Select
             size={"large"}
             allowClear
+            className="select-filter min-w-[150px]"
             placeholder="Quyền"
             onChange={handleChangeRoleId}
-            style={{ width: 200 }}
             options={optionsRole}
           />
         </div>
@@ -171,7 +163,9 @@ const AdminManageUser: React.FC = () => {
                       {item?.name}
                     </TableRowContent>
                     <TableRowContent className="">
-                      {item?.email}
+                      <a href={`mailto:${item?.email}`} className="underline">
+                        {item?.email}
+                      </a>
                     </TableRowContent>
                     <TableRowContent className="">
                       {item?.role?.code}

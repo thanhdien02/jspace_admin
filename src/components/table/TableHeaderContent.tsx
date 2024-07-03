@@ -2,7 +2,7 @@ import React from "react";
 
 interface PropComponent {
   className?: string;
-  title?: string;
+  title?: any;
 }
 const TableHeaderContent: React.FC<PropComponent> = ({ className, title }) => {
   return (
