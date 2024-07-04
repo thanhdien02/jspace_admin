@@ -9,3 +9,10 @@ export const formatTimeDate = (timestamp: string) => {
   });
   return formattedDate;
 };
+export const sortAscDesc = (sortDescAndAcs: string) => {
+  let sort = "";
+  if (sortDescAndAcs == "") sort = "desc";
+  else if (sortDescAndAcs == "desc") sort = "asc";
+  else sort = "";
+  return sort;
+};

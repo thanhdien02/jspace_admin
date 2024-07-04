@@ -41,7 +41,6 @@ const LayoutAdminManagement: React.FC = () => {
         <Menu
           theme="light"
           mode="inline"
-          // defaultSelectedKeys={["1"]}
           items={dataSideBar}
           onClick={handleForwardSideBar}
         />

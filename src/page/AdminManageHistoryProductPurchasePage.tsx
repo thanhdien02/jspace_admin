@@ -9,6 +9,7 @@ import ContentManageHistoryProductPurchasePage from "../components/content/Conte
 import { purchasehistoryGetPurchaseHistory } from "../store/purchase_history/purchase-history-slice";
 import InputSearch from "../components/input/InputSearch";
 import { SearchOutlined } from "@ant-design/icons";
+import { sortAscDesc } from "../utils/common-fucntion";
 const AdminManageHistoryProductPurchasePage: React.FC = () => {
   const {
     purchasehistorys,
@@ -16,10 +17,13 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
     paginationPurchaseHistory,
   } = useSelector((state: any) => state.purchasehistory);
   const dispatch = useDispatch();
+  const [sortTotalPrice, setSortTotalPrice] = useState<any>(false);
+  const [sortProductPrice, setSortProductPrice] = useState<any>("");
   const [companyName, setCompanyName] = useState("");
   const [productName, setProductName] = useState("");
   const [page, setPage] = useState(1);
 
+  const [size] = useState(10);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -27,7 +31,7 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
     dispatch(
       purchasehistoryGetPurchaseHistory({
         page: page,
-        size: 10,
+        size: size,
         companyName: companyName,
         productName: productName,
       })
@@ -37,7 +41,7 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
     dispatch(
       purchasehistoryGetPurchaseHistory({
         page: 1,
-        size: 10,
+        size: size,
         companyName: value?.target?.value,
         productName: productName,
       })
@@ -50,7 +54,7 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
     dispatch(
       purchasehistoryGetPurchaseHistory({
         page: 1,
-        size: 10,
+        size: size,
         companyName: companyName,
         productName: value?.target?.value,
       })
@@ -63,11 +67,38 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
     dispatch(
       purchasehistoryGetPurchaseHistory({
         page: e,
-        size: 10,
+        size: size,
         companyName: companyName,
         productName: productName,
       })
     );
+  };
+  const handleDescAndAsc = (name: any) => {
+    if (name == "totalPrice") {
+      let sort = sortAscDesc(sortTotalPrice);
+      dispatch(
+        purchasehistoryGetPurchaseHistory({
+          page: page,
+          size: size,
+          companyName: companyName,
+          productName: productName,
+          sortTotalPrice: sort,
+        })
+      );
+      setSortTotalPrice(sort);
+    } else if (name == "productPrice") {
+      let sort = sortAscDesc(sortProductPrice);
+      dispatch(
+        purchasehistoryGetPurchaseHistory({
+          page: page,
+          size: size,
+          companyName: companyName,
+          productName: productName,
+          sortProductPrice: sort,
+        })
+      );
+      setSortProductPrice(sort);
+    }
   };
   return (
     <>
@@ -91,10 +122,11 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
           </div>
         </div>
         <div className="w-full overflow-auto">
-          <Table className="w-[1400px]">
+          <Table className="w-[1500px]">
             <HeaderTableManage
               dataHeader={dataHeaderManagePurchaseProduct}
               className=""
+              onFilter={handleDescAndAsc}
             ></HeaderTableManage>
             <tbody className="">
               {loadingPurchaseHistory ? (
@@ -123,9 +155,7 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
         </div>
 
         <div className="mt-4 flex justify-end">
-          {purchasehistorys.length <= 0 ? (
-            <></>
-          ) : (
+          {purchasehistorys.length > 0 && (
             <Pagination
               total={paginationPurchaseHistory?.totalElements}
               onChange={handleChangePage}

@@ -79,11 +79,8 @@ const AdminManageProductPage: React.FC = () => {
             onClick={() => setCreateProduct(true)}
             className="ml-auto py-[10px] px-4 flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all bg-white text-gray-700 rounded shadow"
           >
-            <IconPlus
-              classIcon="!w-5 !h-5"
-              className="text-gray-700"
-            ></IconPlus>
-            <span className="font-medium">THÊM SẢN PHẨM</span>
+            <IconPlus classIcon="!w-5 !h-5" className="text-primary"></IconPlus>
+            <span className="font-medium text-primary">THÊM SẢN PHẨM</span>
           </div>
           {createProduct && (
             <AdminCreateProductPage

@@ -137,12 +137,10 @@ const AdminUpdateProductPage: React.FC<PropComponent> = ({
                       className="h-full pl-12 pr-4 focus:border-solid focus:border-stone-400/70 transition-all outline-none py-3 border border-stone-200 border-solid w-full rounded-md"
                     />
                   </div>
-                  {errors.name?.type == "required" ? (
+                  {errors.name?.type == "required" && (
                     <p className="text-red-600 mt-1">
                       *Bạn chưa điền tên sản phẩm
                     </p>
-                  ) : (
-                    <></>
                   )}
                 </div>
                 <div className="">
@@ -170,10 +168,8 @@ const AdminUpdateProductPage: React.FC<PropComponent> = ({
                       VND
                     </span>
                   </div>
-                  {errors?.price?.type == "required" ? (
+                  {errors?.price?.type == "required" && (
                     <p className="text-red-600 mt-1">*Bạn chưa điền giá tiền</p>
-                  ) : (
-                    <></>
                   )}
                 </div>
               </div>
@@ -209,12 +205,10 @@ const AdminUpdateProductPage: React.FC<PropComponent> = ({
                       ngày
                     </span>
                   </div>
-                  {errors?.durationDayNumber?.type == "required" ? (
+                  {errors?.durationDayNumber?.type == "required" && (
                     <p className="text-red-600 mt-1">
                       *Bạn chưa điền thời gian sử dụng dịch vụ
                     </p>
-                  ) : (
-                    <></>
                   )}
                 </div>
                 <div className="">

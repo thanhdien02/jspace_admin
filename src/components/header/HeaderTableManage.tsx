@@ -5,10 +5,12 @@ import IconChervonUpDown from "../icons/IconChervonUpDown";
 interface PropComponent {
   className?: string;
   dataHeader?: any;
+  onFilter?: any;
 }
 const HeaderTableManage: React.FC<PropComponent> = ({
   className,
   dataHeader,
+  onFilter,
 }) => {
   return (
     <>
@@ -16,6 +18,7 @@ const HeaderTableManage: React.FC<PropComponent> = ({
         {dataHeader?.length > 0 &&
           dataHeader?.map((item: any, index: number) => (
             <TableHeaderContent
+              item={item}
               title={
                 item?.filter ? (
                   <div className="flex items-end gap-1 hover:opacity-70 transition-all cursor-pointer text-nowrap">
@@ -28,6 +31,7 @@ const HeaderTableManage: React.FC<PropComponent> = ({
               }
               className={`${item?.className ? item.className : ""}`}
               key={index}
+              onFilter={onFilter}
             ></TableHeaderContent>
           ))}
       </TableHeader>

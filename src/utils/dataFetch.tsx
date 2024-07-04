@@ -117,41 +117,49 @@ export const dataHeaderManagePurchaseProduct = [
     title: "ID",
     className: "w-[70px]",
     filter: true,
+    name: "",
   },
   {
     title: "Tên dịch vụ",
     className: "w-[200px]",
     filter: false,
+    name: "productName",
   },
   {
     title: "Tên công ty",
     className: "w-[200px]",
     filter: false,
+    name: "name",
   },
   {
     title: "Giá tiền",
     className: "w-[100px]",
     filter: true,
+    name: "productPrice",
   },
   {
     title: "Thời gian mua",
     className: "w-[200px]",
     filter: true,
+    name: "purchasedDate",
   },
   {
     title: "Số lượng mua",
     className: "w-[100px]",
     filter: false,
+    name: "quantity",
   },
   {
     title: "Tổng tiền",
     className: "w-[100px]",
     filter: true,
+    name: "totalPrice",
   },
   {
     title: "PT thanh toán",
     className: "w-[100px]",
     filter: false,
+    name: "",
   },
 ];
 

@@ -25,6 +25,8 @@ function* handlePurchaseHistoryGetPurchaseHistory(
       dataGetPurchaseHistory?.payload?.size,
       dataGetPurchaseHistory?.payload?.companyName,
       dataGetPurchaseHistory?.payload?.productName,
+      dataGetPurchaseHistory?.payload?.sortProductPrice,
+      dataGetPurchaseHistory?.payload?.sortTotalPrice,
       accessToken
     );
     if (response.data.code === 1000) {
