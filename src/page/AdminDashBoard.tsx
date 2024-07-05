@@ -12,7 +12,7 @@ const AdminDashBoard: React.FC = () => {
         <div className="w-[580px] h-[400px] bg-white p-5 shadow-md rounded-md">
           <BarChartUser></BarChartUser>
           <p className="text-base font-medium text-gray-600">
-            Số lượng người dùng 98765672
+            Số lượng người dùng
           </p>
         </div>
         <div className="w-[580px] h-[400px] bg-white p-5 shadow-md rounded-md">
