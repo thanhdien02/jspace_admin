@@ -40,7 +40,6 @@
 .select-custom > .ant-select-selector {
   border: none !important;
   box-shadow: none !important;
- 
 }
 .select-filter > .ant-select-selector {
   border-radius: 4px !important;
@@ -53,4 +52,13 @@
 .ql-container.ql-snow {
   max-height: 250px;
   overflow: auto;
+}
+/* gradient color */
+.color-backgrount {
+  background: rgb(230, 233, 237);
+  background: linear-gradient(
+    120deg,
+    rgba(230, 233, 237, 1) 90%,
+    rgba(172, 204, 255, 1) 150%
+  );
 }

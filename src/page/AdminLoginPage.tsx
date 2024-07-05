@@ -36,13 +36,13 @@ const AdminLoginPage: React.FC = () => {
   return (
     <>
       <div className="relative flex flex-col h-[100vh] w-[100vw]">
-        <div className="absolute inset-0 w-full h-full object-cover bg-gradient-to-r from-cyan-500 to-blue-500"></div>
-        <div className="grid grid-cols-2 m-auto bg-white w-[900px] min-h-[560px] shadow-md rounded-lg  z-10">
+        <div className="absolute inset-0 w-full h-full object-cover bg-slate-200 color-backgrount"></div>
+        <div className="grid grid-cols-2 m-auto bg-white w-[900px] min-h-[560px] shadow-lg rounded-lg z-10">
           <div>
             <img
               src={bglogin}
               alt=""
-              className="h-full w-full object-cover rounded-l-lg"
+              className=" h-full w-full object-cover rounded-l-lg"
             />
           </div>
           <div className="flex justify-center items-center">
@@ -54,7 +54,7 @@ const AdminLoginPage: React.FC = () => {
                   className="w-[50px] h-[50px] mx-auto mt-3"
                 />
               </div>
-              <h1 className="font-bold text-xl text-center mt-2 text-primary">
+              <h1 className="font-bold text-xl text-center mt-2">
                 Đăng nhập với JSPACE
               </h1>
               <form
@@ -90,7 +90,7 @@ const AdminLoginPage: React.FC = () => {
                       // type="email"
                       placeholder="Tài khoản"
                       autoComplete="off"
-                      className="focus:border-solid h-full focus:border-stone-400/70 transition-all outline-none pr-4 pl-12 py-3 border border-stone-200 border-solid w-full rounded-md"
+                      className="focus:border-solid h-full focus:border-stone-400/70 transition-all outline-none pr-4 pl-12 py-3 border border-stone-200 border-solid w-full rounded-md placeholder:text-sm"
                     />
                     <p className="text-red-500 py-2">
                       {" "}
@@ -124,7 +124,7 @@ const AdminLoginPage: React.FC = () => {
                       name="password"
                       type={showpassword ? "text" : "password"}
                       autoComplete="password"
-                      className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-12 py-3 border border-stone-200 border-solid w-full rounded-md"
+                      className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-12 py-3 border border-stone-200 border-solid w-full rounded-md placeholder:text-sm"
                     />
                     <p className="text-red-500 py-2">
                       {" "}
