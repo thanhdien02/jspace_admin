@@ -10,6 +10,7 @@ import { purchasehistoryGetPurchaseHistory } from "../store/purchase_history/pur
 import InputSearch from "../components/input/InputSearch";
 import { SearchOutlined } from "@ant-design/icons";
 import { sortAscDesc } from "../utils/common-fucntion";
+type SortOrder = "asc" | "desc" | "";
 const AdminManageHistoryProductPurchasePage: React.FC = () => {
   const {
     purchasehistorys,
@@ -19,6 +20,8 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
   const dispatch = useDispatch();
   const [sortTotalPrice, setSortTotalPrice] = useState<any>(false);
   const [sortProductPrice, setSortProductPrice] = useState<any>("");
+  const [sortCommon, setSortCommon] = useState<SortOrder>("");
+  const [nameCommon, setNameCommone] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [productName, setProductName] = useState("");
   const [page, setPage] = useState(1);
@@ -86,6 +89,10 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
         })
       );
       setSortTotalPrice(sort);
+      if (sort == "asc" || sort == "desc" || sort == "") {
+        setSortCommon(sort);
+        setNameCommone(name);
+      }
     } else if (name == "productPrice") {
       let sort = sortAscDesc(sortProductPrice);
       dispatch(
@@ -97,6 +104,10 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
           sortProductPrice: sort,
         })
       );
+      if (sort == "asc" || sort == "desc" || sort == "") {
+        setSortCommon(sort);
+        setNameCommone(name);
+      }
       setSortProductPrice(sort);
     }
   };
@@ -122,11 +133,12 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
           </div>
         </div>
         <div className="w-full overflow-auto">
-          <Table className="w-[1500px]">
+          <Table className="!w-[1600px]">
             <HeaderTableManage
+              sortFilter={sortCommon}
               dataHeader={dataHeaderManagePurchaseProduct}
-              className=""
               onFilter={handleDescAndAsc}
+              name={nameCommon}
             ></HeaderTableManage>
             <tbody className="">
               {loadingPurchaseHistory ? (

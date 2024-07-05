@@ -4,11 +4,14 @@ import { dataSideBar } from "../utils/dataFetch";
 import { Outlet, useNavigate } from "react-router-dom";
 import logo from "../assets/logo3.png";
 import AdminHeader from "../module/Admin/AdminHeader";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authLogout } from "../store/auth/auth-slice";
+import Overlay from "../components/overlay/Overlay";
+import { commonUpdateNotificationRedux } from "../store/common/common-slice";
 
 const { Sider } = Layout;
 const LayoutAdminManagement: React.FC = () => {
+  const { notificationCheck } = useSelector((state: any) => state.common);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleForwardSideBar = (e: any) => {
@@ -21,7 +24,6 @@ const LayoutAdminManagement: React.FC = () => {
   return (
     <Layout hasSider>
       <Sider
-        className=""
         style={{
           overflow: "auto",
           height: "100vh",
@@ -49,6 +51,18 @@ const LayoutAdminManagement: React.FC = () => {
         <AdminHeader></AdminHeader>
         <Outlet></Outlet>
       </Layout>
+
+      {notificationCheck && (
+        <div
+          onClick={() => {
+            dispatch(
+              commonUpdateNotificationRedux({ notificationCheck: false })
+            );
+          }}
+        >
+          <Overlay></Overlay>
+        </div>
+      )}
     </Layout>
   );
 };

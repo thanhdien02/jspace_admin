@@ -5,14 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { RiNotification3Line } from "react-icons/ri";
 import CardNotificationAtHeaderPage from "../../components/cards/CardNotificationAtHeaderPage";
 import { notificationGetNotification } from "../../store/notification/notification-slice";
+import { commonUpdateNotificationRedux } from "../../store/common/common-slice";
 const AdminHeader: React.FC = () => {
   const { notifications } = useSelector((state: any) => state.notification);
+  const { notificationCheck } = useSelector((state: any) => state.common);
   const { users } = useSelector((state: any) => state.auth);
-  const [notification, setNotification] = useState(false);
   const [numberRead, setNumberRead] = useState(0);
   const dispatch = useDispatch();
   const handleChangeNotification = () => {
-    setNotification(!notification);
+    dispatch(commonUpdateNotificationRedux({ notificationCheck: true }));
   };
   useEffect(() => {
     if (users?.id) dispatch(notificationGetNotification({ userId: users?.id }));
@@ -30,7 +31,7 @@ const AdminHeader: React.FC = () => {
       <div className="">
         {/* <p className="text-primary">Hi {users?.username}</p> */}
         <h1 className="text-primary font-bold text-2xl">
-         Chào mừng đến với trang quản lí !
+          Chào mừng đến với trang quản lí !
         </h1>
       </div>
 
@@ -41,7 +42,7 @@ const AdminHeader: React.FC = () => {
         >
           <RiNotification3Line className="text-xl text-primary" />
         </div>
-        {notification && (
+        {notificationCheck && (
           <div className="absolute top-[120%] z-10 right-0 bg-white shadow-md rounded w-[300px] border border-solid border-stone-200">
             <div className="p-3 border-b border-solid border-gray-200">
               <h2 className="font-medium text-base">Thông báo</h2>
@@ -59,7 +60,10 @@ const AdminHeader: React.FC = () => {
           </div>
         )}
         {numberRead != 0 && (
-          <div className="absolute -top-1 -right-2 flex justify-center items-center w-5 h-5 rounded-full bg-red-500 text-white">
+          <div
+            onClick={handleChangeNotification}
+            className="absolute -top-1 -right-2 cursor-pointer flex justify-center items-center w-5 h-5 rounded-full bg-red-500 text-white"
+          >
             {numberRead}
           </div>
         )}

@@ -1,17 +1,22 @@
 import React from "react";
 import TableHeaderContent from "../table/TableHeaderContent";
 import TableHeader from "../table/TableHeader";
-import IconChervonUpDown from "../icons/IconChervonUpDown";
+import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 interface PropComponent {
   className?: string;
   dataHeader?: any;
+  sortFilter?: "asc" | "desc" | "";
+  name?: string;
   onFilter?: any;
 }
 const HeaderTableManage: React.FC<PropComponent> = ({
   className,
   dataHeader,
   onFilter,
+  sortFilter = "",
+  name,
 }) => {
+  console.log("🚀 ~ sortFilter:", sortFilter);
   return (
     <>
       <TableHeader className={`w-full ${className}`}>
@@ -21,9 +26,24 @@ const HeaderTableManage: React.FC<PropComponent> = ({
               item={item}
               title={
                 item?.filter ? (
-                  <div className="flex items-end gap-1 hover:opacity-70 transition-all cursor-pointer text-nowrap">
+                  <div className="flex items-center gap-2 hover:opacity-70 transition-all cursor-pointer text-nowrap">
                     <span>{item?.title}</span>
-                    <IconChervonUpDown classIcon="!w-5 !h-5"></IconChervonUpDown>
+                    <div className="flex flex-col justify-center items-center">
+                      <TiArrowSortedUp
+                        className={`${
+                          sortFilter == "desc" &&
+                          name == item?.name &&
+                          "text-primary"
+                        }`}
+                      />
+                      <TiArrowSortedDown
+                        className={`${
+                          sortFilter == "asc" &&
+                          name == item?.name &&
+                          "text-primary"
+                        }`}
+                      />
+                    </div>
                   </div>
                 ) : (
                   item?.title

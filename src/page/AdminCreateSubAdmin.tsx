@@ -56,11 +56,13 @@ const AdminCreateSubAdmin: React.FC = () => {
   }, [messageAdmin]);
 
   return (
-    <>
-      <div className="mx-52 bg-white my-10 rounded-lg">
+    <div className="min-h-screen bg-slate-300/30">
+      <div className="mx-52 bg-white my-10 rounded-lg shadow">
         <div>
           {" "}
-          <h2 className="font-bold text-2xl p-5 text-blue-700">Add SubAdmin</h2>
+          <h2 className="font-bold text-2xl p-5 text-blue-700">
+            Thêm tài khoản quản lí phụ.
+          </h2>
         </div>
         <form
           action=""
@@ -226,7 +228,7 @@ const AdminCreateSubAdmin: React.FC = () => {
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 

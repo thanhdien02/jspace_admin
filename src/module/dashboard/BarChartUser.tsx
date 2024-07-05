@@ -43,7 +43,7 @@ const generateDataUser = (
         label: "Người dùng",
         data: countsUser,
         backgroundColor: "rgba(46, 199, 16, 0.2)",
-        borderColor: "#84d43e",
+        borderColor: "#22c55e ",
         borderWidth: 0.8,
       },
       {
@@ -155,22 +155,38 @@ const BarChartUser = () => {
         text: "Người dùng và công ty",
       },
     },
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        grid: {
+          display: false,
+        },
+      },
+    },
   };
   return (
     <>
       <div className="w-full">
         <div className="flex gap-2">
           <button
-            className={`ml-2 min-w-[80px] px-3 py-1 rounded-md ${
-              timeframe == "month" ? "bg-primary text-white" : "bg-gray-200"
+            className={`ml-2 min-w-[80px] px-3 py-1 rounded ${
+              timeframe == "month"
+                ? "bg-white text-primary border border-solid border-primary"
+                : "bg-gray-200"
             } `}
             onClick={() => handleTimeRangeChange("month")}
           >
             Tháng
           </button>
           <button
-            className={`ml-2 min-w-[80px] px-3 py-1 rounded-md ${
-              timeframe == "year" ? "bg-primary text-white" : "bg-gray-200"
+            className={`ml-2 min-w-[80px] px-3 py-1 rounded ${
+              timeframe == "year"
+                ? "bg-white text-primary border border-solid border-primary"
+                : "bg-gray-200"
             } `}
             onClick={() => handleTimeRangeChange("year")}
           >
@@ -181,14 +197,14 @@ const BarChartUser = () => {
               <Select
                 placeholder="Tháng"
                 value={month}
-                className="!py-0 ml-2 w-[120px]"
+                className="select-filter !py-0 ml-2 w-[120px]"
                 onChange={onChangeMonth}
                 options={dataMonth}
               />
               <Select
                 placeholder="Năm"
                 value={year}
-                className="!py-0 ml-2 w-[120px]"
+                className="select-filter !py-0 ml-2 w-[120px]"
                 onChange={onChangeYearofMonth}
                 options={dataYear}
               />
@@ -198,7 +214,7 @@ const BarChartUser = () => {
               <Select
                 placeholder="Năm"
                 value={year}
-                className="!py-0 ml-2 w-[120px]"
+                className="select-filter !py-0 ml-2 w-[120px]"
                 onChange={onChangeYear}
                 options={dataYear}
               />

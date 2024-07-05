@@ -39,6 +39,20 @@ const generateDataPost = (
     ],
   };
 };
+const options = {
+  scales: {
+    x: {
+      grid: {
+        display: false,
+      },
+    },
+    y: {
+      grid: {
+        display: false,
+      },
+    },
+  },
+};
 const LineChartPost = () => {
   const { dashboardPostMonth, dashboardPostYear } = useSelector(
     (state: any) => state.dashboard
@@ -102,16 +116,20 @@ const LineChartPost = () => {
       <div className="w-full">
         <div className="flex gap-2">
           <button
-            className={`ml-2 min-w-[80px] px-3 py-1 rounded-md ${
-              timeframe == "month" ? "bg-primary text-white" : "bg-gray-200"
+            className={`ml-2 min-w-[80px] px-3 py-1 rounded ${
+              timeframe == "month"
+                ? "bg-white text-primary border border-solid border-primary"
+                : "bg-gray-200"
             } `}
             onClick={() => handleTimeRangeChange("month")}
           >
             Tháng
           </button>
           <button
-            className={`ml-2 min-w-[80px] px-3 py-1 rounded-md ${
-              timeframe == "year" ? "bg-primary text-white" : "bg-gray-200"
+            className={`ml-2 min-w-[80px] px-3 py-1 rounded ${
+              timeframe == "year"
+                ? "bg-white text-primary border border-solid border-primary"
+                : "bg-gray-200"
             } `}
             onClick={() => handleTimeRangeChange("year")}
           >
@@ -122,14 +140,14 @@ const LineChartPost = () => {
               <Select
                 placeholder="Tháng"
                 value={month}
-                className="!py-0 ml-2 w-[120px]"
+                className="select-filter !py-0 ml-2 w-[120px]"
                 onChange={onChangeMonth}
                 options={dataMonth}
               />
               <Select
                 placeholder="Năm"
                 value={year}
-                className="!py-0 ml-2 w-[120px]"
+                className="select-filter !py-0 ml-2 w-[120px]"
                 onChange={onChangeYearofMonth}
                 options={dataYear}
               />
@@ -139,7 +157,7 @@ const LineChartPost = () => {
               <Select
                 value={year}
                 placeholder="Năm"
-                className="!py-0 ml-2 w-[120px]"
+                className="select-filter !py-0 ml-2 w-[120px]"
                 onChange={onChangeYear}
                 options={dataYear}
               />
@@ -147,7 +165,7 @@ const LineChartPost = () => {
           )}
         </div>
         <div className="w-full mt-3">
-          <Line data={data} />
+          <Line data={data} options={options} />
         </div>
       </div>
     </>

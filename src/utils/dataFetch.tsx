@@ -127,7 +127,7 @@ export const dataHeaderManagePurchaseProduct = [
   },
   {
     title: "Tên công ty",
-    className: "w-[200px]",
+    className: "w-[250px]",
     filter: false,
     name: "name",
   },

@@ -9,7 +9,7 @@ import TableRow from "../components/table/TableRow";
 import { SearchOutlined } from "@ant-design/icons";
 import {
   Empty,
-    Pagination,
+  Pagination,
   Popconfirm,
   Popover,
   Select,
@@ -52,10 +52,11 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
   }, 500);
   useEffect(() => {}, [companyrequestreview]);
 
-  const handleChange = (value: string) => {
+  const handleChangeStatus = (value: string) => {
     dispatch(
-      companyrequestreviewGetCompanyRequest({ page: page, reviewed: value })
+      companyrequestreviewGetCompanyRequest({ page: 1, reviewed: value })
     );
+    setPage(1);
     setReviewed(value);
   };
   return (
@@ -77,7 +78,7 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
           <Select
             size={"large"}
             placeholder="Trạng thái công ty"
-            onChange={handleChange}
+            onChange={handleChangeStatus}
             allowClear
             className="select-filter"
             style={{ width: 200 }}

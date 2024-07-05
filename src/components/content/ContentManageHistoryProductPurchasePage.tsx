@@ -17,7 +17,14 @@ const ContentManageHistoryProductPurchasePage: React.FC<PropComponent> = ({
         <div className="line-clamp-2">{item?.productName}</div>
       </TableRowContent>
       <TableRowContent className="">
-        <div className="line-clamp-2">{item?.company?.name}</div>
+        <div className=" flex gap-1 items-center">
+          <img
+            src={item?.company?.logo}
+            className="w-[50px] h-[35px] object-contain"
+            alt=""
+          />
+          <p className="line-clamp-2">{item?.company?.name}</p>
+        </div>
       </TableRowContent>
       <TableRowContent className="">
         {item?.productPrice?.toLocaleString("vi", {
