@@ -197,9 +197,7 @@ const AdminManageUser: React.FC = () => {
           )}
         </Table>
         <div className="mt-4 flex justify-end">
-          {users.length <= 0 ? (
-            <></>
-          ) : (
+          {users.length > 0 && (
             <Pagination
               total={paginationUser?.totalElements}
               onChange={handleChangePage}
