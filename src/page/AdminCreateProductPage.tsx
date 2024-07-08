@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import IconClose from "../components/icons/IconClose";
-import { Switch } from "antd";
 import { HomeOutlined, DollarOutlined } from "@ant-design/icons";
 import ButtonLoading from "../components/button/ButtonLoading";
 import IconClock from "../components/icons/IconClock";
@@ -78,12 +77,6 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
             <h2 className="font-bold text-lg my-2 text-gray-800">
               Tạo sản phẩm
             </h2>
-            <div className="mr-5">
-              <p className="font-medium text-sm">Tình trạng sản phẩm</p>
-              <div>
-                <Switch className="mt-2" size="default" />
-              </div>
-            </div>
           </div>
           <form action="" onSubmit={handleSubmit(onSubmit)} className="py-5">
             <div className="grid grid-cols-2 gap-10">

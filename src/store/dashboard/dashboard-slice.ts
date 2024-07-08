@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IDashboard {
+  dashboardNumberAll: any;
   dashboardUser: any;
   dashboardUserYear: any;
   dashboardPostMonth: any;
@@ -13,6 +14,7 @@ interface IDashboard {
 }
 
 const init: IDashboard = {
+  dashboardNumberAll: {},
   dashboardUser: {},
   dashboardUserYear: {},
   dashboardPostMonth: {},
@@ -27,12 +29,17 @@ const dashboardSlice: any = createSlice({
   name: "dashboard",
   initialState: init,
   reducers: {
+    dashboardGetDashboardNumberAll: () => {},
     dashboardGetDashboardUserMonth: () => {},
     dashboardGetDashboardUserYear: () => {},
     dashboardGetDashboardPostMonth: () => {},
     dashboardGetDashboardPostYear: () => {},
     dashboardGetDashboardCompanyMonth: () => {},
     dashboardGetDashboardCompanyYear: () => {},
+    dashboardUpdateDashboardNumberAllRedux: (state, action) => ({
+      ...state,
+      dashboardNumberAll: action.payload.dashboardNumberAll,
+    }),
     dashboardUpdateDashboardUserMonthRedux: (state, action) => ({
       ...state,
       dashboardUserMonth: action.payload.dashboardUserMonth,
@@ -87,5 +94,7 @@ export const {
   dashboardGetDashboardCompanyYear,
   dashboardUpdateDashboardCompanyMonthRedux,
   dashboardUpdateDashboardCompanyYearRedux,
+  dashboardGetDashboardNumberAll,
+  dashboardUpdateDashboardNumberAllRedux,
 } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

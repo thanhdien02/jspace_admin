@@ -5,10 +5,14 @@ import { Outlet, useNavigate } from "react-router-dom";
 import logo from "../assets/logo1.svg";
 import AdminHeader from "../module/Admin/AdminHeader";
 import { useDispatch, useSelector } from "react-redux";
-import { authFetchMe, authLogout } from "../store/auth/auth-slice";
+import {
+  authFetchMe,
+  authLogout,
+  authUploadMessageRefreshRedux,
+} from "../store/auth/auth-slice";
 import Overlay from "../components/overlay/Overlay";
 import { commonUpdateNotificationRedux } from "../store/common/common-slice";
-import { getToken } from "../utils/auth";
+import { getToken, logOut } from "../utils/auth";
 const { Sider } = Layout;
 const LayoutAdminManagement: React.FC = () => {
   const { accessToken, message, messageRefresh } = useSelector(
@@ -29,12 +33,16 @@ const LayoutAdminManagement: React.FC = () => {
       const token = getToken();
       if (token?.accessToken == "null" || message == "unauthenticated") {
         navigate("/login");
-      } else dispatch(authFetchMe());
+      } else {
+        dispatch(authFetchMe());
+      }
     }
-  }, [message, accessToken]);
+  }, []);
   useEffect(() => {
     if (messageRefresh) {
-      dispatch(authLogout());
+      logOut();
+      navigate("/login");
+      dispatch(authUploadMessageRefreshRedux({ messageRefresh: "" }));
     }
   }, [messageRefresh]);
   return (

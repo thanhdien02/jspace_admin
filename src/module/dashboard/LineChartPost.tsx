@@ -117,7 +117,7 @@ const LineChartPost = () => {
       const transformedArray: any = Object.entries(dashboardPostMonth).map(
         ([key, value]) => ({
           THÁNG: Number(key),
-          "SỐ LƯỢNG NGƯỜI DÙNG": value,
+          "SỐ LƯỢNG BÀI ĐĂNG": value,
         })
       );
       exportToExcel(transformedArray, "ThongKeSoLuongBaiDang");
@@ -125,7 +125,7 @@ const LineChartPost = () => {
       const transformedArray: any = Object.entries(dashboardPostYear).map(
         ([key, value]) => ({
           NĂM: Number(key),
-          "SỐ LƯỢNG NGƯỜI DÙNG": value,
+          "SỐ LƯỢNG BÀI ĐĂNG": value,
         })
       );
       exportToExcel(transformedArray, "ThongKeSoLuongBaiDang");

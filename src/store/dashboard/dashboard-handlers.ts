@@ -4,6 +4,7 @@ import { message } from "antd";
 import {
   dashboardUpdateDashboardCompanyMonthRedux,
   dashboardUpdateDashboardCompanyYearRedux,
+  dashboardUpdateDashboardNumberAllRedux,
   dashboardUpdateDashboardPostMonthRedux,
   dashboardUpdateDashboardPostYearRedux,
   dashboardUpdateDashboardUserMonthRedux,
@@ -13,6 +14,7 @@ import {
 import {
   requestDashboardGetDashboardCompanyMonth,
   requestDashboardGetDashboardCompanyYear,
+  requestDashboardGetDashboardNumberAll,
   requestDashboardGetDashboardPostMonth,
   requestDashboardGetDashboardPostYear,
   requestDashboardGetDashboardUserMonth,
@@ -168,6 +170,31 @@ function* handleDashboardGetDashboardPostYear(
     yield put(dashboardUpdateLoadingRedux({ loadingDashboard: false }));
   }
 }
+function* handleDashboardGetDashboardNumberAll(): Generator<any> {
+  try {
+    yield put(dashboardUpdateLoadingRedux({ loadingDashboard: true }));
+    const token: Token = getToken();
+    const response: any = yield call(
+      requestDashboardGetDashboardNumberAll,
+      token?.accessToken
+    );
+    if (response?.data?.code === 1000) {
+      console.log(
+        "🚀 ~ function*handleDashboardGetDashboardNumberAll ~ response?.data:",
+        response?.data
+      );
+      yield put(
+        dashboardUpdateDashboardNumberAllRedux({
+          dashboardNumberAll: response?.data?.result,
+        })
+      );
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(dashboardUpdateLoadingRedux({ loadingDashboard: false }));
+  }
+}
 export {
   handleDashboardGetDashboardUserMonth,
   handleDashboardGetDashboardUserYear,
@@ -175,4 +202,5 @@ export {
   handleDashboardGetDashboardPostYear,
   handleDashboardGetDashboardCompanyMonth,
   handleDashboardGetDashboardCompanyYear,
+  handleDashboardGetDashboardNumberAll,
 };

@@ -23,6 +23,7 @@ import {
 } from "../store/company_request_review/company-request-review-slice";
 import TitleContent from "../components/title/TitleContent";
 import InputSearch from "../components/input/InputSearch";
+import { adminSendMailRequestConfirmCompanyAgain } from "../store/admin/admin-slice";
 
 const options: any = [
   { value: "", label: "Tất cả" },
@@ -142,8 +143,13 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
                     <TableRowContent className="">
                       {item?.company?.id}
                     </TableRowContent>
-                    <TableRowContent className="">
-                      {item?.company?.name}
+                    <TableRowContent className="font-medium">
+                      <a
+                        target="_blank"
+                        href={`https://jspace-fe.vercel.app/companys/${item?.company?.id}`}
+                      >
+                        {item?.company?.name}
+                      </a>
                     </TableRowContent>
                     <TableRowContent className="">
                       {item?.company?.email}
@@ -163,17 +169,32 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
                     <TableRowContent className="">
                       <div className="flex gap-2 items-center">
                         <Switch checked={item?.company?.emailVerified} />
-                        <Popover
-                          content={
-                            <p className="max-w-[150px] font-medium">
-                              Gửi lại email xác nhận đến công ty
-                            </p>
-                          }
+                        <Popconfirm
+                          title="Xác nhận gửi mail yêu cầu xác thực thông tin lại."
+                          description="Bạn có chắc chắn gửi mail yêu cầu xác thực thông tin lại ?"
+                          okText="Đồng ý"
+                          cancelText="Không"
+                          onConfirm={() => {
+                            dispatch(
+                              adminSendMailRequestConfirmCompanyAgain({
+                                companyId: item?.company?.id,
+                              })
+                            );
+                          }}
+                          onCancel={() => {}}
                         >
-                          <span className="cursor-pointer text-nowrap py-1 px-2 rounded-md bg-primary text-white">
-                            Gửi lại
-                          </span>
-                        </Popover>
+                          <Popover
+                            content={
+                              <p className="max-w-[150px] font-medium">
+                                Gửi lại email xác nhận đến công ty
+                              </p>
+                            }
+                          >
+                            <span className="cursor-pointer text-nowrap py-1 px-2 rounded-md bg-primary text-white">
+                              Gửi lại
+                            </span>
+                          </Popover>
+                        </Popconfirm>
                       </div>
                     </TableRowContent>
                     <TableRowContent className="">
@@ -203,9 +224,7 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
           )}
         </Table>
         <div className="mt-4 flex justify-end">
-          {companyrequestreview.length <= 0 ? (
-            <></>
-          ) : (
+          {companyrequestreview.length > 0 && (
             <Pagination
               total={paginationCompanyRequestReview?.totalElements}
               onChange={(e) => setPage(e)}

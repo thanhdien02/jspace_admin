@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { authLogin } from "../store/auth/auth-slice";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
 import logo from "../assets/logo1.svg";
 import bglogin from "../assets/backgroung-login1.jpg";
@@ -141,12 +141,12 @@ const AdminLoginPage: React.FC = () => {
                   >
                     Hiện mật khẩu
                   </Checkbox>
-                  <NavLink
+                  {/* <NavLink
                     to={`/name`}
                     className="hover:text-primary transition-all ml-auto hover:opacity-70 "
                   >
                     <p className="text-base text-primary">Quên mật khẩu ?</p>
-                  </NavLink>
+                  </NavLink> */}
                 </div>
 
                 <Input

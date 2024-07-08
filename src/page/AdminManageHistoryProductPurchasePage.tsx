@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Table from "../components/table/Table";
-import { Empty, Pagination, Skeleton } from "antd";
+import { Empty, Pagination, Select, Skeleton } from "antd";
 import { debounce } from "ts-debounce";
 import HeaderTableManage from "../components/header/HeaderTableManage";
 import { dataHeaderManagePurchaseProduct } from "../utils/dataFetch";
 import ContentManageHistoryProductPurchasePage from "../components/content/ContentManageHistoryProductPurchasePage";
-import { purchasehistoryGetPurchaseHistory } from "../store/purchase_history/purchase-history-slice";
+import {
+  purchasehistoryGetExportAllPurchaseHistory,
+  purchasehistoryGetPurchaseHistory,
+  purchasehistoryUpdateMessageRedux,
+} from "../store/purchase_history/purchase-history-slice";
 import InputSearch from "../components/input/InputSearch";
 import { SearchOutlined } from "@ant-design/icons";
 import { exportToExcel, sortAscDesc } from "../utils/common-fucntion";
@@ -16,7 +20,9 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
     purchasehistorys,
     loadingPurchaseHistory,
     paginationPurchaseHistory,
+    messagePurchaseHistory,
   } = useSelector((state: any) => state.purchasehistory);
+  const { exportData } = useSelector((state: any) => state.common);
   const dispatch = useDispatch();
   const [sortTotalPrice, setSortTotalPrice] = useState<any>(false);
   const [sortProductPrice, setSortProductPrice] = useState<any>("");
@@ -111,29 +117,54 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
       setSortProductPrice(sort);
     }
   };
-  const handleExportExcel = () => {
-    exportToExcel(
-      purchasehistorys.map((item: any) => {
-        return {
-          ID: item?.id,
-          "TÊN SẢN PHẨM": item?.productName,
-          "TÊN CÔNG TY": item?.company?.name,
-          "GIÁ SẢN PHẨM": item?.productPrice?.toLocaleString("vi", {
-            style: "currency",
-            currency: "VND",
-          }),
-          "NGÀY MUA": item?.purchasedDate,
-          "SỐ LƯỢNG": item?.quantity,
-          "TỔNG TIỀN": item?.totalPrice?.toLocaleString("vi", {
-            style: "currency",
-            currency: "VND",
-          }),
-          "PHƯƠNG THỨC THANH TOÁN": item?.paymentMethod,
-        };
-      }),
-      "DanhSachLichSuMuaHang"
-    );
+  const handleExportExcel = (typeExport: any) => {
+    if (typeExport == "pagenow")
+      exportToExcel(
+        purchasehistorys.map((item: any) => {
+          return {
+            ID: item?.id,
+            "TÊN SẢN PHẨM": item?.productName,
+            "TÊN CÔNG TY": item?.company?.name,
+            "GIÁ SẢN PHẨM": item?.productPrice + "$",
+            "NGÀY MUA": item?.purchasedDate,
+            "SỐ LƯỢNG": item?.quantity,
+            "TỔNG TIỀN": item?.totalPrice + "$",
+            "PHƯƠNG THỨC THANH TOÁN": item?.paymentMethod,
+          };
+        }),
+        "DanhHangDaBan"
+      );
+    else {
+      dispatch(
+        purchasehistoryGetExportAllPurchaseHistory({
+          page: 1,
+          size: 1000,
+        })
+      );
+    }
   };
+  useEffect(() => {
+    if (messagePurchaseHistory == "export" && exportData?.length > 0) {
+      exportToExcel(
+        exportData.map((item: any) => {
+          return {
+            ID: item?.id,
+            "TÊN SẢN PHẨM": item?.productName,
+            "TÊN CÔNG TY": item?.company?.name,
+            "GIÁ SẢN PHẨM": item?.productPrice + "$",
+            "NGÀY MUA": item?.purchasedDate,
+            "SỐ LƯỢNG": item?.quantity,
+            "TỔNG TIỀN": item?.totalPrice + "$",
+            "PHƯƠNG THỨC THANH TOÁN": item?.paymentMethod,
+          };
+        }),
+        "DanhHangDaBan"
+      );
+      dispatch(
+        purchasehistoryUpdateMessageRedux({ messagePurchaseHistory: "" })
+      );
+    }
+  }, [messagePurchaseHistory]);
   return (
     <>
       <div className="m-10 mt-8">
@@ -154,13 +185,16 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
             ></InputSearch>
             <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
           </div>
-          <button
-            type="button"
-            className="px-5 py-2 bg-white rounded border border-solid border-slate-200 ml-auto font-medium hover:bg-gray-400 transition-all hover:text-white"
-            onClick={handleExportExcel}
-          >
-            Export
-          </button>
+
+          <Select
+            className="select-filter ml-auto"
+            value="Export excel"
+            onChange={(e) => handleExportExcel(e)}
+            options={[
+              { label: "Trang này", value: "pagenow" },
+              { label: "Tất cả", value: "all" },
+            ]}
+          ></Select>
         </div>
         <div className="w-full overflow-auto">
           <Table className="!w-[1600px]">

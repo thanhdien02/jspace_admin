@@ -2,6 +2,7 @@ import { takeLatest } from "redux-saga/effects";
 import {
   dashboardGetDashboardCompanyMonth,
   dashboardGetDashboardCompanyYear,
+  dashboardGetDashboardNumberAll,
   dashboardGetDashboardPostMonth,
   dashboardGetDashboardPostYear,
   dashboardGetDashboardUserMonth,
@@ -10,6 +11,7 @@ import {
 import {
   handleDashboardGetDashboardCompanyMonth,
   handleDashboardGetDashboardCompanyYear,
+  handleDashboardGetDashboardNumberAll,
   handleDashboardGetDashboardPostMonth,
   handleDashboardGetDashboardPostYear,
   handleDashboardGetDashboardUserMonth,
@@ -40,5 +42,9 @@ export default function* dashboardSaga() {
   yield takeLatest(
     dashboardGetDashboardCompanyYear.type,
     handleDashboardGetDashboardCompanyYear
+  );
+  yield takeLatest(
+    dashboardGetDashboardNumberAll.type,
+    handleDashboardGetDashboardNumberAll
   );
 }

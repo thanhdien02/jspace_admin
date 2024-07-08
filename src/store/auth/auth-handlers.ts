@@ -3,7 +3,6 @@ import { getToken, logOut, saveToken } from "../../utils/auth";
 import {
   authUpdateUserRedux,
   authUploadLoading,
-  authUploadMessageRedux,
   authUploadMessageRefreshRedux,
 } from "./auth-slice";
 import {
@@ -49,11 +48,10 @@ function* handleAuthFetchMe(): Generator<any> {
     }
   } catch (error: any) {
     if (error?.response?.data?.message == "unauthenticated") {
-      yield put(
-        authUploadMessageRedux({ message: error?.response?.data?.message })
-      );
+      yield put(authUploadMessageRefreshRedux({ messageRefresh: "error" }));
     } else {
-      yield call(handleAuthRefrestToken);
+      // yield call(handleAuthRefrestToken);
+      yield put(authUploadMessageRefreshRedux({ messageRefresh: "error" }));
     }
   }
 }
@@ -66,9 +64,7 @@ function* handleAuthLogout(): Generator<any> {
         accessToken: "",
       })
     );
-  } catch (error) {
-  } finally {
-  }
+  } catch (error) {}
 }
 function* handleAuthRefrestToken(): Generator<any> {
   try {
@@ -76,13 +72,13 @@ function* handleAuthRefrestToken(): Generator<any> {
     const response: any = yield call(requestAuthRefresh, refreshToken);
     if (response?.data?.result) {
       saveToken(response?.data?.result?.accessToken, refreshToken);
-      yield call(handleAuthFetchMe);
+      // yield call(handleAuthFetchMe);
     } else {
       logOut();
     }
   } catch (error: any) {
     yield put(authUploadMessageRefreshRedux({ messageRefresh: "error" }));
-    // logOut();
+    logOut();
     // message.error(error?.response?.data?.message);
   }
 }

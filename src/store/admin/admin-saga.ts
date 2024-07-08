@@ -1,8 +1,17 @@
 import { takeLatest } from "redux-saga/effects";
-import { adminCreateSubAdmin } from "./admin-slice";
-import { handleAdminCreateSubAdmin } from "./admin-handlers";
-
+import {
+  adminCreateSubAdmin,
+  adminSendMailRequestConfirmCompanyAgain,
+} from "./admin-slice";
+import {
+  handleAdminCreateSubAdmin,
+  handleAdminSendMailRequestConfirmCompanyAgain,
+} from "./admin-handlers";
 
 export default function* adminSaga() {
   yield takeLatest(adminCreateSubAdmin.type, handleAdminCreateSubAdmin);
+  yield takeLatest(
+    adminSendMailRequestConfirmCompanyAgain.type,
+    handleAdminSendMailRequestConfirmCompanyAgain
+  );
 }

@@ -3,7 +3,6 @@ import {
   UserAddOutlined,
   BorderOuterOutlined,
   LogoutOutlined,
-  SwapOutlined,
   BuildOutlined,
   SafetyCertificateOutlined,
   ShopOutlined,
@@ -50,18 +49,12 @@ export const dataSideBar = [
   },
   {
     key: "7",
-    label: "Đổi mật khẩu",
-    icon: React.createElement(SwapOutlined),
-    path: "/admin/change-password",
-  },
-  {
-    key: "8",
     label: "Sản phẩm đã bán",
     icon: React.createElement(ProductOutlined),
     path: "/admin/manage-history-product-purchase",
   },
   {
-    key: "9",
+    key: "8",
     label: "Đăng xuất",
     icon: React.createElement(LogoutOutlined),
     path: "/login",

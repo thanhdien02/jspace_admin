@@ -15,6 +15,7 @@ const adminSlice: any = createSlice({
   name: "admin",
   initialState: init,
   reducers: {
+    adminSendMailRequestConfirmCompanyAgain: () => {},
     adminCreateSubAdmin: (state: any, action: any) => ({
       ...state,
       user: action.payload,
@@ -33,5 +34,6 @@ export const {
   adminCreateSubAdmin,
   adminUploadLoading,
   adminUploadMessageRedux,
+  adminSendMailRequestConfirmCompanyAgain,
 } = adminSlice.actions;
 export default adminSlice.reducer;

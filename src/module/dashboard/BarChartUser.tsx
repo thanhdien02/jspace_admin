@@ -72,6 +72,7 @@ const BarChartUser = () => {
   const [monthlyDataCompany, setMonthlyDataCompany] = useState(null);
   const [yearlyDataCompany, setYearlyDataCompany] = useState(null);
   const [timeframe, setTimeframe] = useState<"month" | "year">("month");
+
   const handleTimeRangeChange = (range: "year" | "month") => {
     setTimeframe(range);
     if (range === "month") {
@@ -170,23 +171,41 @@ const BarChartUser = () => {
       },
     },
   };
-  const handleExportExcel = () => {
-    if (timeframe === "month") {
-      const transformedArray: any = Object.entries(dashboardUserMonth).map(
+  const handleExportExcel = (typeData: string) => {
+    if (typeData == "user")
+      if (timeframe === "month") {
+        const transformedArray: any = Object.entries(dashboardUserMonth).map(
+          ([key, value]) => ({
+            THÁNG: Number(key),
+            "SỐ LƯỢNG NGƯỜI DÙNG": value,
+          })
+        );
+        exportToExcel(transformedArray, "ThongKeSoLuongNguoiDung");
+      } else {
+        const transformedArray: any = Object.entries(dashboardUserYear).map(
+          ([key, value]) => ({
+            NĂM: Number(key),
+            "SỐ LƯỢNG NGƯỜI DÙNG": value,
+          })
+        );
+        exportToExcel(transformedArray, "ThongKeSoLuongNguoiDung");
+      }
+    else if (timeframe === "month") {
+      const transformedArray: any = Object.entries(dashboardCompanyMonth).map(
         ([key, value]) => ({
           THÁNG: Number(key),
-          "SỐ LƯỢNG NGƯỜI DÙNG": value,
+          "SỐ LƯỢNG CÔNG TY": value,
         })
       );
-      exportToExcel(transformedArray, "ThongKeSoLuongNguoiDung");
+      exportToExcel(transformedArray, "ThongKeSoLuongCongTy");
     } else {
-      const transformedArray: any = Object.entries(dashboardUserYear).map(
+      const transformedArray: any = Object.entries(dashboardCompanyYear).map(
         ([key, value]) => ({
           NĂM: Number(key),
-          "SỐ LƯỢNG NGƯỜI DÙNG": value,
+          "SỐ LƯỢNG CÔNG TY": value,
         })
       );
-      exportToExcel(transformedArray, "ThongKeSoLuongNguoiDung");
+      exportToExcel(transformedArray, "ThongKeSoLuongCongTy");
     }
   };
   return (
@@ -218,14 +237,14 @@ const BarChartUser = () => {
               <Select
                 placeholder="Tháng"
                 value={month}
-                className="select-filter !py-0 ml-2 w-[120px]"
+                className="select-filter !py-0 ml-2 w-[110px]"
                 onChange={onChangeMonth}
                 options={dataMonth}
               />
               <Select
                 placeholder="Năm"
                 value={year}
-                className="select-filter !py-0 ml-2 w-[120px]"
+                className="select-filter !py-0 ml-2 w-[110px]"
                 onChange={onChangeYearofMonth}
                 options={dataYear}
               />
@@ -235,19 +254,21 @@ const BarChartUser = () => {
               <Select
                 placeholder="Năm"
                 value={year}
-                className="select-filter !py-0 ml-2 w-[120px]"
+                className="select-filter !py-0 ml-2 w-[110px]"
                 onChange={onChangeYear}
                 options={dataYear}
               />
             </>
           )}
-          <button
-            type="button"
-            className="px-3 py-1 rounded border border-solid border-slate-200"
-            onClick={handleExportExcel}
-          >
-            Export
-          </button>
+          <Select
+            className="select-filter"
+            value="Export excel"
+            onChange={(e) => handleExportExcel(e)}
+            options={[
+              { label: "Người dùng", value: "user" },
+              { label: "Công ty", value: "company" },
+            ]}
+          ></Select>
         </div>
         <div className="w-full mt-3">
           <Bar data={data} options={options} />

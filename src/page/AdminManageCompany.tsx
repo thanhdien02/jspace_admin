@@ -91,10 +91,10 @@ const AdminManageCompany: React.FC = () => {
               title="Link website"
               className="w-[13%]"
             ></TableHeaderContent>
-            <TableHeaderContent
+            {/* <TableHeaderContent
               title="Xác thực"
               className="w-[12%]"
-            ></TableHeaderContent>
+            ></TableHeaderContent> */}
           </TableHeader>
           {loadingCompany ? (
             <tbody className="">

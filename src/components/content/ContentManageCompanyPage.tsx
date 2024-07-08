@@ -1,7 +1,6 @@
 import React from "react";
 import TableRow from "../table/TableRow";
 import TableRowContent from "../table/TableRowContent";
-import { Popconfirm, Switch } from "antd";
 interface PropComponent {
   className?: string;
   item?: any;
@@ -41,17 +40,9 @@ const ContentManageCompanyPage: React.FC<PropComponent> = ({
             {item?.companyLink}
           </a>
         </TableRowContent>
-        <TableRowContent className="">
-          <Popconfirm
-            title="Khóa tài khoản"
-            description="Bạn có chắc khóa tài khoản ?"
-            okText="Đồng ý"
-            cancelText="Không"
-            onCancel={() => {}}
-          >
-            <Switch checked={true} onChange={() => {}} />
-          </Popconfirm>
-        </TableRowContent>
+        {/* <TableRowContent className="">
+          <Switch checked={true} onChange={() => {}} />
+        </TableRowContent> */}
       </TableRow>
     </>
   );

@@ -27,7 +27,7 @@ const VNCurrencyInput: React.FC<VNCurrencyInputProps> = ({
         type="text"
         value={formatCurrency(value)}
         onChange={handleChange}
-        placeholder="0 ₫"
+        placeholder="0 $"
         className={`h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none px-4 py-3 border border-stone-200 border-solid w-full rounded-md ${className}`}
       />
     </>

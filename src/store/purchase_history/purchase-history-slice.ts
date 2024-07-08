@@ -21,6 +21,7 @@ const purchasehistorySlice: any = createSlice({
   initialState: init,
   reducers: {
     purchasehistoryGetPurchaseHistory: () => {},
+    purchasehistoryGetExportAllPurchaseHistory: () => {},
     purchasehistoryGetPurchaseHistoryById: () => {},
     purchasehistoryUpdatePurchaseHistoryRedux: (state: any, action: any) => ({
       ...state,
@@ -52,5 +53,6 @@ export const {
   purchasehistoryUpdateLoadingRedux,
   purchasehistoryUpdateMessageRedux,
   purchasehistoryUpdateProductByIdRedux,
+  purchasehistoryGetExportAllPurchaseHistory,
 } = purchasehistorySlice.actions;
 export default purchasehistorySlice.reducer;

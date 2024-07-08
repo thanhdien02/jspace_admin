@@ -88,3 +88,11 @@ export const requestDashboardGetDashboardCompanyYear = (
     }
   );
 };
+export const requestDashboardGetDashboardNumberAll = (accessToken: string) => {
+  return axios.get(`${API}/api/v1/dashboards/admins/statistics`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
