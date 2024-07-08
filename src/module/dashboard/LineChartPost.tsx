@@ -8,6 +8,7 @@ import {
   dashboardGetDashboardPostYear,
 } from "../../store/dashboard/dashboard-slice";
 import { Line } from "react-chartjs-2";
+import { exportToExcel } from "../../utils/common-fucntion";
 
 const generateDataPost = (
   timeframe: "month" | "year",
@@ -57,7 +58,7 @@ const LineChartPost = () => {
   const { dashboardPostMonth, dashboardPostYear } = useSelector(
     (state: any) => state.dashboard
   );
-  const [month, setMonth] = useState<any>(`Tháng ${new Date().getMonth() + 1}`);
+  const [month, setMonth] = useState<any>(`${new Date().getMonth() + 1}`);
   const [year, setYear] = useState<any>(new Date().getFullYear());
   const { users } = useSelector((state: any) => state.auth);
   const [monthlyData, setMonthlyData] = useState(null);
@@ -100,17 +101,36 @@ const LineChartPost = () => {
   }, [dashboardPostYear]);
 
   const onChangeMonth = (e: any) => {
-    setMonth(e);
     dispatch(dashboardGetDashboardPostMonth({ year: year, month: e }));
+    setMonth(e);
   };
   const onChangeYearofMonth = (e: any) => {
-    setYear(e);
     dispatch(dashboardGetDashboardPostMonth({ year: e, month: month }));
+    setYear(e);
   };
   const onChangeYear = (e: any) => {
     dispatch(dashboardGetDashboardPostYear({ year: e }));
+    setYear(e);
   };
-
+  const handleExportExcel = () => {
+    if (timeframe === "month") {
+      const transformedArray: any = Object.entries(dashboardPostMonth).map(
+        ([key, value]) => ({
+          THÁNG: Number(key),
+          "SỐ LƯỢNG NGƯỜI DÙNG": value,
+        })
+      );
+      exportToExcel(transformedArray, "ThongKeSoLuongBaiDang");
+    } else {
+      const transformedArray: any = Object.entries(dashboardPostYear).map(
+        ([key, value]) => ({
+          NĂM: Number(key),
+          "SỐ LƯỢNG NGƯỜI DÙNG": value,
+        })
+      );
+      exportToExcel(transformedArray, "ThongKeSoLuongBaiDang");
+    }
+  };
   return (
     <>
       <div className="w-full">
@@ -163,6 +183,13 @@ const LineChartPost = () => {
               />
             </>
           )}
+          <button
+            type="button"
+            className="px-3 py-1 rounded border border-solid border-slate-200"
+            onClick={handleExportExcel}
+          >
+            Export
+          </button>
         </div>
         <div className="w-full mt-3">
           <Line data={data} options={options} />

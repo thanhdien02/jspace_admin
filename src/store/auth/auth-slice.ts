@@ -5,6 +5,7 @@ interface IAuth {
   accessToken: string;
   loading?: boolean;
   message?: string;
+  messageRefresh?: string;
 }
 
 const init: IAuth = {
@@ -12,6 +13,7 @@ const init: IAuth = {
   accessToken: "",
   loading: false,
   message: "",
+  messageRefresh: "",
 };
 const authSlice: any = createSlice({
   name: "auth",
@@ -39,6 +41,10 @@ const authSlice: any = createSlice({
       ...state,
       message: action.payload.message,
     }),
+    authUploadMessageRefreshRedux: (state, action) => ({
+      ...state,
+      messageRefresh: action.payload.messageRefresh,
+    }),
   },
 });
 export const {
@@ -49,5 +55,6 @@ export const {
   authUploadLoading,
   authLogout,
   authUploadMessageRedux,
+  authUploadMessageRefreshRedux,
 } = authSlice.actions;
 export default authSlice.reducer;

@@ -11,6 +11,7 @@ import {
 } from "./product-slice";
 import {
   requestProductCreateProduct,
+  requestProductDeteleProductById,
   requestProductGetProduct,
   requestProductGetProductById,
   requestProductUpdateProduct,
@@ -162,9 +163,45 @@ function* handleProductUpdateProduct(dataUpdateProduct: any): Generator<any> {
     );
   }
 }
+function* handleProductDeleteProductById(
+  dataDeleteProductById: any
+): Generator<any> {
+  try {
+    yield put(
+      productUpdateLoadingRedux({
+        loadingProduct: true,
+      })
+    );
+    const { accessToken } = getToken();
+    const response: any = yield call(
+      requestProductDeteleProductById,
+      dataDeleteProductById?.payload?.product_id,
+      accessToken
+    );
+    if (response.data.code === 1000) {
+      yield call(handleProductGetProduct, {
+        payload: {
+          page: 1,
+          size: 10,
+          name: "",
+        },
+      });
+      message.success("Xóa dịch vụ thành công.");
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(
+      productUpdateLoadingRedux({
+        loadingProduct: false,
+      })
+    );
+  }
+}
 export {
   handleProductGetProduct,
   handleProductCreateProduct,
   handleProductGetProductById,
   handleProductUpdateProduct,
+  handleProductDeleteProductById,
 };

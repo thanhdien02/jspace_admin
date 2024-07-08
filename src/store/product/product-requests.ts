@@ -53,3 +53,14 @@ export const requestProductUpdateProduct = (
     }
   );
 };
+export const requestProductDeteleProductById = (
+  product_id: string,
+  accessToken: string
+) => {
+  return axios.delete(`${API}/api/v1/admins/products/${product_id}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};

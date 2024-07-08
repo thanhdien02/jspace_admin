@@ -23,6 +23,7 @@ const productSlice: any = createSlice({
     productCreateProduct: () => {},
     productUpdateProduct: () => {},
     productGetProduct: () => {},
+    productDeleteProductById: () => {},
     productGetProductById: () => {},
     productUpdateProductRedux: (state: any, action: any) => ({
       ...state,
@@ -56,5 +57,6 @@ export const {
   productCreateProduct,
   productUpdateProductByIdRedux,
   productUpdateProduct,
+  productDeleteProductById,
 } = productSlice.actions;
 export default productSlice.reducer;

@@ -9,7 +9,7 @@ import ContentManageHistoryProductPurchasePage from "../components/content/Conte
 import { purchasehistoryGetPurchaseHistory } from "../store/purchase_history/purchase-history-slice";
 import InputSearch from "../components/input/InputSearch";
 import { SearchOutlined } from "@ant-design/icons";
-import { sortAscDesc } from "../utils/common-fucntion";
+import { exportToExcel, sortAscDesc } from "../utils/common-fucntion";
 type SortOrder = "asc" | "desc" | "";
 const AdminManageHistoryProductPurchasePage: React.FC = () => {
   const {
@@ -111,6 +111,29 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
       setSortProductPrice(sort);
     }
   };
+  const handleExportExcel = () => {
+    exportToExcel(
+      purchasehistorys.map((item: any) => {
+        return {
+          ID: item?.id,
+          "TÊN SẢN PHẨM": item?.productName,
+          "TÊN CÔNG TY": item?.company?.name,
+          "GIÁ SẢN PHẨM": item?.productPrice?.toLocaleString("vi", {
+            style: "currency",
+            currency: "VND",
+          }),
+          "NGÀY MUA": item?.purchasedDate,
+          "SỐ LƯỢNG": item?.quantity,
+          "TỔNG TIỀN": item?.totalPrice?.toLocaleString("vi", {
+            style: "currency",
+            currency: "VND",
+          }),
+          "PHƯƠNG THỨC THANH TOÁN": item?.paymentMethod,
+        };
+      }),
+      "DanhSachLichSuMuaHang"
+    );
+  };
   return (
     <>
       <div className="m-10 mt-8">
@@ -131,6 +154,13 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
             ></InputSearch>
             <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
           </div>
+          <button
+            type="button"
+            className="px-5 py-2 bg-white rounded border border-solid border-slate-200 ml-auto font-medium hover:bg-gray-400 transition-all hover:text-white"
+            onClick={handleExportExcel}
+          >
+            Export
+          </button>
         </div>
         <div className="w-full overflow-auto">
           <Table className="!w-[1600px]">

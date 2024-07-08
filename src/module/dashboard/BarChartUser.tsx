@@ -9,6 +9,7 @@ import {
 } from "../../store/dashboard/dashboard-slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { exportToExcel } from "../../utils/common-fucntion";
 
 const generateDataUser = (
   timeframe: "month" | "year",
@@ -64,7 +65,7 @@ const BarChartUser = () => {
     dashboardCompanyYear,
   } = useSelector((state: any) => state.dashboard);
   const { users } = useSelector((state: any) => state.auth);
-  const [month, setMonth] = useState<any>(`Tháng ${new Date().getMonth() + 1}`);
+  const [month, setMonth] = useState<any>(`${new Date().getMonth() + 1}`);
   const [year, setYear] = useState(new Date().getFullYear());
   const [monthlyDataUser, setMonthlyDataUser] = useState(null);
   const [yearlyDataUser, setYearlyDataUser] = useState(null);
@@ -141,6 +142,7 @@ const BarChartUser = () => {
     dispatch(dashboardGetDashboardCompanyMonth({ year: e, month: month }));
   };
   const onChangeYear = (e: any) => {
+    setYear(e);
     dispatch(dashboardGetDashboardUserYear({ year: e }));
     dispatch(dashboardGetDashboardCompanyYear({ year: e }));
   };
@@ -167,6 +169,25 @@ const BarChartUser = () => {
         },
       },
     },
+  };
+  const handleExportExcel = () => {
+    if (timeframe === "month") {
+      const transformedArray: any = Object.entries(dashboardUserMonth).map(
+        ([key, value]) => ({
+          THÁNG: Number(key),
+          "SỐ LƯỢNG NGƯỜI DÙNG": value,
+        })
+      );
+      exportToExcel(transformedArray, "ThongKeSoLuongNguoiDung");
+    } else {
+      const transformedArray: any = Object.entries(dashboardUserYear).map(
+        ([key, value]) => ({
+          NĂM: Number(key),
+          "SỐ LƯỢNG NGƯỜI DÙNG": value,
+        })
+      );
+      exportToExcel(transformedArray, "ThongKeSoLuongNguoiDung");
+    }
   };
   return (
     <>
@@ -220,6 +241,13 @@ const BarChartUser = () => {
               />
             </>
           )}
+          <button
+            type="button"
+            className="px-3 py-1 rounded border border-solid border-slate-200"
+            onClick={handleExportExcel}
+          >
+            Export
+          </button>
         </div>
         <div className="w-full mt-3">
           <Bar data={data} options={options} />

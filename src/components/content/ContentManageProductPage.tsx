@@ -1,6 +1,7 @@
 import React from "react";
 import TableRow from "../table/TableRow";
 import TableRowContent from "../table/TableRowContent";
+import { convertDollarToVN } from "../../utils/common-fucntion";
 interface PropComponent {
   className?: string;
   onclick?: any;
@@ -20,7 +21,8 @@ const ContentManageProductPage: React.FC<PropComponent> = ({
         <div className="line-clamp-2">{item?.name}</div>
       </TableRowContent>
       <TableRowContent className="">
-        {item?.price?.toLocaleString("vi", {
+        {item?.price}$ /{" "}
+        {convertDollarToVN(Number(item?.price), 24000).toLocaleString("vi", {
           style: "currency",
           currency: "VND",
         })}

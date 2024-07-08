@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import IconClose from "../components/icons/IconClose";
-import { Skeleton, Switch } from "antd";
-import { HomeOutlined } from "@ant-design/icons";
+import { Popconfirm, Skeleton } from "antd";
+import { HomeOutlined, DollarOutlined } from "@ant-design/icons";
 import ButtonLoading from "../components/button/ButtonLoading";
 import "react-quill/dist/quill.snow.css";
 import IconClock from "../components/icons/IconClock";
@@ -11,6 +11,7 @@ import VNCurrencyInput from "../components/input/InputMoney";
 import InputNumber from "../components/input/InputNumber";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  productDeleteProductById,
   productGetProductById,
   productUpdateProduct,
 } from "../store/product/product-slice";
@@ -100,10 +101,23 @@ const AdminUpdateProductPage: React.FC<PropComponent> = ({
                 Cập nhật sản phẩm
               </h2>
               <div className="mr-5">
-                <p className="font-medium text-sm">Tình trạng sản phẩm</p>
-                <div>
-                  <Switch className="mt-2" size="default" />
-                </div>
+                <Popconfirm
+                  title="Xác nhận xóa sản phẩm."
+                  description="Bạn có chắc chắn xóa sản phẩm ?"
+                  okText="Đồng ý"
+                  cancelText="Không"
+                  onConfirm={() => {
+                    dispatch(
+                      productDeleteProductById({ product_id: productById?.id })
+                    );
+                    onClick(false);
+                  }}
+                  onCancel={() => {}}
+                >
+                  <p className="text-sm cursor-pointer px-2 py-1 bg-red-500 rounded text-white font-medium hover:opacity-80 transition-all">
+                    Xóa sản phẩm
+                  </p>
+                </Popconfirm>
               </div>
             </div>
             <form action="" onSubmit={handleSubmit(onSubmit)} className="py-5">
@@ -165,7 +179,7 @@ const AdminUpdateProductPage: React.FC<PropComponent> = ({
                       )}
                     />
                     <span className="absolute right-3 top-1/2 -translate-y-1/2 font-medium">
-                      VND
+                      <DollarOutlined className="text-2xl" />
                     </span>
                   </div>
                   {errors?.price?.type == "required" && (

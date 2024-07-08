@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import IconClose from "../components/icons/IconClose";
 import { Switch } from "antd";
-import { HomeOutlined } from "@ant-design/icons";
+import { HomeOutlined, DollarOutlined } from "@ant-design/icons";
 import ButtonLoading from "../components/button/ButtonLoading";
 import IconClock from "../components/icons/IconClock";
 import IconCircleStack from "../components/icons/IconCircleStack";
@@ -42,8 +42,7 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (dataProduct: Inputs) => {
-    console.log("🚀 ~ dataProduct:", dataProduct);
-    dispatch(productCreateProduct(dataProduct));
+    dispatch(productCreateProduct({ ...dataProduct, productType: "TYPE_1" }));
     reset();
   };
   useEffect(() => {
@@ -117,12 +116,10 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
                     className="h-full pl-12 pr-4 focus:border-solid focus:border-stone-400/70 transition-all outline-none py-3 border border-stone-200 border-solid w-full rounded-md"
                   />
                 </div>
-                {errors.name?.type == "required" ? (
+                {errors.name?.type == "required" && (
                   <p className="text-red-600 mt-1">
                     *Bạn chưa điền tên sản phẩm
                   </p>
-                ) : (
-                  <></>
                 )}
               </div>
               <div className="">
@@ -147,13 +144,11 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
                     )}
                   />
                   <span className="absolute right-3 top-1/2 -translate-y-1/2 font-medium">
-                    VND
+                    <DollarOutlined className="text-2xl" />
                   </span>
                 </div>
-                {errors?.price?.type == "required" ? (
+                {errors?.price?.type == "required" && (
                   <p className="text-red-600 mt-1">*Bạn chưa điền giá tiền</p>
-                ) : (
-                  <></>
                 )}
               </div>
             </div>
@@ -189,12 +184,10 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
                     ngày
                   </span>
                 </div>
-                {errors?.durationDayNumber?.type == "required" ? (
+                {errors?.durationDayNumber?.type == "required" && (
                   <p className="text-red-600 mt-1">
                     *Bạn chưa điền thời gian sử dụng dịch vụ
                   </p>
-                ) : (
-                  <></>
                 )}
               </div>
               <div className="">
@@ -226,12 +219,10 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
                     ngày
                   </span>
                 </div>
-                {errors?.postDuration?.type == "required" ? (
+                {errors?.postDuration?.type == "required" && (
                   <p className="text-red-600 mt-1">
                     *Bạn chưa điền thời gian của mỗi bài đăng
                   </p>
-                ) : (
-                  <></>
                 )}
               </div>
             </div>
@@ -263,12 +254,10 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
                       bài đăng
                     </span>
                   </div>
-                  {errors?.numberOfPost?.type == "required" ? (
+                  {errors?.numberOfPost?.type == "required" && (
                     <p className="text-red-600 mt-1">
                       *Bạn chưa điền số lượng bài đăng
                     </p>
-                  ) : (
-                    <></>
                   )}
                 </div>
               </div>
@@ -290,12 +279,10 @@ const AdminCreateProductPage: React.FC<PropComponent> = ({
                 className="shadow appearance-none border min-h-[120px] mt-2 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               ></textarea>
             </div>
-            {errors?.description?.type == "required" ? (
+            {errors?.description?.type == "required" && (
               <p className="text-red-600 mt-1">
                 *Bạn chưa điền mô tả của dịch vụ
               </p>
-            ) : (
-              <></>
             )}
             <div className="flex justify-end mt-10">
               <ButtonLoading

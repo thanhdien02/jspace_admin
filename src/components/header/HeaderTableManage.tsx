@@ -16,7 +16,6 @@ const HeaderTableManage: React.FC<PropComponent> = ({
   sortFilter = "",
   name,
 }) => {
-  console.log("🚀 ~ sortFilter:", sortFilter);
   return (
     <>
       <TableHeader className={`w-full ${className}`}>

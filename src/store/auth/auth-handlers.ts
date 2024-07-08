@@ -4,6 +4,7 @@ import {
   authUpdateUserRedux,
   authUploadLoading,
   authUploadMessageRedux,
+  authUploadMessageRefreshRedux,
 } from "./auth-slice";
 import {
   requestAuthFetchMe,
@@ -80,8 +81,9 @@ function* handleAuthRefrestToken(): Generator<any> {
       logOut();
     }
   } catch (error: any) {
-    logOut();
-    message.error(error?.response?.data?.message);
+    yield put(authUploadMessageRefreshRedux({ messageRefresh: "error" }));
+    // logOut();
+    // message.error(error?.response?.data?.message);
   }
 }
 export {

@@ -23,7 +23,6 @@ const AdminManageProductPage: React.FC = () => {
   const [size] = useState(10);
   const [productId, setProductId] = useState("");
   const [nameProduct, setNameProduct] = useState("");
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -132,13 +131,11 @@ const AdminManageProductPage: React.FC = () => {
         </div>
 
         {/* update product */}
-        {popoverUpdateProduct ? (
+        {popoverUpdateProduct && (
           <AdminUpdateProductPage
             productId={productId}
             onClick={setPopoverUpdateProduct}
           ></AdminUpdateProductPage>
-        ) : (
-          <></>
         )}
       </div>
     </>

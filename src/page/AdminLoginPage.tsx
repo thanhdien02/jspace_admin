@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authLogin } from "../store/auth/auth-slice";
 import { NavLink, useNavigate } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
-import logo from "../assets/logo3.png";
+import logo from "../assets/logo1.svg";
 import bglogin from "../assets/backgroung-login1.jpg";
 import Input from "../components/input";
 import IconKey from "../components/icons/IconKey";
@@ -48,20 +48,14 @@ const AdminLoginPage: React.FC = () => {
           <div className="flex justify-center items-center">
             <div className="w-full p-5">
               <div className="flex">
-                <img
-                  src={logo}
-                  alt=""
-                  className="w-[50px] h-[50px] mx-auto mt-3"
-                />
+                <img src={logo} alt="" className="w-[160px]  mx-auto mt-3" />
               </div>
-              <h1 className="font-bold text-xl text-center mt-2">
-                Đăng nhập với JSPACE
-              </h1>
+
               <form
                 autoComplete="off"
                 action=""
                 onSubmit={handleSubmit(onSubmit)}
-                className="mt-6 p-2"
+                className="mt-9 p-2"
               >
                 <div className="">
                   <label
