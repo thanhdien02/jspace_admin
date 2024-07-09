@@ -179,10 +179,6 @@ function* handleDashboardGetDashboardNumberAll(): Generator<any> {
       token?.accessToken
     );
     if (response?.data?.code === 1000) {
-      console.log(
-        "🚀 ~ function*handleDashboardGetDashboardNumberAll ~ response?.data:",
-        response?.data
-      );
       yield put(
         dashboardUpdateDashboardNumberAllRedux({
           dashboardNumberAll: response?.data?.result,

@@ -23,7 +23,8 @@ function* handleAdminCreateSubAdmin(dataCreateSubAdmin: any): Generator<any> {
     } else {
       yield put(adminUploadMessageRedux({ messageAdmin: "fail" }));
     }
-  } catch (error) {
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
   } finally {
     yield put(adminUploadLoading({ loading: false }));
   }

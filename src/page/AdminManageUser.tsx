@@ -28,20 +28,37 @@ const AdminManageUser: React.FC = () => {
   );
   const dispatch = useDispatch();
   const [nameSearch, setNameSearch] = useState("");
+  const [emailSearch, setEmailSearch] = useState("");
   const [activated, setActivated] = useState("");
   const [roleId, setRoleId] = useState("");
   const [page, setPage] = useState(1);
-
+  const [size] = useState(20);
   const handleSearchName = debounce((value: any) => {
-    setNameSearch(value);
     dispatch(
       userGetUsers({
         page: 1,
+        size: size,
         name: value,
         activated: activated,
         roleId: roleId,
+        email: emailSearch,
       })
     );
+    setNameSearch(value);
+    setPage(1);
+  }, 500);
+  const handleSearchEmail = debounce((value: any) => {
+    dispatch(
+      userGetUsers({
+        page: 1,
+        size: size,
+        name: nameSearch,
+        activated: activated,
+        roleId: roleId,
+        email: value,
+      })
+    );
+    setEmailSearch(value);
     setPage(1);
   }, 500);
   const handleChangeAccountStatus = (value: string) => {
@@ -49,9 +66,11 @@ const AdminManageUser: React.FC = () => {
     dispatch(
       userGetUsers({
         page: 1,
+        size: size,
         name: nameSearch,
         activated: value,
         roleId: roleId,
+        email: emailSearch,
       })
     );
     setPage(1);
@@ -60,9 +79,11 @@ const AdminManageUser: React.FC = () => {
     dispatch(
       userGetUsers({
         page: e,
+        size: size,
         name: nameSearch,
         activated: activated,
         roleId: roleId,
+        email: emailSearch,
       })
     );
     setPage(e);
@@ -71,16 +92,18 @@ const AdminManageUser: React.FC = () => {
     dispatch(
       userGetUsers({
         page: 1,
+        size: size,
         name: nameSearch,
         activated: activated,
         roleId: value,
+        email: emailSearch,
       })
     );
     setRoleId(value);
     setPage(1);
   };
   useEffect(() => {
-    dispatch(userGetUsers({ page: page }));
+    dispatch(userGetUsers({ page: page, size: size }));
   }, []);
   return (
     <>
@@ -91,6 +114,16 @@ const AdminManageUser: React.FC = () => {
               placeholder="Nhập tên tài khoản"
               onChange={(e: any) => {
                 handleSearchName(e?.target?.value);
+              }}
+              className="pr-10 w-[280px]"
+            ></InputSearch>
+            <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
+          </div>
+          <div className="relative">
+            <InputSearch
+              placeholder="Nhập email"
+              onChange={(e: any) => {
+                handleSearchEmail(e?.target?.value);
               }}
               className="pr-10 w-[280px]"
             ></InputSearch>

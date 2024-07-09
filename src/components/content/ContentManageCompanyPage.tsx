@@ -22,7 +22,7 @@ const ContentManageCompanyPage: React.FC<PropComponent> = ({
             className="w-10 h-8 object-cover"
           />
           <a
-            className="line-clamp-1 hover:text-primary"
+            className="line-clamp-1 hover:text-primary font-medium"
             href={`https://jspace-fe.vercel.app/companys/${item?.id}`}
             target="_blank"
           >

@@ -20,8 +20,10 @@ function* handleUserGetUsers(dataGetUser: any): Generator<any> {
       dataGetUser?.payload?.page,
       accessToken,
       dataGetUser?.payload?.name,
+      dataGetUser?.payload?.email,
       dataGetUser?.payload?.activated,
-      dataGetUser?.payload?.roleId
+      dataGetUser?.payload?.roleId,
+      dataGetUser?.payload?.size
     );
 
     yield put(userUpdateUserRedux({ users: response.data.result.content }));

@@ -185,7 +185,6 @@ const AdminManageHistoryProductPurchasePage: React.FC = () => {
             ></InputSearch>
             <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
           </div>
-
           <Select
             className="select-filter ml-auto"
             value="Export excel"

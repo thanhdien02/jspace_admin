@@ -24,12 +24,11 @@ const AdminHeader: React.FC = () => {
         (notification: any) => !notification.read
       ).length;
       setNumberRead(countRead);
-    }
+    } else setNumberRead(0);
   }, [notifications]);
   return (
     <header className="flex px-6 py-4 justify-between items-center bg-white">
       <div className="">
-        {/* <p className="text-primary">Hi {users?.username}</p> */}
         <h1 className="text-primary font-bold text-2xl">
           Chào mừng đến với trang quản lí !
         </h1>
@@ -48,14 +47,20 @@ const AdminHeader: React.FC = () => {
               <h2 className="font-medium text-base">Thông báo</h2>
             </div>
             <div className="flex flex-col gap-2 max-h-[350px] overflow-auto">
-              {notifications?.length > 0 &&
+              {notifications?.length <= 0 ? (
+                <div className="text-gray-500 p-5 text-base">
+                  Không có thông báo
+                </div>
+              ) : (
+                notifications?.length > 0 &&
                 notifications?.map((item: any) => (
                   <CardNotificationAtHeaderPage
                     key={item?.notification?.id}
                     item={item}
                     classname="border-b border-solid border-gray-200"
                   ></CardNotificationAtHeaderPage>
-                ))}
+                ))
+              )}
             </div>
           </div>
         )}
