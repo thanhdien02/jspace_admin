@@ -109,19 +109,20 @@ const BarChartUser = () => {
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    if (users?.id)
+    if (users?.id) {
       dispatch(
         dashboardGetDashboardUserMonth({
           year: new Date().getFullYear(),
           month: new Date().getMonth() + 1,
         })
       );
-    dispatch(
-      dashboardGetDashboardCompanyMonth({
-        year: new Date().getFullYear(),
-        month: new Date().getMonth() + 1,
-      })
-    );
+      dispatch(
+        dashboardGetDashboardCompanyMonth({
+          year: new Date().getFullYear(),
+          month: new Date().getMonth() + 1,
+        })
+      );
+    }
   }, [users]);
   useEffect(() => {
     if (dashboardUserMonth) setMonthlyDataUser(dashboardUserMonth);

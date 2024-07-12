@@ -109,7 +109,7 @@ export const dataHeaderManagePurchaseProduct = [
   {
     title: "ID",
     className: "w-[70px]",
-    filter: true,
+    filter: false,
     name: "",
   },
   {
@@ -133,8 +133,8 @@ export const dataHeaderManagePurchaseProduct = [
   {
     title: "Thời gian mua",
     className: "w-[200px]",
-    filter: true,
-    name: "purchasedDate",
+    filter: false,
+    name: "",
   },
   {
     title: "Số lượng mua",

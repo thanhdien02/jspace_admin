@@ -28,8 +28,8 @@ const AdminDashBoard: React.FC = () => {
       <div className="grid grid-cols-5 gap-5">
         <div className="flex justify-between rounded-md bg-white px-5 py-8 shadow">
           <div>
-            <h3 className="font-medium text-gray-500">Danh thu sản phẩm</h3>
-            <strong className="mt-3 inline-block text-black font-bold text-xl">
+            <h3 className="font-medium text-gray-500 text-b">Danh thu sản phẩm</h3>
+            <strong className="mt-3 inline-block text-black font-bold text-xl text-center">
               {dashboardNumberAll?.total_revenue}$
             </strong>
           </div>
@@ -39,8 +39,8 @@ const AdminDashBoard: React.FC = () => {
         </div>
         <div className="flex justify-between rounded-md bg-white px-5 py-8 shadow">
           <div>
-            <h3 className="font-medium text-gray-500">Số lượng người dùng</h3>
-            <strong className="mt-3 inline-block text-black font-bold text-xl">
+            <h3 className="font-medium text-gray-500 text-base">Tổng người dùng</h3>
+            <strong className="mt-3 inline-block text-black font-bold text-xl text-center">
               {dashboardNumberAll?.user_number}
             </strong>
           </div>
@@ -50,8 +50,8 @@ const AdminDashBoard: React.FC = () => {
         </div>
         <div className="flex justify-between rounded-md bg-white px-5 py-8 shadow">
           <div>
-            <h3 className="font-medium text-gray-500">Số lượng công ty</h3>
-            <strong className="mt-3 inline-block text-black font-bold text-xl">
+            <h3 className="font-medium text-gray-500 text-base">Tổng công ty</h3>
+            <strong className="mt-3 inline-block text-black font-bold text-xl text-center">
               {dashboardNumberAll?.company_number}
             </strong>
           </div>
@@ -61,8 +61,8 @@ const AdminDashBoard: React.FC = () => {
         </div>
         <div className="flex justify-between rounded-md bg-white px-5 py-8 shadow">
           <div>
-            <h3 className="font-medium text-gray-500">Số lượng sản phẩm</h3>
-            <strong className="mt-3 inline-block text-black font-bold text-xl">
+            <h3 className="font-medium text-gray-500 text-base">Tổng sản phẩm</h3>
+            <strong className="mt-3 inline-block text-black font-bold text-xl text-center">
               {dashboardNumberAll?.product_number}
             </strong>
           </div>
@@ -72,8 +72,8 @@ const AdminDashBoard: React.FC = () => {
         </div>
         <div className="flex justify-between rounded-md bg-white px-5 py-8 shadow">
           <div>
-            <h3 className="font-medium text-gray-500">Số lượng bài đăng</h3>
-            <strong className="mt-3 inline-block text-black font-bold text-xl">
+            <h3 className="font-medium text-gray-500 text-base">Tổng bài đăng</h3>
+            <strong className="mt-3 inline-block text-black font-bold text-xl text-center">
               {dashboardNumberAll?.post_number}
             </strong>
           </div>
