@@ -200,6 +200,7 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
                       <a
                         target="_blank"
                         href={`https://jspace-fe.vercel.app/companys/${item?.company?.id}`}
+                        className="line-clamp-1 break-words w-[250px] hover:text-primary"
                       >
                         {item?.company?.name}
                       </a>

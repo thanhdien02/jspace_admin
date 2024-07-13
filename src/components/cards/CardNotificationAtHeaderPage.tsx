@@ -57,7 +57,7 @@ const CardNotificationAtHeaderPage: React.FC<PropComponent> = ({
             }
           >
             <CheckOutlined
-              className={`cursor-pointer ${item?.read ? "text-red-500" : ""}`}
+              className={`cursor-pointer ${item?.read ? "text-red-600" : ""}`}
               onClick={handleUpdateReadNotification}
             />
           </Popover>

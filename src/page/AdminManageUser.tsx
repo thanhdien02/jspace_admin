@@ -32,7 +32,7 @@ const AdminManageUser: React.FC = () => {
   const [activated, setActivated] = useState("");
   const [roleId, setRoleId] = useState("");
   const [page, setPage] = useState(1);
-  const [size] = useState(20);
+  const [size] = useState(10);
   const handleSearchName = debounce((value: any) => {
     dispatch(
       userGetUsers({

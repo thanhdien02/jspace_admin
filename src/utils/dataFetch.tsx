@@ -82,7 +82,7 @@ export const dataHeaderManageProduct = [
   {
     title: "Giá tiền",
     className: "w-[150px]",
-    filter: true,
+    filter: false,
   },
   {
     title: "Số lượng bài đăng",
@@ -92,12 +92,12 @@ export const dataHeaderManageProduct = [
   {
     title: "Thời gian sử dụng",
     className: "w-[150px]",
-    filter: true,
+    filter: false,
   },
   {
     title: "Thời gian bài đăng",
     className: "w-[150px]",
-    filter: true,
+    filter: false,
   },
   {
     title: "Chỉnh sửa",
@@ -136,7 +136,7 @@ export const dataHeaderManagePurchaseProduct = [
     filter: false,
     name: "",
   },
-  { 
+  {
     title: "Số lượng mua",
     className: "w-[100px]",
     filter: false,
