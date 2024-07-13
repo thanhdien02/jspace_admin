@@ -40,25 +40,68 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [reviewed, setReviewed] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   useEffect(() => {
     if (accessToken == "") {
       dispatch(authFetchMe());
     }
     dispatch(
-      companyrequestreviewGetCompanyRequest({ page: page, reviewed: reviewed })
+      companyrequestreviewGetCompanyRequest({
+        page: page,
+        reviewed: reviewed,
+        name: name,
+        email: email,
+      })
     );
-  }, [page]);
+  }, []);
   const handleSearchCompany = debounce((value: any) => {
-    console.log("Input value:", value);
+    dispatch(
+      companyrequestreviewGetCompanyRequest({
+        page: 1,
+        reviewed: reviewed,
+        name: value,
+        email: email,
+      })
+    );
+    setPage(1);
+    setName(value);
   }, 500);
-  useEffect(() => {}, [companyrequestreview]);
+  const handleSearchCompanyByEmail = debounce((value: any) => {
+    dispatch(
+      companyrequestreviewGetCompanyRequest({
+        page: 1,
+        reviewed: reviewed,
+        name: name,
+        email: value,
+      })
+    );
+    setPage(1);
+    setEmail(email);
+  }, 500);
 
   const handleChangeStatus = (value: string) => {
     dispatch(
-      companyrequestreviewGetCompanyRequest({ page: 1, reviewed: value })
+      companyrequestreviewGetCompanyRequest({
+        page: 1,
+        reviewed: value,
+        name: name,
+        email: email,
+      })
     );
     setPage(1);
     setReviewed(value);
+  };
+  const handleChangePage = (e: any) => {
+    dispatch(
+      companyrequestreviewGetCompanyRequest({
+        page: e,
+        reviewed: reviewed,
+        name: name,
+        email: email,
+      })
+    );
+    setPage(e);
   };
   return (
     <>
@@ -70,6 +113,16 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
               placeholder="Nhập tên công ty"
               onChange={(e: any) => {
                 handleSearchCompany(e?.target?.value);
+              }}
+              className="pr-10 w-[280px]"
+            ></InputSearch>
+            <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
+          </div>
+          <div className="relative">
+            <InputSearch
+              placeholder="Địa chỉ email"
+              onChange={(e: any) => {
+                handleSearchCompanyByEmail(e?.target?.value);
               }}
               className="pr-10 w-[280px]"
             ></InputSearch>
@@ -227,7 +280,7 @@ const AdminManageApproveApplicationCompany: React.FC = () => {
           {companyrequestreview.length > 0 && (
             <Pagination
               total={paginationCompanyRequestReview?.totalElements}
-              onChange={(e) => setPage(e)}
+              onChange={handleChangePage}
               className="inline-block"
               current={page}
               pageSize={paginationCompanyRequestReview?.pageSize}

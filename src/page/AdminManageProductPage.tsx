@@ -27,15 +27,15 @@ const AdminManageProductPage: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
   const handleSearchProduct = debounce((value: any) => {
-    setPage(1);
-    setNameProduct(value);
     dispatch(
       productGetProduct({
-        page: page,
+        page: 1,
         size: size,
         name: value,
       })
     );
+    setNameProduct(value);
+    setPage(1);
   }, 500);
   const handleChangePage = (e: any) => {
     dispatch(

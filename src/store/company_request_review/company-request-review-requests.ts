@@ -2,12 +2,14 @@ import axios from "axios";
 import { API } from "../../configs/configAPI";
 
 export const requestCompanyRequestReviewGetCompanyRequestReview = (
+  name: string = "",
+  email: string = "",
   page: string = "1",
   accessToken: string,
   reviewed: string = ""
 ) => {
   return axios.get(
-    `${API}/api/v1/admins/company-request-reviews?size=10&page=${page}&reviewed=${reviewed}`,
+    `${API}/api/v1/admins/company-request-reviews?name=${name}&email=${email}&size=10&page=${page}&reviewed=${reviewed}`,
     {
       headers: {
         "Content-Type": "application/json",

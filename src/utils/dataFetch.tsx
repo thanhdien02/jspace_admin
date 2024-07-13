@@ -136,7 +136,7 @@ export const dataHeaderManagePurchaseProduct = [
     filter: false,
     name: "",
   },
-  {
+  { 
     title: "Số lượng mua",
     className: "w-[100px]",
     filter: false,

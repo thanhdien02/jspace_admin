@@ -23,6 +23,8 @@ function* handleCompanyRequestReviewGetCompanyRequestReview(
     const { accessToken } = getToken();
     const response: any = yield call(
       requestCompanyRequestReviewGetCompanyRequestReview,
+      dataGetCompanyRequest?.payload?.name,
+      dataGetCompanyRequest?.payload?.email,
       dataGetCompanyRequest?.payload?.page,
       accessToken,
       dataGetCompanyRequest?.payload?.reviewed
